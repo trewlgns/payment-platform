@@ -127,6 +127,24 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        // 정책 위배 로그 (4xx - 클라이언트 에러)
+        'policy' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/policy.log'),
+            'level' => env('LOG_POLICY_LEVEL', 'warning'),
+            'days' => 30,
+            'replace_placeholders' => true,
+        ],
+
+        // 서버 에러 로그 (5xx - 서버 에러)
+        'error' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/error.log'),
+            'level' => env('LOG_ERROR_LEVEL', 'error'),
+            'days' => 90,
+            'replace_placeholders' => true,
+        ],
+
     ],
 
 ];

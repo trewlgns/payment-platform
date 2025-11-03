@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class SetLocale
+{
+    /**
+     * Handle an incoming request.
+     * Accept-Language 헤더를 확인하여 언어 설정 (기본값: ko)
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        // Accept-Language 헤더에서 언어 추출 (없으면 기본값 'ko')
+        $locale = $request->header("Accept-Language", "ko");
+
+        // 쉼표로 구분된 경우 첫 번째 언어만 사용 (예: "ko,en;q=0.9" -> "ko")
+        if (strpos($locale, ',') !== false) {
+            $locale = explode(',', $locale)[0];
+        }
+
+        // 세미콜론 제거 (예: "ko;q=0.9" -> "ko")
+        if (strpos($locale, ';') !== false) {
+            $locale = explode(';', $locale)[0];
+        }
+
+        // 공백 제거 및 소문자 변환
+        $locale = trim(strtolower($locale));
+
+        // 지원하는 언어 목록
+        $supportedLocales = ["ko", "en"];
+
+        // 지원하지 않는 언어는 기본값 'ko' 사용
+        if (!in_array($locale, $supportedLocales)) {
+            $locale = "ko";
+        }
+
+        // Laravel 언어 설정
+        app()->setLocale($locale);
+
+        return $next($request);
+    }
+}

@@ -220,48 +220,52 @@ class PaymentService
 ```
 app/
 ├── Database/
-│   └── DB.php                      # PDO 래퍼 클래스 (커스텀)
+│   └── DB.php                      # PDO 래퍼 클래스
 ├── Repositories/
-│   ├── BaseRepository.php          # 추상 Repository (커스텀)
+│   ├── BaseRepository.php          # 추상 Repository
+│   ├── UserRepository.php
 │   ├── ProductRepository.php
 │   ├── OrderRepository.php
-│   ├── PaymentRepository.php
-│   └── ...
-├── Services/                       # 비즈니스 로직 (커스텀, 구현 예정)
-│   ├── ProductService.php
-│   ├── OrderService.php
-│   └── PaymentService.php
+│   └── PaymentRepository.php
+├── Services/                       # 비즈니스 로직 (도메인별 폴더)
+│   └── User/
+│       ├── ListUsersService.php
+│       ├── GetUserService.php
+│       ├── CreateUserService.php
+│       ├── UpdateUserService.php
+│       ├── DeleteUserService.php
+│       ├── UpdateUserStatusService.php
+│       └── VerifyUserEmailService.php
 ├── Http/
-│   ├── Controllers/                # HTTP 요청/응답 처리
+│   ├── Controllers/
+│   │   ├── Controller.php          # Base Controller (success/fail/error)
+│   │   ├── UserController.php
 │   │   ├── ProductController.php
 │   │   └── OrderController.php
-│   ├── Requests/                   # 요청 검증 (구현 예정)
-│   │   ├── CreateOrderRequest.php
-│   │   └── CreatePaymentRequest.php
-│   └── Middleware/                 # 인증/권한/로깅
-│       └── Authenticate.php
+│   ├── Requests/                   # 도메인별 폴더 구조
+│   │   └── User/
+│   │       ├── ListUsersRequest.php
+│   │       ├── CreateUserRequest.php
+│   │       ├── UpdateUserRequest.php
+│   │       ├── UpdateUserStatusRequest.php
+│   │       └── VerifyEmailRequest.php
+│   └── Middleware/
+│       └── SetLocale.php           # Accept-Language 처리
+├── Exceptions/
+│   ├── BaseException.php           # 자동 로깅, 민감정보 마스킹
+│   ├── InvalidParameterException.php
+│   ├── UnauthorizedException.php
+│   ├── ForbiddenException.php
+│   ├── NotFoundException.php
+│   ├── ServerErrorException.php
+│   └── ConflictException.php
+├── Enums/
+│   └── ResponseMessage.php         # 메시지 키 + 상태 코드 + 다국어
 ├── Models/                         # Eloquent 모델 (참조용)
 │   └── User.php
 └── Providers/
     └── AppServiceProvider.php
 ```
-
----
-
-## 📝 구현 상태
-
-### ✅ 완료
-- [x] PDO 기반 DB 클래스 구현
-- [x] BaseRepository 추상 클래스 구현
-- [x] 도메인별 Repository 구현 (Product, Order, Payment, User, Coupon 등)
-- [x] 데이터베이스 마이그레이션 설계
-
-### 🚧 진행 예정
-- [ ] Service 레이어 구현
-- [ ] Form Request 검증 클래스 구현
-- [ ] Controller 구현
-- [ ] API Routes 정의
-- [ ] PG Adapter 패턴 구현
 
 ---
 
@@ -284,3 +288,14 @@ app/
 4. **프레임워크 깊은 이해**
    - 기본 제공 레이어와 커스텀 레이어 구분
    - 프레임워크 제약을 넘어선 설계 능력
+
+5. **Exception 처리 및 로깅 전략**
+   - 커스텀 Exception 시스템으로 일관된 에러 처리
+   - 자동 로깅 및 민감정보 마스킹
+   - 로그 채널 분리로 원인별 로그 관리
+   - 자동 트랜잭션 롤백
+
+6. **다국어 지원**
+   - PHP Enum 기반 중앙 집중식 메시지 관리
+   - 서버 사이드 다국어 처리 (Accept-Language 헤더)
+   - 타입 안전성 보장 (IDE 자동완성)

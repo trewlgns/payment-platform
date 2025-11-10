@@ -144,6 +144,138 @@ class UserRepository extends BaseRepository
     }
 
     /**
+     * 전체 사용자 목록 조회 (페이지네이션)
+     *
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
+    public function findAll(int $limit = 20, int $offset = 0): array
+    {
+        $query = <<<SQL
+            SELECT      *
+            FROM        `{$this->table}`
+            ORDER BY    `created_at` DESC
+            LIMIT       :limit OFFSET :offset
+        SQL;
+
+        return $this->db->select($query, [
+            "limit"     => ["value" => $limit, "type" => PDO::PARAM_INT],
+            "offset"    => ["value" => $offset, "type" => PDO::PARAM_INT]
+        ]);
+    }
+
+    /**
+     * 전체 사용자 수 조회
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as count
+            FROM    `{$this->table}`
+        SQL;
+
+        $result = $this->db->selectOne($query, []);
+
+        return (int) ($result["count"] ?? 0);
+    }
+
+    /**
+     * 상태별 사용자 수 조회
+     *
+     * @param string $status
+     * @return int
+     */
+    public function countByStatus(string $status): int
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as count
+            FROM    `{$this->table}`
+            WHERE   `status` = :status
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "status" => ["value" => $status, "type" => PDO::PARAM_STR]
+        ]);
+
+        return (int) ($result["count"] ?? 0);
+    }
+
+    /**
+     * 사용자 정보 업데이트
+     *
+     * @param string $email
+     * @param array $data
+     * @return int Affected rows
+     */
+    public function update(string $email, array $data): int
+    {
+        $now = date("Y-m-d H:i:s");
+
+        $query = <<<SQL
+            UPDATE  `{$this->table}`
+            SET     `name` = :name,
+                    `phone` = :phone,
+                    `updated_at` = :updated_at
+            WHERE   `email` = :email
+        SQL;
+
+        return $this->db->update($query, [
+            "name"          => ["value" => $data["name"], "type" => PDO::PARAM_STR],
+            "phone"         => ["value" => $data["phone"], "type" => PDO::PARAM_STR],
+            "updated_at"    => ["value" => $now, "type" => PDO::PARAM_STR],
+            "email"         => ["value" => $email, "type" => PDO::PARAM_STR]
+        ]);
+    }
+
+    /**
+     * 사용자 삭제 (Soft Delete)
+     *
+     * @param string $email
+     * @return int Affected rows
+     */
+    public function softDelete(string $email): int
+    {
+        $now = date("Y-m-d H:i:s");
+
+        $query = <<<SQL
+            UPDATE  `{$this->table}`
+            SET     `deleted_at` = :deleted_at,
+                    `updated_at` = :updated_at
+            WHERE   `email` = :email
+        SQL;
+
+        return $this->db->update($query, [
+            "deleted_at"    => ["value" => $now, "type" => PDO::PARAM_STR],
+            "updated_at"    => ["value" => $now, "type" => PDO::PARAM_STR],
+            "email"         => ["value" => $email, "type" => PDO::PARAM_STR]
+        ]);
+    }
+
+    /**
+     * 이메일로 존재 여부 확인
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function existsByEmail(string $email): bool
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as count
+            FROM    `{$this->table}`
+            WHERE   `email` = :email
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "email" => ["value" => $email, "type" => PDO::PARAM_STR]
+        ]);
+
+        return (int) ($result["count"] ?? 0) > 0;
+    }
+
+    /**
      * 가입 기간으로 사용자 수 조회 (통계용)
      *
      * @param string $startDate

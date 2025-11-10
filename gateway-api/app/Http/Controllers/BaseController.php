@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessage;
 
-abstract class Controller
+abstract class BaseController
 {
     /**
      * 성공 응답 (2xx)
@@ -22,6 +22,10 @@ abstract class Controller
             "code" => $message->value,
             "message" => $message->message()
         ];
+
+        if ($data !== null) {
+            $response["data"] = $data;
+        }
 
         if (!empty($details)) {
             $response["details"] = $details;

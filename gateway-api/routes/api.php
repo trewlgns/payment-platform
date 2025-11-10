@@ -1,0 +1,94 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+// 헬스 체크
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok',
+        'timestamp' => now()->toIso8601String()
+    ]);
+});
+
+/*
+|--------------------------------------------------------------------------
+| User API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('users')->group(function () {
+    // 사용자 목록 조회 (페이지네이션, 필터링)
+    // GET /api/users?status=active&page=1&per_page=20
+    Route::get('/', [UserController::class, 'index']);
+
+    // 사용자 생성 (회원가입)
+    // POST /api/users
+    Route::post('/', [UserController::class, 'store']);
+
+    // 사용자 상세 조회
+    // GET /api/users/{email}
+    Route::get('/{email}', [UserController::class, 'show']);
+
+    // 사용자 정보 수정
+    // PUT /api/users/{email}
+    Route::put('/{email}', [UserController::class, 'update']);
+
+    // 사용자 삭제 (Soft Delete)
+    // DELETE /api/users/{email}
+    Route::delete('/{email}', [UserController::class, 'destroy']);
+
+    // 사용자 상태 변경
+    // PATCH /api/users/{email}/status
+    Route::patch('/{email}/status', [UserController::class, 'updateStatus']);
+
+    // 이메일 인증 처리
+    // POST /api/users/{email}/verify-email
+    Route::post('/{email}/verify-email', [UserController::class, 'verifyEmail']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Future API Routes (TODO)
+|--------------------------------------------------------------------------
+*/
+
+// Product API
+// Route::prefix('products')->group(function () {
+//     Route::get('/', [ProductController::class, 'index']);
+//     Route::post('/', [ProductController::class, 'store']);
+//     Route::get('/{code}', [ProductController::class, 'show']);
+//     Route::put('/{code}', [ProductController::class, 'update']);
+//     Route::delete('/{code}', [ProductController::class, 'destroy']);
+// });
+
+// Order API
+// Route::prefix('orders')->group(function () {
+//     Route::get('/', [OrderController::class, 'index']);
+//     Route::post('/', [OrderController::class, 'store']);
+//     Route::get('/{id}', [OrderController::class, 'show']);
+//     Route::post('/{id}/cancel', [OrderController::class, 'cancel']);
+// });
+
+// Payment API
+// Route::prefix('payments')->group(function () {
+//     Route::post('/', [PaymentController::class, 'process']);
+//     Route::get('/{id}', [PaymentController::class, 'show']);
+// });
+
+// Refund API
+// Route::prefix('refunds')->group(function () {
+//     Route::post('/', [RefundController::class, 'request']);
+//     Route::get('/{id}', [RefundController::class, 'show']);
+// });

@@ -11,13 +11,24 @@ class DB
     private PDO $pdo;
 
     /**
-     * 생성자 - PDO 객체를 참조로 받음 (트랜잭션 공유)
-     *
-     * @param PDO $pdo
+     * 생성자 - PDO 인스턴스 생성
      */
-    public function __construct(PDO &$pdo)
+    public function __construct()
     {
-        $this->pdo = $pdo;
+        // Laravel DB 설정으로 PDO 인스턴스 생성
+        $host = config("database.connections.mysql.host");
+        $database = config("database.connections.mysql.database");
+        $username = config("database.connections.mysql.username");
+        $password = config("database.connections.mysql.password");
+        $charset = config("database.connections.mysql.charset", "utf8mb4");
+
+        $dsn = "mysql:host={$host};dbname={$database};charset={$charset}";
+
+        $this->pdo = new PDO($dsn, $username, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]);
     }
 
     /**

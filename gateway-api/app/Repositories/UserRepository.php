@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use PDO;
+use App\Entities\UserEntity;
 
 class UserRepository extends BaseRepository
 {
@@ -13,9 +14,9 @@ class UserRepository extends BaseRepository
      * 이메일로 사용자 조회
      *
      * @param string $email
-     * @return array|null
+     * @return UserEntity|null
      */
-    public function findByEmail(string $email): ?array
+    public function findByEmail(string $email): ?UserEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,9 +24,11 @@ class UserRepository extends BaseRepository
             WHERE   `email` = :email
         SQL;
 
-        return $this->db->selectOne($query, [
+        $data = $this->db->selectOne($query, [
             "email" => ["value" => $email, "type" => PDO::PARAM_STR]
         ]);
+
+        return $data ? new UserEntity($data) : null;
     }
 
     /**
@@ -34,7 +37,7 @@ class UserRepository extends BaseRepository
      * @param string $status
      * @param int $limit
      * @param int $offset
-     * @return array
+     * @return UserEntity[]
      */
     public function findByStatus(string $status, int $limit = 20, int $offset = 0): array
     {
@@ -46,11 +49,13 @@ class UserRepository extends BaseRepository
             LIMIT       :limit OFFSET :offset
         SQL;
 
-        return $this->db->select($query, [
+        $rows = $this->db->select($query, [
             "status"    => ["value" => $status, "type" => PDO::PARAM_STR],
             "limit"     => ["value" => $limit, "type" => PDO::PARAM_INT],
             "offset"    => ["value" => $offset, "type" => PDO::PARAM_INT]
         ]);
+
+        return array_map(fn($row) => new UserEntity($row), $rows);
     }
 
     /**
@@ -148,7 +153,7 @@ class UserRepository extends BaseRepository
      *
      * @param int $limit
      * @param int $offset
-     * @return array
+     * @return UserEntity[]
      */
     public function findAll(int $limit = 20, int $offset = 0): array
     {
@@ -159,10 +164,12 @@ class UserRepository extends BaseRepository
             LIMIT       :limit OFFSET :offset
         SQL;
 
-        return $this->db->select($query, [
+        $rows = $this->db->select($query, [
             "limit"     => ["value" => $limit, "type" => PDO::PARAM_INT],
             "offset"    => ["value" => $offset, "type" => PDO::PARAM_INT]
         ]);
+
+        return array_map(fn($row) => new UserEntity($row), $rows);
     }
 
     /**

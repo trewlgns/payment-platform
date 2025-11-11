@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Services\BaseService;
 use App\Repositories\UserRepository;
+use App\Validators\UserValidator;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ServerErrorException;
 
@@ -15,11 +16,13 @@ use App\Exceptions\ServerErrorException;
 class DeleteUserService extends BaseService
 {
     private UserRepository $userRepo;
+    private UserValidator $validator;
 
     public function __construct()
     {
         parent::__construct();
         $this->userRepo = new UserRepository($this->db);
+        $this->validator = new UserValidator($this->db);
     }
 
     /**
@@ -33,12 +36,8 @@ class DeleteUserService extends BaseService
     {
         $email = $args[0];
 
-        // 1. 사용자 존재 여부 확인
-        $user = $this->userRepo->findByEmail($email);
-
-        if (!$user) {
-            throw new NotFoundException("사용자를 찾을 수 없습니다");
-        }
+        // 1. 사용자 존재 검증
+        $this->validator->validateUserExists($email);
 
         // 2. Soft Delete 실행
         $affectedRows = $this->userRepo->softDelete($email);

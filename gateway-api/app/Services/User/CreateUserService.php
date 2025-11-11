@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Services\BaseService;
 use App\Repositories\UserRepository;
+use App\Validators\UserValidator;
 use App\Exceptions\ConflictException;
 
 /**
@@ -14,11 +15,13 @@ use App\Exceptions\ConflictException;
 class CreateUserService extends BaseService
 {
     private UserRepository $userRepo;
+    private UserValidator $validator;
 
     public function __construct()
     {
         parent::__construct();
         $this->userRepo = new UserRepository($this->db);
+        $this->validator = new UserValidator($this->db);
     }
 
     /**
@@ -32,10 +35,8 @@ class CreateUserService extends BaseService
     {
         $data = $args[0];
 
-        // 1. 이메일 중복 체크
-        if ($this->userRepo->existsByEmail($data["email"])) {
-            throw new ConflictException("이미 존재하는 이메일입니다");
-        }
+        // 1. 이메일 중복 검증
+        $this->validator->validateEmailNotExists($data["email"]);
 
         // 2. 비밀번호 해시화
         $passwordHash = password_hash($data["password"], PASSWORD_BCRYPT);
@@ -52,12 +53,16 @@ class CreateUserService extends BaseService
         // 4. 사용자 생성
         $this->userRepo->create($userData);
 
-        // 5. 생성된 사용자 조회 및 반환
-        $user = $this->userRepo->findByEmail($data["email"]);
-
-        // 민감정보 제거
-        unset($user["password_hash"]);
-
-        return $user;
+        // 5. 응답 데이터 반환 (민감정보 제외)
+        $now = date("Y-m-d H:i:s");
+        return [
+            "email" => $data["email"],
+            "name" => $data["name"],
+            "phone" => $data["phone"],
+            "status" => "active",
+            "email_verified_at" => null,
+            "created_at" => $now,
+            "updated_at" => $now
+        ];
     }
 }

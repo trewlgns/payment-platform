@@ -3,7 +3,7 @@
 namespace App\Services\User;
 
 use App\Services\BaseService;
-use App\Repositories\UserRepository;
+use App\Validators\UserValidator;
 use App\Exceptions\NotFoundException;
 
 /**
@@ -13,12 +13,12 @@ use App\Exceptions\NotFoundException;
  */
 class GetUserService extends BaseService
 {
-    private UserRepository $userRepo;
+    private UserValidator $validator;
 
     public function __construct()
     {
         parent::__construct();
-        $this->userRepo = new UserRepository($this->db);
+        $this->validator = new UserValidator($this->db);
     }
 
     /**
@@ -32,16 +32,18 @@ class GetUserService extends BaseService
     {
         $email = $args[0];
 
-        // 사용자 조회
-        $user = $this->userRepo->findByEmail($email);
+        // 사용자 존재 검증 (Entity 반환)
+        $user = $this->validator->validateUserExists($email);
 
-        if (!$user) {
-            throw new NotFoundException("사용자를 찾을 수 없습니다");
-        }
-
-        // 민감정보 제거
-        unset($user["password_hash"]);
-
-        return $user;
+        // 응답 데이터 반환 (민감정보 제외)
+        return [
+            "email" => $user->email,
+            "name" => $user->name,
+            "phone" => $user->phone,
+            "status" => $user->status,
+            "email_verified_at" => $user->emailVerifiedAt,
+            "created_at" => $user->createdAt,
+            "updated_at" => $user->updatedAt
+        ];
     }
 }

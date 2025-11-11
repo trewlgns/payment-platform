@@ -35,7 +35,7 @@ class ListUsersService extends BaseService
         $perPage = $filters["per_page"] ?? 20;
         $offset = ($page - 1) * $perPage;
 
-        // 사용자 목록 조회
+        // 사용자 목록 조회 (Entity[] 반환)
         $users = $filters["status"]
             ? $this->userRepo->findByStatus($filters["status"], $perPage, $offset)
             : $this->userRepo->findAll($perPage, $offset);
@@ -45,14 +45,21 @@ class ListUsersService extends BaseService
             ? $this->userRepo->countByStatus($filters["status"])
             : $this->userRepo->count();
 
-        // 민감정보 제거 (password_hash 등)
-        $users = array_map(function ($user) {
-            unset($user["password_hash"]);
-            return $user;
+        // Entity를 응답 배열로 변환 (민감정보 제외)
+        $data = array_map(function ($user) {
+            return [
+                "email" => $user->email,
+                "name" => $user->name,
+                "phone" => $user->phone,
+                "status" => $user->status,
+                "email_verified_at" => $user->emailVerifiedAt,
+                "created_at" => $user->createdAt,
+                "updated_at" => $user->updatedAt
+            ];
         }, $users);
 
         return [
-            "data" => $users,
+            "data" => $data,
             "pagination" => [
                 "page" => $page,
                 "per_page" => $perPage,

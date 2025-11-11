@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Services\BaseService;
 use App\Repositories\UserRepository;
+use App\Validators\UserValidator;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ServerErrorException;
 
@@ -15,11 +16,13 @@ use App\Exceptions\ServerErrorException;
 class UpdateUserService extends BaseService
 {
     private UserRepository $userRepo;
+    private UserValidator $validator;
 
     public function __construct()
     {
         parent::__construct();
         $this->userRepo = new UserRepository($this->db);
+        $this->validator = new UserValidator($this->db);
     }
 
     /**
@@ -35,32 +38,36 @@ class UpdateUserService extends BaseService
         $email = $args[0];
         $data = $args[1];
 
-        // 1. 사용자 존재 여부 확인
-        $user = $this->userRepo->findByEmail($email);
+        // 1. 사용자 존재 검증 (Entity 반환)
+        $user = $this->validator->validateUserExists($email);
 
-        if (!$user) {
-            throw new NotFoundException("사용자를 찾을 수 없습니다");
-        }
+        // 2. Entity 속성 수정 (기존 값 유지)
+        $user->name = $data["name"] ?? $user->name;
+        $user->phone = $data["phone"] ?? $user->phone;
+        $user->updatedAt = date("Y-m-d H:i:s");
 
-        // 2. 업데이트할 데이터 준비 (기존 값 유지)
+        // 3. 업데이트 데이터 준비
         $updateData = [
-            "name" => $data["name"] ?? $user["name"],
-            "phone" => $data["phone"] ?? $user["phone"]
+            "name" => $user->name,
+            "phone" => $user->phone
         ];
 
-        // 3. 사용자 정보 업데이트
+        // 4. 사용자 정보 업데이트
         $affectedRows = $this->userRepo->update($email, $updateData);
 
         if ($affectedRows === 0) {
             throw new ServerErrorException("사용자 정보 업데이트에 실패했습니다");
         }
 
-        // 4. 업데이트된 사용자 조회 및 반환
-        $updatedUser = $this->userRepo->findByEmail($email);
-
-        // 민감정보 제거
-        unset($updatedUser["password_hash"]);
-
-        return $updatedUser;
+        // 5. 응답 데이터 반환 (민감정보 제외)
+        return [
+            "email" => $user->email,
+            "name" => $user->name,
+            "phone" => $user->phone,
+            "status" => $user->status,
+            "email_verified_at" => $user->emailVerifiedAt,
+            "created_at" => $user->createdAt,
+            "updated_at" => $user->updatedAt
+        ];
     }
 }

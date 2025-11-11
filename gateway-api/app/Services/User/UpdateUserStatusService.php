@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Services\BaseService;
 use App\Repositories\UserRepository;
+use App\Validators\UserValidator;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ServerErrorException;
 
@@ -15,11 +16,13 @@ use App\Exceptions\ServerErrorException;
 class UpdateUserStatusService extends BaseService
 {
     private UserRepository $userRepo;
+    private UserValidator $validator;
 
     public function __construct()
     {
         parent::__construct();
         $this->userRepo = new UserRepository($this->db);
+        $this->validator = new UserValidator($this->db);
     }
 
     /**
@@ -35,12 +38,8 @@ class UpdateUserStatusService extends BaseService
         $email = $args[0];
         $status = $args[1];
 
-        // 1. 사용자 존재 여부 확인
-        $user = $this->userRepo->findByEmail($email);
-
-        if (!$user) {
-            throw new NotFoundException("사용자를 찾을 수 없습니다");
-        }
+        // 1. 사용자 존재 검증 (Entity 반환)
+        $user = $this->validator->validateUserExists($email);
 
         // 2. 상태 변경
         $affectedRows = $this->userRepo->updateStatus($email, $status);
@@ -49,12 +48,15 @@ class UpdateUserStatusService extends BaseService
             throw new ServerErrorException("사용자 상태 변경에 실패했습니다");
         }
 
-        // 3. 업데이트된 사용자 조회 및 반환
-        $updatedUser = $this->userRepo->findByEmail($email);
-
-        // 민감정보 제거
-        unset($updatedUser["password_hash"]);
-
-        return $updatedUser;
+        // 3. 응답 데이터 반환 (민감정보 제외)
+        return [
+            "email" => $user->email,
+            "name" => $user->name,
+            "phone" => $user->phone,
+            "status" => $status,
+            "email_verified_at" => $user->emailVerifiedAt,
+            "created_at" => $user->createdAt,
+            "updated_at" => date("Y-m-d H:i:s")
+        ];
     }
 }

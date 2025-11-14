@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Services\BaseService;
 use App\Repositories\UserRepository;
+use App\Repositories\EmailVerificationTokenRepository;
 use App\Validators\UserValidator;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\InvalidParameterException;
@@ -18,12 +19,14 @@ use App\Exceptions\ConflictException;
 class VerifyUserEmailService extends BaseService
 {
     private UserRepository $userRepo;
+    private EmailVerificationTokenRepository $tokenRepo;
     private UserValidator $validator;
 
     public function __construct()
     {
         parent::__construct();
         $this->userRepo = new UserRepository($this->db);
+        $this->tokenRepo = new EmailVerificationTokenRepository($this->db);
         $this->validator = new UserValidator($this->db);
     }
 
@@ -48,20 +51,47 @@ class VerifyUserEmailService extends BaseService
         // 2. 이미 인증된 사용자인지 확인
         $this->validator->validateEmailNotVerified($user);
 
-        // 3. 인증 토큰 검증 (실제 구현에서는 DB에 저장된 토큰과 비교)
-        // TODO: 실제로는 email_verification_tokens 테이블과 비교해야 함
+        // 3. 입력값 검증
         if (empty($verificationToken)) {
-            throw new InvalidParameterException("유효하지 않은 인증 토큰입니다");
+            throw new InvalidParameterException("인증 토큰이 필요합니다");
         }
 
-        // 4. 이메일 인증 완료 처리
+        // 4. 토큰 해시 생성 (입력받은 토큰을 SHA-256 해싱)
+        $tokenHash = hash("sha256", $verificationToken);
+
+        // 5. 토큰 조회 및 검증
+        $token = $this->tokenRepo->findByTokenHash($tokenHash);
+
+        if (!$token) {
+            throw new NotFoundException("존재하지 않는 인증 토큰입니다");
+        }
+
+        if ($token->email !== $email) {
+            throw new InvalidParameterException("이메일과 토큰이 일치하지 않습니다");
+        }
+
+        if ($token->isExpired()) {
+            throw new InvalidParameterException("만료된 인증 토큰입니다");
+        }
+
+        if ($token->isVerified()) {
+            throw new ConflictException("이미 사용된 인증 토큰입니다");
+        }
+
+        // 6. 토큰 인증 완료 처리
+        $this->tokenRepo->markAsVerified($tokenHash);
+
+        // 7. 사용자 이메일 인증 완료 처리
         $affectedRows = $this->userRepo->markEmailAsVerified($email);
 
         if ($affectedRows === 0) {
             throw new ServerErrorException("이메일 인증 처리에 실패했습니다");
         }
 
-        // 5. 응답 데이터 반환 (민감정보 제외)
+        // 8. 해당 이메일의 다른 모든 토큰 무효화
+        $this->tokenRepo->invalidateAllByEmail($email);
+
+        // 9. 응답 데이터 반환 (민감정보 제외)
         $now = date("Y-m-d H:i:s");
         return [
             "email" => $user->email,

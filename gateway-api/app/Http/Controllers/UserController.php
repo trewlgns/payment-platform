@@ -14,6 +14,7 @@ use App\Services\User\CreateUserService;
 use App\Services\User\UpdateUserService;
 use App\Services\User\DeleteUserService;
 use App\Services\User\UpdateUserStatusService;
+use App\Services\User\SendEmailVerificationService;
 use App\Services\User\VerifyUserEmailService;
 use Illuminate\Http\JsonResponse;
 
@@ -143,6 +144,24 @@ class UserController extends BaseController
 
         // 성공 응답 반환
         return $this->success($user, ResponseMessage::USER_UPDATED);
+    }
+
+    /**
+     * 이메일 인증 토큰 발송
+     *
+     * POST /api/users/{email}/send-verification
+     *
+     * @param string $email
+     * @param SendEmailVerificationService $service
+     * @return JsonResponse
+     */
+    public function sendVerification(string $email, SendEmailVerificationService $service): JsonResponse
+    {
+        // Service 호출 (handle 메서드 사용)
+        $result = $service->handle($email);
+
+        // 성공 응답 반환
+        return $this->success($result, ResponseMessage::SUCCESS);
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -52,6 +51,10 @@ Route::prefix('users')->group(function () {
     // 사용자 상태 변경
     // PATCH /api/users/{email}/status
     Route::patch('/{email}/status', [UserController::class, 'updateStatus']);
+
+    // 이메일 인증 토큰 발송
+    // POST /api/users/{email}/send-verification
+    Route::post('/{email}/send-verification', [UserController::class, 'sendVerification']);
 
     // 이메일 인증 처리
     // POST /api/users/{email}/verify-email

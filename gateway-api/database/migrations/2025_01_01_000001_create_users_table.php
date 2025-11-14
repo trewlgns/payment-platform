@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("phone", 20)->comment("연락처");
             $table->enum("status", ["active", "inactive", "banned"])->default("active")->comment("회원 상태");
             $table->timestamp("email_verified_at")->nullable()->comment("이메일 인증 시각");
+            $table->timestamp("deleted_at")->nullable()->comment("삭제 시각 (Soft Delete)");
             $table->timestamps();
 
             // 인덱스

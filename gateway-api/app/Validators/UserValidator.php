@@ -49,7 +49,7 @@ class UserValidator extends BaseValidator
         $user = $this->userRepo->findByEmail($email);
 
         if (!$user) {
-            throw new NotFoundException("사용자를 찾을 수 없습니다");
+            throw new NotFoundException(__("messages.user_not_found"));
         }
 
         return $user;
@@ -69,7 +69,7 @@ class UserValidator extends BaseValidator
     public function validateEmailNotExists(string $email): void
     {
         if ($this->userRepo->existsByEmail($email)) {
-            throw new ConflictException("이미 존재하는 이메일입니다");
+            throw new ConflictException(__("messages.user_email_exists"));
         }
     }
 
@@ -87,7 +87,7 @@ class UserValidator extends BaseValidator
     public function validateUserActive(UserEntity $user): void
     {
         if (!$user->isActive()) {
-            throw new ForbiddenException("비활성화된 사용자입니다");
+            throw new ForbiddenException(__("messages.user_inactive"));
         }
     }
 
@@ -101,7 +101,7 @@ class UserValidator extends BaseValidator
     public function validateUserNotDeleted(UserEntity $user): void
     {
         if ($user->isDeleted()) {
-            throw new NotFoundException("삭제된 사용자입니다");
+            throw new NotFoundException(__("messages.user_deleted_state"));
         }
     }
 
@@ -115,7 +115,7 @@ class UserValidator extends BaseValidator
     public function validateEmailVerified(UserEntity $user): void
     {
         if (!$user->isEmailVerified()) {
-            throw new ForbiddenException("이메일 인증이 필요합니다");
+            throw new ForbiddenException(__("messages.user_email_not_verified"));
         }
     }
 
@@ -129,7 +129,7 @@ class UserValidator extends BaseValidator
     public function validateEmailNotVerified(UserEntity $user): void
     {
         if ($user->isEmailVerified()) {
-            throw new ConflictException("이미 이메일 인증이 완료되었습니다");
+            throw new ConflictException(__("messages.user_email_already_verified"));
         }
     }
 

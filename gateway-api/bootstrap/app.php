@@ -27,12 +27,13 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             $statusCode = $e->getResponseMessage()->statusCode();
+            $responseMessage = $e->getUserMessage() ?? $e->getResponseMessage()->message();
 
             $response = [
                 "result" => false,
                 "is_error" => $statusCode >= 500,
                 "code" => $e->getResponseMessage()->value,
-                "message" => $e->getResponseMessage()->message()
+                "message" => $responseMessage
             ];
 
             // 개발 환경에서만 컨텍스트 정보 포함

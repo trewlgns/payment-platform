@@ -56,7 +56,7 @@ class UpdateUserService extends BaseService
         $affectedRows = $this->userRepo->update($email, $updateData);
 
         if ($affectedRows === 0) {
-            throw new ServerErrorException("사용자 정보 업데이트에 실패했습니다");
+            throw new ServerErrorException(__("messages.user_update_failed")); // 사용자 정보 업데이트에 실패했습니다
         }
 
         // 5. 응답 데이터 반환 (민감정보 제외)

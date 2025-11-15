@@ -43,8 +43,8 @@ class VerifyEmailRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "verification_token.required" => "인증 토큰은 필수 항목입니다.",
-            "verification_token.string" => "인증 토큰은 문자열이어야 합니다.",
+            "verification_token.required" => __("messages.validation.user.verification_token_required"),
+            "verification_token.string" => __("messages.validation.user.verification_token_string"),
         ];
     }
 

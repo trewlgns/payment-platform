@@ -60,14 +60,14 @@ class CreateProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "product_code.required" => "상품 코드는 필수 항목입니다.",
-            "product_code.unique" => "이미 사용 중인 상품 코드입니다.",
-            "name.required" => "상품명은 필수 항목입니다.",
-            "base_price.required" => "기본 가격은 필수 항목입니다.",
-            "base_price.numeric" => "기본 가격은 숫자여야 합니다.",
-            "base_price.min" => "기본 가격은 0 이상이어야 합니다.",
-            "category.required" => "카테고리는 필수 항목입니다.",
-            "status.in" => "상태는 active, inactive, soldout 중 하나여야 합니다.",
+            "product_code.required" => __("messages.validation.product.product_code_required"),
+            "product_code.unique" => __("messages.validation.product.product_code_unique"),
+            "name.required" => __("messages.validation.product.name_required"),
+            "base_price.required" => __("messages.validation.product.base_price_required"),
+            "base_price.numeric" => __("messages.validation.product.base_price_numeric"),
+            "base_price.min" => __("messages.validation.product.base_price_min"),
+            "category.required" => __("messages.validation.product.category_required"),
+            "status.in" => __("messages.validation.product.status_in"),
         ];
     }
 

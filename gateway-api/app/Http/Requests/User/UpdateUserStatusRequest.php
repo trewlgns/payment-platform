@@ -43,8 +43,8 @@ class UpdateUserStatusRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "status.required" => "상태는 필수 항목입니다.",
-            "status.in" => "상태는 active, inactive, banned 중 하나여야 합니다.",
+            "status.required" => __("messages.validation.user.status_required"),
+            "status.in" => __("messages.validation.user.status_in"),
         ];
     }
 

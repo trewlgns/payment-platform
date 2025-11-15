@@ -49,9 +49,9 @@ class UpdateProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "base_price.numeric" => "기본 가격은 숫자여야 합니다.",
-            "base_price.min" => "기본 가격은 0 이상이어야 합니다.",
-            "category.max" => "카테고리는 최대 50자까지 가능합니다.",
+            "base_price.numeric" => __("messages.validation.product.base_price_numeric"),
+            "base_price.min" => __("messages.validation.product.base_price_min"),
+            "category.max" => __("messages.validation.product.category_max"),
         ];
     }
 

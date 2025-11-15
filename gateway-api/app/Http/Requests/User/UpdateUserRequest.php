@@ -54,11 +54,11 @@ class UpdateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "name.string" => "이름은 문자열이어야 합니다.",
-            "name.max" => "이름은 최대 :max자까지 가능합니다.",
-            "phone.string" => "전화번호는 문자열이어야 합니다.",
-            "phone.regex" => "전화번호 형식이 올바르지 않습니다.",
-            "status.in" => "상태는 active, inactive, banned 중 하나여야 합니다.",
+            "name.string" => __("messages.validation.user.name_string"),
+            "name.max" => __("messages.validation.user.name_max"),
+            "phone.string" => __("messages.validation.user.phone_string"),
+            "phone.regex" => __("messages.validation.user.phone_regex"),
+            "status.in" => __("messages.validation.user.status_in"),
         ];
     }
 

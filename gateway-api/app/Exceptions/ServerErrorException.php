@@ -11,10 +11,11 @@ use App\Enums\ResponseMessage;
  */
 class ServerErrorException extends BaseException
 {
-    public function __construct(string $message = "Internal server error", array $context = [])
+    public function __construct(string $userMessage = "Internal server error", ?string $logMessage = null, array $context = [])
     {
         $this->messageEnum = ResponseMessage::SERVER_ERROR;
+        $this->setUserMessage($userMessage);
 
-        parent::__construct($message, $context);
+        parent::__construct($logMessage ?: $userMessage, $context);
     }
 }

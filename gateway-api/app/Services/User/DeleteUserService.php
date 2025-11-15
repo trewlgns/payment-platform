@@ -43,7 +43,7 @@ class DeleteUserService extends BaseService
         $affectedRows = $this->userRepo->softDelete($email);
 
         if ($affectedRows === 0) {
-            throw new ServerErrorException("사용자 삭제에 실패했습니다");
+            throw new ServerErrorException(__("messages.user_delete_failed")); // 사용자 삭제에 실패했습니다
         }
     }
 }

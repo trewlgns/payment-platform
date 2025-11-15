@@ -2,6 +2,7 @@
 
 namespace App\Database;
 
+use App\Exceptions\ServerErrorException;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -158,8 +159,10 @@ class DB
             // 파라미터 바인딩 (타입 명시 필수)
             foreach ($bindings as $paramName => $binding) {
                 if (!is_array($binding) || !isset($binding["value"]) || !isset($binding["type"])) {
-                    throw new \InvalidArgumentException(
-                        "바인딩 형식 오류: ['value' => \$value, 'type' => PDO::PARAM_*] 형식으로 전달해야 합니다. 파라미터: {$paramName}"
+                    throw new ServerErrorException(
+                        __("messages.db_binding_error"), // 데이터베이스 바인딩 형식이 올바르지 않습니다
+                        "Invalid binding format for parameter {$paramName}",
+                        ["parameter" => $paramName, "binding" => $binding]
                     );
                 }
 
@@ -171,7 +174,7 @@ class DB
 
         } catch (PDOException $e) {
             // 에러 로깅 (디버깅용)
-            error_log("쿼리 실행 실패: " . $e->getMessage());
+            error_log("Query execution failed: " . $e->getMessage());
             error_log("Query: " . $query);
             error_log("Bindings: " . json_encode($bindings));
             throw $e;

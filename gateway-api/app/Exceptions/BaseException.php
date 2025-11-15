@@ -25,6 +25,11 @@ abstract class BaseException extends Exception
     protected array $context = [];
 
     /**
+     * 사용자에게 노출할 메시지 (로케일 적용)
+     */
+    protected ?string $userMessage = null;
+
+    /**
      * 생성자
      *
      * @param string $message 내부 로그용 메시지 (개발자용)
@@ -81,6 +86,27 @@ abstract class BaseException extends Exception
         }
 
         return $data;
+    }
+
+    /**
+     * 사용자 노출 메시지 설정
+     *
+     * @param string|null $message
+     * @return void
+     */
+    protected function setUserMessage(?string $message): void
+    {
+        $this->userMessage = $message;
+    }
+
+    /**
+     * 사용자 노출 메시지 반환
+     *
+     * @return string|null
+     */
+    public function getUserMessage(): ?string
+    {
+        return $this->userMessage;
     }
 
     /**

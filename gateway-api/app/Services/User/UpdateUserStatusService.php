@@ -45,7 +45,7 @@ class UpdateUserStatusService extends BaseService
         $affectedRows = $this->userRepo->updateStatus($email, $status);
 
         if ($affectedRows === 0) {
-            throw new ServerErrorException("사용자 상태 변경에 실패했습니다");
+            throw new ServerErrorException(__("messages.user_status_update_failed")); // 사용자 상태 변경에 실패했습니다
         }
 
         // 3. 응답 데이터 반환 (민감정보 제외)

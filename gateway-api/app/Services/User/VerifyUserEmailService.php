@@ -53,7 +53,7 @@ class VerifyUserEmailService extends BaseService
 
         // 3. 입력값 검증
         if (empty($verificationToken)) {
-            throw new InvalidParameterException("인증 토큰이 필요합니다");
+            throw new InvalidParameterException(__("messages.verification_token_required"));
         }
 
         // 4. 토큰 해시 생성 (입력받은 토큰을 SHA-256 해싱)
@@ -63,19 +63,19 @@ class VerifyUserEmailService extends BaseService
         $token = $this->tokenRepo->findByTokenHash($tokenHash);
 
         if (!$token) {
-            throw new NotFoundException("존재하지 않는 인증 토큰입니다");
+            throw new NotFoundException(__("messages.verification_token_not_found"));
         }
 
         if ($token->email !== $email) {
-            throw new InvalidParameterException("이메일과 토큰이 일치하지 않습니다");
+            throw new InvalidParameterException(__("messages.verification_token_mismatch"));
         }
 
         if ($token->isExpired()) {
-            throw new InvalidParameterException("만료된 인증 토큰입니다");
+            throw new InvalidParameterException(__("messages.verification_token_expired"));
         }
 
         if ($token->isVerified()) {
-            throw new ConflictException("이미 사용된 인증 토큰입니다");
+            throw new ConflictException(__("messages.verification_token_used"));
         }
 
         // 6. 토큰 인증 완료 처리
@@ -85,7 +85,7 @@ class VerifyUserEmailService extends BaseService
         $affectedRows = $this->userRepo->markEmailAsVerified($email);
 
         if ($affectedRows === 0) {
-            throw new ServerErrorException("이메일 인증 처리에 실패했습니다");
+            throw new ServerErrorException(__("messages.email_verification_failed")); // 이메일 인증 처리에 실패했습니다
         }
 
         // 8. 해당 이메일의 다른 모든 토큰 무효화

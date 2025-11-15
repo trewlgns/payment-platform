@@ -36,7 +36,7 @@ class DeleteProductService extends ProductService
         $deleted = $this->productRepo->delete($productCode);
 
         if ($deleted === 0) {
-            throw new ServerErrorException("상품 삭제에 실패했습니다");
+            throw new ServerErrorException(__("messages.product_delete_failed")); // 상품 삭제에 실패했습니다
         }
     }
 }

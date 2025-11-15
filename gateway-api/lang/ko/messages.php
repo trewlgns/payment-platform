@@ -12,6 +12,7 @@ return [
     "unauthorized" => "인증이 필요합니다",
     "forbidden" => "접근 권한이 없습니다",
     "server_error" => "서버 내부 오류가 발생했습니다",
+    "db_binding_error" => "데이터베이스 바인딩 형식이 올바르지 않습니다",
 
     // 상품 관련
     "product_not_found" => "상품을 찾을 수 없습니다",
@@ -22,6 +23,9 @@ return [
     "product_deleted" => "상품이 삭제되었습니다",
     "product_status_updated" => "상품 상태가 변경되었습니다",
     "product_out_of_stock" => "상품 재고가 부족합니다",
+    "product_code_exists" => "이미 존재하는 상품 코드입니다",
+    "product_inactive" => "비활성화된 상품입니다",
+    "product_delete_failed" => "상품 삭제에 실패했습니다",
 
     // 주문 관련
     "order_not_found" => "주문을 찾을 수 없습니다",
@@ -46,6 +50,21 @@ return [
     "user_created" => "사용자가 생성되었습니다",
     "user_updated" => "사용자 정보가 수정되었습니다",
     "user_deleted" => "사용자가 삭제되었습니다",
+    "user_email_exists" => "이미 사용 중인 이메일입니다",
+    "user_inactive" => "비활성화된 사용자입니다",
+    "user_deleted_state" => "삭제된 사용자입니다",
+    "user_email_not_verified" => "이메일 인증이 필요합니다",
+    "user_email_already_verified" => "이미 이메일 인증이 완료되었습니다",
+    "user_update_failed" => "사용자 정보 업데이트에 실패했습니다",
+    "user_delete_failed" => "사용자 삭제에 실패했습니다",
+    "user_status_update_failed" => "사용자 상태 변경에 실패했습니다",
+    "email_verification_sent" => "인증 이메일이 발송되었습니다",
+    "email_verification_failed" => "이메일 인증 처리에 실패했습니다",
+    "verification_token_required" => "인증 토큰이 필요합니다",
+    "verification_token_not_found" => "존재하지 않는 인증 토큰입니다",
+    "verification_token_mismatch" => "이메일과 토큰이 일치하지 않습니다",
+    "verification_token_expired" => "만료된 인증 토큰입니다",
+    "verification_token_used" => "이미 사용된 인증 토큰입니다",
 
     // 쿠폰 관련
     "coupon_not_found" => "쿠폰을 찾을 수 없습니다",
@@ -63,4 +82,44 @@ return [
     "refund_approved" => "환불이 승인되었습니다",
     "refund_rejected" => "환불이 거부되었습니다",
     "refund_completed" => "환불이 완료되었습니다",
+
+    // 검증 메시지
+    "validation" => [
+        "user" => [
+            "email_required" => "이메일은 필수 항목입니다.",
+            "email_email" => "유효한 이메일 형식이 아닙니다.",
+            "email_unique" => "이미 사용 중인 이메일입니다.",
+            "password_required" => "비밀번호는 필수 항목입니다.",
+            "password_min" => "비밀번호는 최소 :min자 이상이어야 합니다.",
+            "name_required" => "이름은 필수 항목입니다.",
+            "name_string" => "이름은 문자열이어야 합니다.",
+            "name_max" => "이름은 최대 :max자까지 가능합니다.",
+            "phone_required" => "전화번호는 필수 항목입니다.",
+            "phone_string" => "전화번호는 문자열이어야 합니다.",
+            "phone_regex" => "전화번호 형식이 올바르지 않습니다.",
+            "status_required" => "상태는 필수 항목입니다.",
+            "status_in" => "상태는 active, inactive, banned 중 하나여야 합니다.",
+            "verification_token_required" => "인증 토큰은 필수 항목입니다.",
+            "verification_token_string" => "인증 토큰은 문자열이어야 합니다.",
+        ],
+        "product" => [
+            "product_code_required" => "상품 코드는 필수 항목입니다.",
+            "product_code_unique" => "이미 사용 중인 상품 코드입니다.",
+            "name_required" => "상품명은 필수 항목입니다.",
+            "base_price_required" => "기본 가격은 필수 항목입니다.",
+            "base_price_numeric" => "기본 가격은 숫자여야 합니다.",
+            "base_price_min" => "기본 가격은 0 이상이어야 합니다.",
+            "category_required" => "카테고리는 필수 항목입니다.",
+            "category_max" => "카테고리는 최대 :max자까지 가능합니다.",
+            "status_required" => "상태는 필수 항목입니다.",
+            "status_in" => "상태는 active, inactive, soldout 중 하나여야 합니다.",
+        ],
+        "pagination" => [
+            "page_integer" => "페이지는 정수여야 합니다.",
+            "page_min" => "페이지는 1 이상이어야 합니다.",
+            "per_page_integer" => "페이지당 개수는 정수여야 합니다.",
+            "per_page_min" => "페이지당 개수는 1 이상이어야 합니다.",
+            "per_page_max" => "페이지당 개수는 100 이하여야 합니다.",
+        ],
+    ],
 ];

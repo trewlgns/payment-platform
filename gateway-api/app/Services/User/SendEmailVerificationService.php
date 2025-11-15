@@ -44,7 +44,7 @@ class SendEmailVerificationService extends BaseService
 
         // 2. 이미 인증된 사용자인지 확인
         if ($user->isEmailVerified()) {
-            throw new ConflictException("이미 이메일 인증이 완료된 사용자입니다");
+            throw new ConflictException(__("messages.user_email_already_verified"));
         }
 
         // 3. 랜덤 토큰 생성 (32바이트 = 64자 hex)
@@ -66,7 +66,7 @@ class SendEmailVerificationService extends BaseService
         // 8. 응답 데이터 반환 (개발 환경에서만 토큰 반환)
         return [
             "email" => $email,
-            "message" => "인증 이메일이 발송되었습니다",
+            "message" => __("messages.email_verification_sent"),
             "verification_token" => $rawToken,  // 운영 환경에서는 제거
             "expires_in_hours" => 24
         ];

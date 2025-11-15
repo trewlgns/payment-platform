@@ -40,7 +40,7 @@ class ProductValidator extends BaseValidator
         $product = $this->productRepo->findByCode($productCode);
 
         if (!$product) {
-            throw new NotFoundException("상품을 찾을 수 없습니다");
+            throw new NotFoundException(__("messages.product_not_found"));
         }
 
         return $product;
@@ -56,7 +56,7 @@ class ProductValidator extends BaseValidator
     public function validateProductCodeNotExists(string $productCode): void
     {
         if ($this->productRepo->exists($productCode)) {
-            throw new ConflictException("이미 존재하는 상품 코드입니다");
+            throw new ConflictException(__("messages.product_code_exists"));
         }
     }
 
@@ -74,7 +74,7 @@ class ProductValidator extends BaseValidator
     public function validateProductActive(ProductEntity $product): void
     {
         if (!$product->isActive()) {
-            throw new ForbiddenException("비활성화된 상품입니다");
+            throw new ForbiddenException(__("messages.product_inactive"));
         }
     }
 
@@ -88,7 +88,7 @@ class ProductValidator extends BaseValidator
     public function validateProductNotSoldOut(ProductEntity $product): void
     {
         if ($product->isSoldOut()) {
-            throw new ForbiddenException("품절된 상품입니다");
+            throw new ForbiddenException(__("messages.product_out_of_stock"));
         }
     }
 

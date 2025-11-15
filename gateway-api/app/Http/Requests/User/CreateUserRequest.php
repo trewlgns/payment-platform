@@ -62,14 +62,14 @@ class CreateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "email.required" => "이메일은 필수 항목입니다.",
-            "email.email" => "유효한 이메일 형식이 아닙니다.",
-            "email.unique" => "이미 사용 중인 이메일입니다.",
-            "password.required" => "비밀번호는 필수 항목입니다.",
-            "password.min" => "비밀번호는 최소 :min자 이상이어야 합니다.",
-            "name.required" => "이름은 필수 항목입니다.",
-            "phone.required" => "전화번호는 필수 항목입니다.",
-            "phone.regex" => "전화번호 형식이 올바르지 않습니다.",
+            "email.required" => __("messages.validation.user.email_required"),
+            "email.email" => __("messages.validation.user.email_email"),
+            "email.unique" => __("messages.validation.user.email_unique"),
+            "password.required" => __("messages.validation.user.password_required"),
+            "password.min" => __("messages.validation.user.password_min"),
+            "name.required" => __("messages.validation.user.name_required"),
+            "phone.required" => __("messages.validation.user.phone_required"),
+            "phone.regex" => __("messages.validation.user.phone_regex"),
         ];
     }
 

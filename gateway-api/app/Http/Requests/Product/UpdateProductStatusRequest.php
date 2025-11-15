@@ -34,8 +34,8 @@ class UpdateProductStatusRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "status.required" => "상태는 필수 항목입니다.",
-            "status.in" => "상태는 active, inactive, soldout 중 하나여야 합니다.",
+            "status.required" => __("messages.validation.product.status_required"),
+            "status.in" => __("messages.validation.product.status_in"),
         ];
     }
 

@@ -54,12 +54,12 @@ class ListUsersRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "status.in" => "상태는 active, inactive, banned 중 하나여야 합니다.",
-            "page.integer" => "페이지는 정수여야 합니다.",
-            "page.min" => "페이지는 1 이상이어야 합니다.",
-            "per_page.integer" => "페이지당 개수는 정수여야 합니다.",
-            "per_page.min" => "페이지당 개수는 1 이상이어야 합니다.",
-            "per_page.max" => "페이지당 개수는 100 이하여야 합니다.",
+            "status.in" => __("messages.validation.user.status_in"),
+            "page.integer" => __("messages.validation.pagination.page_integer"),
+            "page.min" => __("messages.validation.pagination.page_min"),
+            "per_page.integer" => __("messages.validation.pagination.per_page_integer"),
+            "per_page.min" => __("messages.validation.pagination.per_page_min"),
+            "per_page.max" => __("messages.validation.pagination.per_page_max"),
         ];
     }
 

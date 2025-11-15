@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\ProductEntity;
 use PDO;
 
 class ProductRepository extends BaseRepository
@@ -13,9 +14,9 @@ class ProductRepository extends BaseRepository
      * 상품 코드로 상품 정보 조회
      *
      * @param string $productCode
-     * @return array|null
+     * @return ProductEntity|null
      */
-    public function findByCode(string $productCode): ?array
+    public function findByCode(string $productCode): ?ProductEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,61 +24,118 @@ class ProductRepository extends BaseRepository
             WHERE   `product_code` = :product_code
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "product_code" => ["value" => $productCode, "type" => PDO::PARAM_STR]
         ]);
+
+        return $row ? new ProductEntity($row) : null;
     }
 
     /**
-     * 활성화된 상품 목록 조회
+     * 상태/카테고리 필터 기반 상품 목록 조회 (페이지네이션)
+     *
+     * @param string|null $status
+     * @param string|null $category
+     * @param int $limit
+     * @param int $offset
+     * @return ProductEntity[]
+     */
+    public function findByFilters(?string $status, ?string $category, int $limit, int $offset): array
+    {
+        $conditions = ["1 = 1"];
+        $bindings = [
+            "limit" => ["value" => $limit, "type" => PDO::PARAM_INT],
+            "offset" => ["value" => $offset, "type" => PDO::PARAM_INT],
+        ];
+
+        if ($status !== null) {
+            $conditions[] = "`status` = :status";
+            $bindings["status"] = ["value" => $status, "type" => PDO::PARAM_STR];
+        }
+
+        if ($category !== null) {
+            $conditions[] = "`category` = :category";
+            $bindings["category"] = ["value" => $category, "type" => PDO::PARAM_STR];
+        }
+
+        $whereClause = implode(" AND ", $conditions);
+
+        $query = <<<SQL
+            SELECT      *
+            FROM        `{$this->table}`
+            WHERE       {$whereClause}
+            ORDER BY    `created_at` DESC
+            LIMIT       :limit OFFSET :offset
+        SQL;
+
+        $rows = $this->db->select($query, $bindings);
+
+        return array_map(fn(array $row) => new ProductEntity($row), $rows);
+    }
+
+    /**
+     * 필터 기반 전체 개수 조회
+     *
+     * @param string|null $status
+     * @param string|null $category
+     * @return int
+     */
+    public function countByFilters(?string $status, ?string $category): int
+    {
+        $conditions = ["1 = 1"];
+        $bindings = [];
+
+        if ($status !== null) {
+            $conditions[] = "`status` = :status";
+            $bindings["status"] = ["value" => $status, "type" => PDO::PARAM_STR];
+        }
+
+        if ($category !== null) {
+            $conditions[] = "`category` = :category";
+            $bindings["category"] = ["value" => $category, "type" => PDO::PARAM_STR];
+        }
+
+        $whereClause = implode(" AND ", $conditions);
+
+        $query = <<<SQL
+            SELECT  COUNT(*) AS cnt
+            FROM    `{$this->table}`
+            WHERE   {$whereClause}
+        SQL;
+
+        $result = $this->db->selectOne($query, $bindings);
+
+        return (int) ($result["cnt"] ?? 0);
+    }
+
+    /**
+     * 활성화된 상품 목록 조회 (legacy helper)
      *
      * @param int $limit
-     * @return array
+     * @return ProductEntity[]
      */
     public function findActive(int $limit = 100): array
     {
-        $query = <<<SQL
-            SELECT      *
-            FROM        `{$this->table}`
-            WHERE       `status` = 'active'
-            ORDER BY    `created_at` DESC
-            LIMIT       :limit
-        SQL;
-
-        return $this->db->select($query, [
-            "limit" => ["value" => $limit, "type" => PDO::PARAM_INT]
-        ]);
+        return $this->findByFilters("active", null, $limit, 0);
     }
 
     /**
-     * 카테고리별 상품 조회
+     * 카테고리별 활성 상품 조회 (legacy helper)
      *
      * @param string $category
      * @param int $limit
-     * @return array
+     * @return ProductEntity[]
      */
     public function findByCategory(string $category, int $limit = 100): array
     {
-        $query = <<<SQL
-            SELECT      *
-            FROM        `{$this->table}`
-            WHERE       `category` = :category
-              AND       `status` = 'active'
-            ORDER BY    `created_at` DESC
-            LIMIT       :limit
-        SQL;
-
-        return $this->db->select($query, [
-            "category"  => ["value" => $category, "type" => PDO::PARAM_STR],
-            "limit"     => ["value" => $limit, "type" => PDO::PARAM_INT]
-        ]);
+        return $this->findByFilters("active", $category, $limit, 0);
     }
 
     /**
      * 상품 생성
      *
      * @param array $data
-     * @return int|string Product Code
+     * @return int|string Product Code 또는 lastInsertId
      */
     public function create(array $data)
     {
@@ -108,12 +166,49 @@ class ProductRepository extends BaseRepository
         return $this->db->insert($query, [
             "product_code"  => ["value" => $data["product_code"], "type" => PDO::PARAM_STR],
             "name"          => ["value" => $data["name"], "type" => PDO::PARAM_STR],
-            "description"   => ["value" => $data["description"] ?? null, "type" => isset($data["description"]) ? PDO::PARAM_STR : PDO::PARAM_NULL],
+            "description"   => [
+                "value" => $data["description"] ?? null,
+                "type" => isset($data["description"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
             "base_price"    => ["value" => $data["base_price"], "type" => PDO::PARAM_STR],
             "category"      => ["value" => $data["category"], "type" => PDO::PARAM_STR],
             "status"        => ["value" => $data["status"], "type" => PDO::PARAM_STR],
             "created_at"    => ["value" => $now, "type" => PDO::PARAM_STR],
             "updated_at"    => ["value" => $now, "type" => PDO::PARAM_STR]
+        ]);
+    }
+
+    /**
+     * 상품 정보 업데이트
+     *
+     * @param string $productCode
+     * @param array $data ["name"?, "description"?, "base_price"?, "category"?]
+     * @return int Affected rows
+     */
+    public function update(string $productCode, array $data): int
+    {
+        $now = date("Y-m-d H:i:s");
+
+        $query = <<<SQL
+            UPDATE  `{$this->table}`
+            SET     `name` = :name,
+                    `description` = :description,
+                    `base_price` = :base_price,
+                    `category` = :category,
+                    `updated_at` = :updated_at
+            WHERE   `product_code` = :product_code
+        SQL;
+
+        return $this->db->update($query, [
+            "name"          => ["value" => $data["name"], "type" => PDO::PARAM_STR],
+            "description"   => [
+                "value" => $data["description"] ?? null,
+                "type" => isset($data["description"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
+            "base_price"    => ["value" => $data["base_price"], "type" => PDO::PARAM_STR],
+            "category"      => ["value" => $data["category"], "type" => PDO::PARAM_STR],
+            "updated_at"    => ["value" => $now, "type" => PDO::PARAM_STR],
+            "product_code"  => ["value" => $productCode, "type" => PDO::PARAM_STR]
         ]);
     }
 
@@ -140,5 +235,45 @@ class ProductRepository extends BaseRepository
             "updated_at"    => ["value" => $now, "type" => PDO::PARAM_STR],
             "product_code"  => ["value" => $productCode, "type" => PDO::PARAM_STR]
         ]);
+    }
+
+    /**
+     * 상품 삭제
+     *
+     * @param string $productCode
+     * @return int Affected rows
+     */
+    public function delete(string $productCode): int
+    {
+        $query = <<<SQL
+            DELETE FROM `{$this->table}`
+            WHERE       `product_code` = :product_code
+        SQL;
+
+        return $this->db->delete($query, [
+            "product_code" => ["value" => $productCode, "type" => PDO::PARAM_STR]
+        ]);
+    }
+
+    /**
+     * 상품 존재 여부 확인
+     *
+     * @param string $productCode
+     * @return bool
+     */
+    public function exists(string $productCode): bool
+    {
+        $query = <<<SQL
+            SELECT  1
+            FROM    `{$this->table}`
+            WHERE   `product_code` = :product_code
+            LIMIT   1
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "product_code" => ["value" => $productCode, "type" => PDO::PARAM_STR]
+        ]);
+
+        return $result !== null;
     }
 }

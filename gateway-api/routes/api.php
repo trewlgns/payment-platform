@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,18 +64,17 @@ Route::prefix('users')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Future API Routes (TODO)
+| Product API Routes
 |--------------------------------------------------------------------------
 */
-
-// Product API
-// Route::prefix('products')->group(function () {
-//     Route::get('/', [ProductController::class, 'index']);
-//     Route::post('/', [ProductController::class, 'store']);
-//     Route::get('/{code}', [ProductController::class, 'show']);
-//     Route::put('/{code}', [ProductController::class, 'update']);
-//     Route::delete('/{code}', [ProductController::class, 'destroy']);
-// });
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::post('/', [ProductController::class, 'store']);
+    Route::get('/{productCode}', [ProductController::class, 'show']);
+    Route::put('/{productCode}', [ProductController::class, 'update']);
+    Route::patch('/{productCode}/status', [ProductController::class, 'updateStatus']);
+    Route::delete('/{productCode}', [ProductController::class, 'destroy']);
+});
 
 // Order API
 // Route::prefix('orders')->group(function () {

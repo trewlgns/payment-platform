@@ -221,34 +221,70 @@ class PaymentService
 app/
 ├── Database/
 │   └── DB.php                      # PDO 래퍼 클래스
+├── Entities/                       # Entity 레이어 (타입 안전성)
+│   ├── UserEntity.php
+│   ├── ProductEntity.php
+│   ├── OrderEntity.php
+│   └── EmailVerificationTokenEntity.php
+├── Validators/                     # Semantic 검증 레이어
+│   ├── BaseValidator.php
+│   ├── UserValidator.php
+│   ├── ProductValidator.php
+│   └── OrderValidator.php
 ├── Repositories/
 │   ├── BaseRepository.php          # 추상 Repository
 │   ├── UserRepository.php
 │   ├── ProductRepository.php
 │   ├── OrderRepository.php
-│   └── PaymentRepository.php
+│   ├── PaymentRepository.php
+│   └── EmailVerificationTokenRepository.php
 ├── Services/                       # 비즈니스 로직 (도메인별 폴더)
-│   └── User/
-│       ├── ListUsersService.php
-│       ├── GetUserService.php
-│       ├── CreateUserService.php
-│       ├── UpdateUserService.php
-│       ├── DeleteUserService.php
-│       ├── UpdateUserStatusService.php
-│       └── VerifyUserEmailService.php
+│   ├── BaseService.php             # 트랜잭션, 로깅 공통 처리
+│   ├── User/
+│   │   ├── ListUsersService.php
+│   │   ├── GetUserService.php
+│   │   ├── CreateUserService.php
+│   │   ├── UpdateUserService.php
+│   │   ├── DeleteUserService.php
+│   │   ├── UpdateUserStatusService.php
+│   │   ├── SendEmailVerificationService.php
+│   │   └── VerifyUserEmailService.php
+│   ├── Product/
+│   │   ├── ListProductsService.php
+│   │   ├── GetProductService.php
+│   │   ├── CreateProductService.php
+│   │   ├── UpdateProductService.php
+│   │   ├── UpdateProductStatusService.php
+│   │   └── DeleteProductService.php
+│   └── Order/
+│       ├── ListOrdersService.php
+│       ├── GetOrderService.php
+│       ├── CreateOrderService.php
+│       ├── UpdateOrderStatusService.php
+│       ├── CancelOrderService.php
+│       └── RefundOrderService.php
 ├── Http/
 │   ├── Controllers/
-│   │   ├── Controller.php          # Base Controller (success/fail/error)
+│   │   ├── BaseController.php      # Base Controller (success/fail/error)
 │   │   ├── UserController.php
 │   │   ├── ProductController.php
 │   │   └── OrderController.php
 │   ├── Requests/                   # 도메인별 폴더 구조
-│   │   └── User/
-│   │       ├── ListUsersRequest.php
-│   │       ├── CreateUserRequest.php
-│   │       ├── UpdateUserRequest.php
-│   │       ├── UpdateUserStatusRequest.php
-│   │       └── VerifyEmailRequest.php
+│   │   ├── User/
+│   │   │   ├── ListUsersRequest.php
+│   │   │   ├── CreateUserRequest.php
+│   │   │   ├── UpdateUserRequest.php
+│   │   │   ├── UpdateUserStatusRequest.php
+│   │   │   └── VerifyEmailRequest.php
+│   │   ├── Product/
+│   │   │   ├── ListProductsRequest.php
+│   │   │   ├── CreateProductRequest.php
+│   │   │   ├── UpdateProductRequest.php
+│   │   │   └── UpdateProductStatusRequest.php
+│   │   └── Order/
+│   │       ├── ListOrdersRequest.php
+│   │       ├── CreateOrderRequest.php
+│   │       └── UpdateOrderStatusRequest.php
 │   └── Middleware/
 │       └── SetLocale.php           # Accept-Language 처리
 ├── Exceptions/
@@ -261,8 +297,6 @@ app/
 │   └── ConflictException.php
 ├── Enums/
 │   └── ResponseMessage.php         # 메시지 키 + 상태 코드 + 다국어
-├── Models/                         # Eloquent 모델 (참조용)
-│   └── User.php
 └── Providers/
     └── AppServiceProvider.php
 ```

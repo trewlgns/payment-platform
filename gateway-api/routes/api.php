@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,13 +77,36 @@ Route::prefix('products')->group(function () {
     Route::delete('/{productCode}', [ProductController::class, 'destroy']);
 });
 
-// Order API
-// Route::prefix('orders')->group(function () {
-//     Route::get('/', [OrderController::class, 'index']);
-//     Route::post('/', [OrderController::class, 'store']);
-//     Route::get('/{id}', [OrderController::class, 'show']);
-//     Route::post('/{id}/cancel', [OrderController::class, 'cancel']);
-// });
+/*
+|--------------------------------------------------------------------------
+| Order API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('orders')->group(function () {
+    // 주문 목록 조회 (페이지네이션, 필터링)
+    // GET /api/orders?status=paid&customer_email=test@example.com&page=1&per_page=20
+    Route::get('/', [OrderController::class, 'index']);
+
+    // 주문 생성
+    // POST /api/orders
+    Route::post('/', [OrderController::class, 'store']);
+
+    // 주문 상세 조회
+    // GET /api/orders/{orderId}
+    Route::get('/{orderId}', [OrderController::class, 'show']);
+
+    // 주문 상태 변경
+    // PATCH /api/orders/{orderId}/status
+    Route::patch('/{orderId}/status', [OrderController::class, 'updateStatus']);
+
+    // 주문 취소
+    // POST /api/orders/{orderId}/cancel
+    Route::post('/{orderId}/cancel', [OrderController::class, 'cancel']);
+
+    // 주문 환불
+    // POST /api/orders/{orderId}/refund
+    Route::post('/{orderId}/refund', [OrderController::class, 'refund']);
+});
 
 // Payment API
 // Route::prefix('payments')->group(function () {

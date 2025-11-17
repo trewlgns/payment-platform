@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\OrderEntity;
 use PDO;
 
 class OrderRepository extends BaseRepository
@@ -13,9 +14,9 @@ class OrderRepository extends BaseRepository
      * ID로 주문 정보 조회
      *
      * @param int $orderId
-     * @return array|null
+     * @return OrderEntity|null
      */
-    public function findById(int $orderId): ?array
+    public function findById(int $orderId): ?OrderEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,9 +24,11 @@ class OrderRepository extends BaseRepository
             WHERE   `order_id` = :order_id
         SQL;
 
-        return $this->db->selectOne($query, [
+        $result = $this->db->selectOne($query, [
             "order_id" => ["value" => $orderId, "type" => PDO::PARAM_INT]
         ]);
+
+        return $result ? new OrderEntity($result) : null;
     }
 
     /**
@@ -33,7 +36,7 @@ class OrderRepository extends BaseRepository
      *
      * @param string $customerEmail
      * @param int $limit
-     * @return array
+     * @return OrderEntity[]
      */
     public function findByCustomerEmail(string $customerEmail, int $limit = 10): array
     {
@@ -45,10 +48,12 @@ class OrderRepository extends BaseRepository
             LIMIT       :limit
         SQL;
 
-        return $this->db->select($query, [
+        $results = $this->db->select($query, [
             "customer_email"    => ["value" => $customerEmail, "type" => PDO::PARAM_STR],
             "limit"             => ["value" => $limit, "type" => PDO::PARAM_INT]
         ]);
+
+        return array_map(fn($row) => new OrderEntity($row), $results);
     }
 
     /**
@@ -125,7 +130,7 @@ class OrderRepository extends BaseRepository
      *
      * @param string $status
      * @param int $limit
-     * @return array
+     * @return OrderEntity[]
      */
     public function findByStatus(string $status, int $limit = 100): array
     {
@@ -137,9 +142,92 @@ class OrderRepository extends BaseRepository
             LIMIT       :limit
         SQL;
 
-        return $this->db->select($query, [
+        $results = $this->db->select($query, [
             "status"    => ["value" => $status, "type" => PDO::PARAM_STR],
             "limit"     => ["value" => $limit, "type" => PDO::PARAM_INT]
         ]);
+
+        return array_map(fn($row) => new OrderEntity($row), $results);
+    }
+
+    /**
+     * 필터를 적용한 주문 목록 조회 (페이지네이션 지원)
+     *
+     * @param array $filters
+     * @return OrderEntity[]
+     */
+    public function findAll(array $filters = []): array
+    {
+        $status = $filters["status"] ?? null;
+        $customerEmail = $filters["customer_email"] ?? null;
+        $page = $filters["page"] ?? 1;
+        $perPage = $filters["per_page"] ?? 20;
+        $offset = ($page - 1) * $perPage;
+
+        $query = <<<SQL
+            SELECT      *
+            FROM        `{$this->table}`
+            WHERE       1=1
+        SQL;
+
+        $bindings = [];
+
+        if ($status) {
+            $query .= " AND `status` = :status";
+            $bindings["status"] = ["value" => $status, "type" => PDO::PARAM_STR];
+        }
+
+        if ($customerEmail) {
+            $query .= " AND `customer_email` = :customer_email";
+            $bindings["customer_email"] = ["value" => $customerEmail, "type" => PDO::PARAM_STR];
+        }
+
+        $query .= <<<SQL
+
+            ORDER BY    `ordered_at` DESC
+            LIMIT       :limit OFFSET :offset
+        SQL;
+
+        $bindings["limit"] = ["value" => $perPage, "type" => PDO::PARAM_INT];
+        $bindings["offset"] = ["value" => $offset, "type" => PDO::PARAM_INT];
+
+        $results = $this->db->select($query, $bindings);
+
+        return array_map(fn($row) => new OrderEntity($row), $results);
+    }
+
+    /**
+     * 필터를 적용한 주문 개수 조회
+     *
+     * @param array $filters
+     * @return int
+     */
+    public function count(array $filters = []): int
+    {
+        $status = $filters["status"] ?? null;
+        $customerEmail = $filters["customer_email"] ?? null;
+
+        $query = <<<SQL
+            SELECT  COUNT(*) as `total`
+            FROM    `{$this->table}`
+            WHERE   1=1
+        SQL;
+
+        $bindings = [];
+
+        if ($status) {
+            $query .= " AND `status` = :status";
+            $bindings["status"] = ["value" => $status, "type" => PDO::PARAM_STR];
+        }
+
+        if ($customerEmail) {
+            $query .= " AND `customer_email` = :customer_email";
+            $bindings["customer_email"] = ["value" => $customerEmail, "type" => PDO::PARAM_STR];
+        }
+
+        $result = $this->db->selectOne($query, $bindings);
+
+        return (int) $result["total"];
     }
 }
+

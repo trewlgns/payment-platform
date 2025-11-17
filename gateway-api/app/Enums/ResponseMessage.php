@@ -38,7 +38,7 @@ enum ResponseMessage: string
     case ORDER_DETAIL_SUCCESS = "order_detail_success";
     case ORDER_CREATED = "order_created";
     case ORDER_CANCELLED = "order_cancelled";
-    case ORDER_CANNOT_CANCEL = "order_cannot_cancel";
+    case ORDER_REFUNDED = "order_refunded";
     case ORDER_STATUS_UPDATED = "order_status_updated";
 
     // 결제 관련

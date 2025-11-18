@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,11 +109,16 @@ Route::prefix('orders')->group(function () {
     Route::post('/{orderId}/refund', [OrderController::class, 'refund']);
 });
 
-// Payment API
-// Route::prefix('payments')->group(function () {
-//     Route::post('/', [PaymentController::class, 'process']);
-//     Route::get('/{id}', [PaymentController::class, 'show']);
-// });
+/*
+|--------------------------------------------------------------------------
+| Payment API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('payments')->group(function () {
+    // 결제 상세 조회
+    // GET /api/payments/{paymentId}
+    Route::get('/{paymentId}', [PaymentController::class, 'show']);
+});
 
 // Refund API
 // Route::prefix('refunds')->group(function () {

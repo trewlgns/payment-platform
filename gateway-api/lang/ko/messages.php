@@ -43,11 +43,18 @@ return [
 
     // 결제 관련
     "payment_not_found" => "결제 정보를 찾을 수 없습니다",
+    "payment_detail_success" => "결제 정보를 조회했습니다",
     "payment_success" => "결제가 완료되었습니다",
     "payment_failed" => "결제에 실패했습니다",
     "payment_cancelled" => "결제가 취소되었습니다",
     "payment_refunded" => "결제가 환불되었습니다",
     "payment_already_processed" => "이미 처리된 결제입니다",
+    "payment_already_cancelled" => "이미 취소된 결제입니다",
+    "payment_already_refunded" => "이미 환불된 결제입니다",
+    "payment_not_approved" => "승인되지 않은 결제입니다",
+    "payment_not_cancellable" => "취소할 수 없는 결제 상태입니다",
+    "payment_not_refundable" => "환불할 수 없는 결제 상태입니다",
+    "payment_idempotency_key_duplicate" => "중복된 결제 요청입니다",
     "payment_amount_mismatch" => "결제 금액이 일치하지 않습니다",
 
     // 사용자 관련

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\PaymentEntity;
 use PDO;
 
 class PaymentRepository extends BaseRepository
@@ -13,9 +14,9 @@ class PaymentRepository extends BaseRepository
      * ID로 결제 정보 조회
      *
      * @param int $paymentId
-     * @return array|null
+     * @return PaymentEntity|null
      */
-    public function findById(int $paymentId): ?array
+    public function findById(int $paymentId): ?PaymentEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,18 +24,20 @@ class PaymentRepository extends BaseRepository
             WHERE   `payment_id` = :payment_id
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "payment_id" => ["value" => $paymentId, "type" => PDO::PARAM_INT]
         ]);
+
+        return $row ? new PaymentEntity($row) : null;
     }
 
     /**
      * 주문 ID로 결제 정보 조회
      *
      * @param int $orderId
-     * @return array|null
+     * @return PaymentEntity|null
      */
-    public function findByOrderId(int $orderId): ?array
+    public function findByOrderId(int $orderId): ?PaymentEntity
     {
         $query = <<<SQL
             SELECT      *
@@ -44,18 +47,20 @@ class PaymentRepository extends BaseRepository
             LIMIT       1
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "order_id" => ["value" => $orderId, "type" => PDO::PARAM_INT]
         ]);
+
+        return $row ? new PaymentEntity($row) : null;
     }
 
     /**
      * 멱등성 키로 결제 정보 조회
      *
      * @param string $idempotencyKey
-     * @return array|null
+     * @return PaymentEntity|null
      */
-    public function findByIdempotencyKey(string $idempotencyKey): ?array
+    public function findByIdempotencyKey(string $idempotencyKey): ?PaymentEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -63,9 +68,32 @@ class PaymentRepository extends BaseRepository
             WHERE   `idempotency_key` = :idempotency_key
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "idempotency_key" => ["value" => $idempotencyKey, "type" => PDO::PARAM_STR]
         ]);
+
+        return $row ? new PaymentEntity($row) : null;
+    }
+
+    /**
+     * 멱등성 키 존재 여부 확인
+     *
+     * @param string $idempotencyKey
+     * @return bool
+     */
+    public function existsByIdempotencyKey(string $idempotencyKey): bool
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as cnt
+            FROM    `{$this->table}`
+            WHERE   `idempotency_key` = :idempotency_key
+        SQL;
+
+        $row = $this->db->selectOne($query, [
+            "idempotency_key" => ["value" => $idempotencyKey, "type" => PDO::PARAM_STR]
+        ]);
+
+        return $row && $row["cnt"] > 0;
     }
 
     /**
@@ -147,7 +175,7 @@ class PaymentRepository extends BaseRepository
      * @param string $startDate
      * @param string $endDate
      * @param string|null $pgProviderCode
-     * @return array
+     * @return PaymentEntity[]
      */
     public function findByStatusAndDateRange(
         string $status,
@@ -165,11 +193,13 @@ class PaymentRepository extends BaseRepository
             ORDER BY    `paid_at` DESC
         SQL;
 
-        return $this->db->select($query, [
+        $rows = $this->db->select($query, [
             "status"            => ["value" => $status, "type" => PDO::PARAM_STR],
             "start_date"        => ["value" => $startDate, "type" => PDO::PARAM_STR],
             "end_date"          => ["value" => $endDate, "type" => PDO::PARAM_STR],
             "pg_provider_code"  => ["value" => $pgProviderCode, "type" => $pgProviderCode === null ? PDO::PARAM_NULL : PDO::PARAM_STR]
         ]);
+
+        return array_map(fn($row) => new PaymentEntity($row), $rows);
     }
 }

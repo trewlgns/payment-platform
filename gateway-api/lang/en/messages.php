@@ -42,11 +42,18 @@ return [
 
     // Payment related
     "payment_not_found" => "Payment not found",
+    "payment_detail_success" => "Payment details retrieved successfully",
     "payment_success" => "Payment completed successfully",
     "payment_failed" => "Payment failed",
     "payment_cancelled" => "Payment cancelled successfully",
     "payment_refunded" => "Payment refunded successfully",
     "payment_already_processed" => "Payment already processed",
+    "payment_already_cancelled" => "Payment already cancelled",
+    "payment_already_refunded" => "Payment already refunded",
+    "payment_not_approved" => "Payment not approved",
+    "payment_not_cancellable" => "Payment cannot be cancelled in current status",
+    "payment_not_refundable" => "Payment cannot be refunded in current status",
+    "payment_idempotency_key_duplicate" => "Duplicate payment request",
     "payment_amount_mismatch" => "Payment amount mismatch",
 
     // User related

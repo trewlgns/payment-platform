@@ -43,6 +43,7 @@ enum ResponseMessage: string
 
     // 결제 관련
     case PAYMENT_NOT_FOUND = "payment_not_found";
+    case PAYMENT_DETAIL_SUCCESS = "payment_detail_success";
     case PAYMENT_SUCCESS = "payment_success";
     case PAYMENT_FAILED = "payment_failed";
     case PAYMENT_CANCELLED = "payment_cancelled";
@@ -94,7 +95,9 @@ enum ResponseMessage: string
             self::ORDER_DETAIL_SUCCESS => 200,
             self::ORDER_CREATED => 201,
             self::ORDER_CANCELLED => 200,
+            self::ORDER_REFUNDED => 200,
             self::ORDER_STATUS_UPDATED => 200,
+            self::PAYMENT_DETAIL_SUCCESS => 200,
             self::PAYMENT_SUCCESS => 200,
             self::PAYMENT_CANCELLED => 200,
             self::PAYMENT_REFUNDED => 200,
@@ -116,7 +119,6 @@ enum ResponseMessage: string
             self::PRODUCT_NOT_FOUND => 404,
             self::PRODUCT_OUT_OF_STOCK => 400,
             self::ORDER_NOT_FOUND => 404,
-            self::ORDER_CANNOT_CANCEL => 400,
             self::PAYMENT_NOT_FOUND => 404,
             self::PAYMENT_FAILED => 400,
             self::PAYMENT_ALREADY_PROCESSED => 409,

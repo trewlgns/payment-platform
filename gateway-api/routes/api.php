@@ -115,9 +115,25 @@ Route::prefix('orders')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('payments')->group(function () {
+    // 결제 목록 조회 (페이지네이션, 필터링)
+    // GET /api/payments?status=approved&order_id=1&page=1&per_page=20
+    Route::get('/', [PaymentController::class, 'index']);
+
+    // 결제 생성
+    // POST /api/payments
+    Route::post('/', [PaymentController::class, 'store']);
+
     // 결제 상세 조회
     // GET /api/payments/{paymentId}
     Route::get('/{paymentId}', [PaymentController::class, 'show']);
+
+    // 결제 취소
+    // POST /api/payments/{paymentId}/cancel
+    Route::post('/{paymentId}/cancel', [PaymentController::class, 'cancel']);
+
+    // 결제 환불
+    // POST /api/payments/{paymentId}/refund
+    Route::post('/{paymentId}/refund', [PaymentController::class, 'refund']);
 });
 
 // Refund API

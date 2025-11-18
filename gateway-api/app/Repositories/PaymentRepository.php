@@ -97,6 +97,60 @@ class PaymentRepository extends BaseRepository
     }
 
     /**
+     * 필터 조건에 따른 결제 목록 조회 (페이지네이션)
+     *
+     * @param array $filters
+     * @return PaymentEntity[]
+     */
+    public function findAll(array $filters = []): array
+    {
+        $query = <<<SQL
+            SELECT      *
+            FROM        `{$this->table}`
+            WHERE       (:status IS NULL OR `status` = :status)
+              AND       (:order_id IS NULL OR `order_id` = :order_id)
+              AND       (:pg_provider_code IS NULL OR `pg_provider_code` = :pg_provider_code)
+            ORDER BY    `created_at` DESC
+            LIMIT       :limit OFFSET :offset
+        SQL;
+
+        $rows = $this->db->select($query, [
+            "status"            => ["value" => $filters["status"] ?? null, "type" => $filters["status"] ?? null ? PDO::PARAM_STR : PDO::PARAM_NULL],
+            "order_id"          => ["value" => $filters["order_id"] ?? null, "type" => $filters["order_id"] ?? null ? PDO::PARAM_INT : PDO::PARAM_NULL],
+            "pg_provider_code"  => ["value" => $filters["pg_provider_code"] ?? null, "type" => $filters["pg_provider_code"] ?? null ? PDO::PARAM_STR : PDO::PARAM_NULL],
+            "limit"             => ["value" => $filters["per_page"] ?? 20, "type" => PDO::PARAM_INT],
+            "offset"            => ["value" => (($filters["page"] ?? 1) - 1) * ($filters["per_page"] ?? 20), "type" => PDO::PARAM_INT]
+        ]);
+
+        return array_map(fn($row) => new PaymentEntity($row), $rows);
+    }
+
+    /**
+     * 필터 조건에 따른 결제 개수 조회
+     *
+     * @param array $filters
+     * @return int
+     */
+    public function count(array $filters = []): int
+    {
+        $query = <<<SQL
+            SELECT      COUNT(*) as cnt
+            FROM        `{$this->table}`
+            WHERE       (:status IS NULL OR `status` = :status)
+              AND       (:order_id IS NULL OR `order_id` = :order_id)
+              AND       (:pg_provider_code IS NULL OR `pg_provider_code` = :pg_provider_code)
+        SQL;
+
+        $row = $this->db->selectOne($query, [
+            "status"            => ["value" => $filters["status"] ?? null, "type" => $filters["status"] ?? null ? PDO::PARAM_STR : PDO::PARAM_NULL],
+            "order_id"          => ["value" => $filters["order_id"] ?? null, "type" => $filters["order_id"] ?? null ? PDO::PARAM_INT : PDO::PARAM_NULL],
+            "pg_provider_code"  => ["value" => $filters["pg_provider_code"] ?? null, "type" => $filters["pg_provider_code"] ?? null ? PDO::PARAM_STR : PDO::PARAM_NULL]
+        ]);
+
+        return (int) ($row["cnt"] ?? 0);
+    }
+
+    /**
      * 결제 생성
      *
      * @param array $data

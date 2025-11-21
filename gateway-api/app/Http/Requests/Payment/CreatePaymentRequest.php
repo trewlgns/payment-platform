@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Payment;
 
+use App\Enums\PgProviderCode;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreatePaymentRequest extends FormRequest
 {
@@ -15,7 +17,7 @@ class CreatePaymentRequest extends FormRequest
     {
         return [
             "order_id" => ["required", "integer", "min:1"],
-            "pg_provider_code" => ["required", "string", "max:50"],
+            "pg_provider_code" => ["required", "string", Rule::in(PgProviderCode::values())],
             "amount" => ["required", "numeric", "min:0"],
             "payment_method" => ["required", "string", "in:card,bank_transfer,virtual_account,mobile"],
             "idempotency_key" => ["required", "string", "max:255"]
@@ -30,7 +32,7 @@ class CreatePaymentRequest extends FormRequest
             "order_id.min" => __("messages.validation.payment.order_id.min"),
             "pg_provider_code.required" => __("messages.validation.payment.pg_provider_code.required"),
             "pg_provider_code.string" => __("messages.validation.payment.pg_provider_code.string"),
-            "pg_provider_code.max" => __("messages.validation.payment.pg_provider_code.max"),
+            "pg_provider_code.in" => __("messages.validation.payment.pg_provider_code.in"),
             "amount.required" => __("messages.validation.payment.amount.required"),
             "amount.numeric" => __("messages.validation.payment.amount.numeric"),
             "amount.min" => __("messages.validation.payment.amount.min"),

@@ -46,6 +46,21 @@ class PaymentEntity
     public string $idempotencyKey;
 
     /**
+     * PG 거래 ID (nullable)
+     */
+    public ?string $pgTransactionId;
+
+    /**
+     * 마스킹된 카드 번호 (nullable)
+     */
+    public ?string $cardMasked;
+
+    /**
+     * 카드 발급사 코드 (nullable)
+     */
+    public ?string $cardIssuerCode;
+
+    /**
      * 결제 완료 시각 (nullable)
      */
     public ?string $paidAt;
@@ -74,6 +89,9 @@ class PaymentEntity
         $this->status = $data["status"];
         $this->paymentMethod = $data["payment_method"];
         $this->idempotencyKey = $data["idempotency_key"];
+        $this->pgTransactionId = $data["pg_transaction_id"] ?? null;
+        $this->cardMasked = $data["card_masked"] ?? null;
+        $this->cardIssuerCode = $data["card_issuer_code"] ?? null;
         $this->paidAt = $data["paid_at"] ?? null;
         $this->createdAt = $data["created_at"];
         $this->updatedAt = $data["updated_at"];

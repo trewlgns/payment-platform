@@ -56,6 +56,8 @@ return [
     "payment_not_refundable" => "환불할 수 없는 결제 상태입니다",
     "payment_idempotency_key_duplicate" => "중복된 결제 요청입니다",
     "payment_amount_mismatch" => "결제 금액이 일치하지 않습니다",
+    "payment_pg_approval_failed" => "PG 승인 요청에 실패했습니다",
+    "payment_unsupported_pg_provider" => "지원하지 않는 PG사입니다",
 
     // 사용자 관련
     "user_not_found" => "사용자를 찾을 수 없습니다",
@@ -143,6 +145,22 @@ return [
             "final_amount_max" => "최종 결제 금액은 9999999.99 이하여야 합니다.",
             "status_required" => "상태는 필수 항목입니다.",
             "status_in" => "상태는 pending, confirmed, paid, preparing, shipped, delivered, cancelled, refunded 중 하나여야 합니다.",
+        ],
+        "payment" => [
+            "order_id_required" => "주문 ID는 필수 항목입니다.",
+            "order_id_integer" => "주문 ID는 정수여야 합니다.",
+            "order_id_min" => "주문 ID는 1 이상이어야 합니다.",
+            "pg_provider_code_required" => "PG 제공자 코드는 필수 항목입니다.",
+            "pg_provider_code_string" => "PG 제공자 코드는 문자열이어야 합니다.",
+            "pg_provider_code_in" => "지원하지 않는 PG 제공자입니다. (MOCK, TOSS, KAKAO 중 선택)",
+            "amount_required" => "결제 금액은 필수 항목입니다.",
+            "amount_numeric" => "결제 금액은 숫자여야 합니다.",
+            "amount_min" => "결제 금액은 0 이상이어야 합니다.",
+            "payment_method_required" => "결제 수단은 필수 항목입니다.",
+            "payment_method_in" => "결제 수단은 card, bank_transfer, virtual_account, mobile 중 하나여야 합니다.",
+            "idempotency_key_required" => "멱등성 키는 필수 항목입니다.",
+            "idempotency_key_string" => "멱등성 키는 문자열이어야 합니다.",
+            "idempotency_key_max" => "멱등성 키는 최대 255자까지 가능합니다.",
         ],
         "pagination" => [
             "page_integer" => "페이지는 정수여야 합니다.",

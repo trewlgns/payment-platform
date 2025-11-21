@@ -55,6 +55,8 @@ return [
     "payment_not_refundable" => "Payment cannot be refunded in current status",
     "payment_idempotency_key_duplicate" => "Duplicate payment request",
     "payment_amount_mismatch" => "Payment amount mismatch",
+    "payment_pg_approval_failed" => "PG approval request failed",
+    "payment_unsupported_pg_provider" => "Unsupported payment gateway provider",
 
     // User related
     "user_not_found" => "User not found",
@@ -142,6 +144,22 @@ return [
             "final_amount_max" => "Final amount may not be greater than 9999999.99.",
             "status_required" => "Status is required.",
             "status_in" => "Status must be one of pending, confirmed, paid, preparing, shipped, delivered, cancelled, or refunded.",
+        ],
+        "payment" => [
+            "order_id_required" => "Order ID is required.",
+            "order_id_integer" => "Order ID must be an integer.",
+            "order_id_min" => "Order ID must be at least 1.",
+            "pg_provider_code_required" => "PG provider code is required.",
+            "pg_provider_code_string" => "PG provider code must be a string.",
+            "pg_provider_code_in" => "Unsupported PG provider. (Choose from MOCK, TOSS, KAKAO)",
+            "amount_required" => "Payment amount is required.",
+            "amount_numeric" => "Payment amount must be numeric.",
+            "amount_min" => "Payment amount must be at least 0.",
+            "payment_method_required" => "Payment method is required.",
+            "payment_method_in" => "Payment method must be one of card, bank_transfer, virtual_account, or mobile.",
+            "idempotency_key_required" => "Idempotency key is required.",
+            "idempotency_key_string" => "Idempotency key must be a string.",
+            "idempotency_key_max" => "Idempotency key may not be greater than 255 characters.",
         ],
         "pagination" => [
             "page_integer" => "Page must be an integer.",

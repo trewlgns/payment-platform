@@ -195,6 +195,73 @@ class PaymentRepository extends BaseRepository
     }
 
     /**
+     * 결제 정보 업데이트 (범용)
+     *
+     * @param int $paymentId
+     * @param array $data
+     * @return int Affected rows
+     */
+    public function update(int $paymentId, array $data): int
+    {
+        $now = date("Y-m-d H:i:s");
+
+        // 동적으로 SET 절 생성
+        $setFields = [];
+        $bindings = [];
+
+        if (isset($data["status"])) {
+            $setFields[] = "`status` = :status";
+            $bindings["status"] = ["value" => $data["status"], "type" => PDO::PARAM_STR];
+        }
+
+        if (isset($data["pg_transaction_id"])) {
+            $setFields[] = "`pg_transaction_id` = :pg_transaction_id";
+            $bindings["pg_transaction_id"] = ["value" => $data["pg_transaction_id"], "type" => PDO::PARAM_STR];
+        }
+
+        if (isset($data["paid_at"])) {
+            $setFields[] = "`paid_at` = :paid_at";
+            $bindings["paid_at"] = ["value" => $data["paid_at"], "type" => PDO::PARAM_STR];
+        }
+
+        if (isset($data["card_masked"])) {
+            $setFields[] = "`card_masked` = :card_masked";
+            $bindings["card_masked"] = ["value" => $data["card_masked"], "type" => $data["card_masked"] === null ? PDO::PARAM_NULL : PDO::PARAM_STR];
+        }
+
+        if (isset($data["card_issuer_code"])) {
+            $setFields[] = "`card_issuer_code` = :card_issuer_code";
+            $bindings["card_issuer_code"] = ["value" => $data["card_issuer_code"], "type" => $data["card_issuer_code"] === null ? PDO::PARAM_NULL : PDO::PARAM_STR];
+        }
+
+        if (isset($data["pg_error_code"])) {
+            $setFields[] = "`pg_error_code` = :pg_error_code";
+            $bindings["pg_error_code"] = ["value" => $data["pg_error_code"], "type" => $data["pg_error_code"] === null ? PDO::PARAM_NULL : PDO::PARAM_STR];
+        }
+
+        if (isset($data["pg_error_message"])) {
+            $setFields[] = "`pg_error_message` = :pg_error_message";
+            $bindings["pg_error_message"] = ["value" => $data["pg_error_message"], "type" => $data["pg_error_message"] === null ? PDO::PARAM_NULL : PDO::PARAM_STR];
+        }
+
+        // updated_at은 항상 업데이트
+        $setFields[] = "`updated_at` = :updated_at";
+        $bindings["updated_at"] = ["value" => $now, "type" => PDO::PARAM_STR];
+
+        $setClause = implode(", ", $setFields);
+
+        $query = <<<SQL
+            UPDATE  `{$this->table}`
+            SET     {$setClause}
+            WHERE   `payment_id` = :payment_id
+        SQL;
+
+        $bindings["payment_id"] = ["value" => $paymentId, "type" => PDO::PARAM_INT];
+
+        return $this->db->update($query, $bindings);
+    }
+
+    /**
      * 결제 상태 업데이트
      *
      * @param int $paymentId

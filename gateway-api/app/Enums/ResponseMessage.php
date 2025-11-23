@@ -74,6 +74,19 @@ enum ResponseMessage: string
     case REFUND_REJECTED = "refund_rejected";
     case REFUND_COMPLETED = "refund_completed";
 
+    // PG 제공자 관련
+    case PG_PROVIDER_NOT_FOUND = "pg_provider_not_found";
+    case PG_PROVIDER_LIST_SUCCESS = "pg_provider_list_success";
+    case PG_PROVIDER_DETAIL_SUCCESS = "pg_provider_detail_success";
+    case PG_PROVIDER_CREATED = "pg_provider_created";
+    case PG_PROVIDER_UPDATED = "pg_provider_updated";
+    case PG_PROVIDER_DELETED = "pg_provider_deleted";
+    case PG_PROVIDER_ACTIVATED = "pg_provider_activated";
+    case PG_PROVIDER_DEACTIVATED = "pg_provider_deactivated";
+    case PG_PROVIDER_ALREADY_EXISTS = "pg_provider_already_exists";
+    case PG_PROVIDER_ALREADY_ACTIVE = "pg_provider_already_active";
+    case PG_PROVIDER_ALREADY_INACTIVE = "pg_provider_already_inactive";
+
     /**
      * HTTP 상태 코드 반환
      */
@@ -109,6 +122,13 @@ enum ResponseMessage: string
             self::REFUND_REQUESTED => 200,
             self::REFUND_APPROVED => 200,
             self::REFUND_COMPLETED => 200,
+            self::PG_PROVIDER_LIST_SUCCESS => 200,
+            self::PG_PROVIDER_DETAIL_SUCCESS => 200,
+            self::PG_PROVIDER_CREATED => 201,
+            self::PG_PROVIDER_UPDATED => 200,
+            self::PG_PROVIDER_DELETED => 200,
+            self::PG_PROVIDER_ACTIVATED => 200,
+            self::PG_PROVIDER_DEACTIVATED => 200,
 
             // 4xx - 클라이언트 에러
             self::ERROR => 400,
@@ -130,6 +150,10 @@ enum ResponseMessage: string
             self::PROMOTION_NOT_FOUND => 404,
             self::PROMOTION_NOT_ACTIVE => 400,
             self::REFUND_REJECTED => 400,
+            self::PG_PROVIDER_NOT_FOUND => 404,
+            self::PG_PROVIDER_ALREADY_EXISTS => 409,
+            self::PG_PROVIDER_ALREADY_ACTIVE => 400,
+            self::PG_PROVIDER_ALREADY_INACTIVE => 400,
 
             // 5xx - 서버 에러
             self::SERVER_ERROR => 500,

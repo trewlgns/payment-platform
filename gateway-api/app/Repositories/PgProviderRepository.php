@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\PgProviderEntity;
 use PDO;
 
 class PgProviderRepository extends BaseRepository
@@ -13,9 +14,9 @@ class PgProviderRepository extends BaseRepository
      * PG 제공자 코드로 조회
      *
      * @param string $pgProviderCode
-     * @return array|null
+     * @return PgProviderEntity|null
      */
-    public function findByCode(string $pgProviderCode): ?array
+    public function findByCode(string $pgProviderCode): ?PgProviderEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,37 +24,55 @@ class PgProviderRepository extends BaseRepository
             WHERE   `pg_provider_code` = :pg_provider_code
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "pg_provider_code" => ["value" => $pgProviderCode, "type" => PDO::PARAM_STR]
         ]);
+
+        return $row ? new PgProviderEntity(...$row) : null;
+    }
+
+    /**
+     * 전체 PG 제공자 목록 조회
+     *
+     * @param array $filters
+     * @return array<PgProviderEntity>
+     */
+    public function findAll(array $filters = []): array
+    {
+        $query = <<<SQL
+            SELECT      *
+            FROM        `{$this->table}`
+            WHERE       (:is_active IS NULL OR `is_active` = :is_active)
+            ORDER BY    `priority` DESC, `name` ASC
+        SQL;
+
+        $rows = $this->db->select($query, [
+            "is_active" => [
+                "value" => $filters["is_active"] ?? null,
+                "type" => isset($filters["is_active"]) ? PDO::PARAM_INT : PDO::PARAM_NULL
+            ]
+        ]);
+
+        return array_map(fn($row) => new PgProviderEntity(...$row), $rows);
     }
 
     /**
      * 활성화된 PG 제공자 목록 조회 (우선순위순)
      *
-     * @return array
+     * @return array<PgProviderEntity>
      */
     public function findAllActive(): array
     {
-        $query = <<<SQL
-            SELECT      *
-            FROM        `{$this->table}`
-            WHERE       `is_active` = :is_active
-            ORDER BY    `priority` DESC, `name` ASC
-        SQL;
-
-        return $this->db->select($query, [
-            "is_active" => ["value" => 1, "type" => PDO::PARAM_INT]
-        ]);
+        return $this->findAll(["is_active" => 1]);
     }
 
     /**
      * PG 제공자 생성
      *
      * @param array $data
-     * @return int Affected rows
+     * @return string PG Provider Code
      */
-    public function create(array $data): int
+    public function create(array $data): string
     {
         $now = date("Y-m-d H:i:s");
 
@@ -75,13 +94,60 @@ class PgProviderRepository extends BaseRepository
             )
         SQL;
 
-        return $this->db->insert($query, [
+        $this->db->insert($query, [
             "pg_provider_code"  => ["value" => $data["pg_provider_code"], "type" => PDO::PARAM_STR],
             "name"              => ["value" => $data["name"], "type" => PDO::PARAM_STR],
             "is_active"         => ["value" => $data["is_active"] ?? 1, "type" => PDO::PARAM_INT],
             "priority"          => ["value" => $data["priority"] ?? 0, "type" => PDO::PARAM_INT],
             "created_at"        => ["value" => $now, "type" => PDO::PARAM_STR],
             "updated_at"        => ["value" => $now, "type" => PDO::PARAM_STR]
+        ]);
+
+        return $data["pg_provider_code"];
+    }
+
+    /**
+     * PG 제공자 수정
+     *
+     * @param string $pgProviderCode
+     * @param array $data
+     * @return int Affected rows
+     */
+    public function update(string $pgProviderCode, array $data): int
+    {
+        $now = date("Y-m-d H:i:s");
+
+        $query = <<<SQL
+            UPDATE  `{$this->table}`
+            SET     `name` = :name,
+                    `priority` = :priority,
+                    `updated_at` = :updated_at
+            WHERE   `pg_provider_code` = :pg_provider_code
+        SQL;
+
+        return $this->db->update($query, [
+            "name"              => ["value" => $data["name"], "type" => PDO::PARAM_STR],
+            "priority"          => ["value" => $data["priority"], "type" => PDO::PARAM_INT],
+            "updated_at"        => ["value" => $now, "type" => PDO::PARAM_STR],
+            "pg_provider_code"  => ["value" => $pgProviderCode, "type" => PDO::PARAM_STR]
+        ]);
+    }
+
+    /**
+     * PG 제공자 삭제
+     *
+     * @param string $pgProviderCode
+     * @return int Affected rows
+     */
+    public function delete(string $pgProviderCode): int
+    {
+        $query = <<<SQL
+            DELETE FROM `{$this->table}`
+            WHERE       `pg_provider_code` = :pg_provider_code
+        SQL;
+
+        return $this->db->delete($query, [
+            "pg_provider_code" => ["value" => $pgProviderCode, "type" => PDO::PARAM_STR]
         ]);
     }
 

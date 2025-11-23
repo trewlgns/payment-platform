@@ -97,6 +97,19 @@ return [
     "refund_rejected" => "환불이 거부되었습니다",
     "refund_completed" => "환불이 완료되었습니다",
 
+    // PG 제공자 관련
+    "pg_provider_not_found" => "PG 제공자를 찾을 수 없습니다",
+    "pg_provider_list_success" => "PG 제공자 목록을 조회했습니다",
+    "pg_provider_detail_success" => "PG 제공자 정보를 조회했습니다",
+    "pg_provider_created" => "PG 제공자가 생성되었습니다",
+    "pg_provider_updated" => "PG 제공자가 수정되었습니다",
+    "pg_provider_deleted" => "PG 제공자가 삭제되었습니다",
+    "pg_provider_activated" => "PG 제공자가 활성화되었습니다",
+    "pg_provider_deactivated" => "PG 제공자가 비활성화되었습니다",
+    "pg_provider_already_exists" => "이미 존재하는 PG 제공자 코드입니다",
+    "pg_provider_already_active" => "이미 활성화된 PG 제공자입니다",
+    "pg_provider_already_inactive" => "이미 비활성화된 PG 제공자입니다",
+
     // 검증 메시지
     "validation" => [
         "user" => [
@@ -168,6 +181,18 @@ return [
             "per_page_integer" => "페이지당 개수는 정수여야 합니다.",
             "per_page_min" => "페이지당 개수는 1 이상이어야 합니다.",
             "per_page_max" => "페이지당 개수는 100 이하여야 합니다.",
+        ],
+        "pg_provider" => [
+            "pg_provider_code_required" => "PG 제공자 코드는 필수 항목입니다.",
+            "pg_provider_code_unique" => "이미 존재하는 PG 제공자 코드입니다.",
+            "pg_provider_code_max" => "PG 제공자 코드는 최대 :max자까지 가능합니다.",
+            "name_required" => "PG 제공자명은 필수 항목입니다.",
+            "name_max" => "PG 제공자명은 최대 :max자까지 가능합니다.",
+            "is_active_integer" => "활성화 상태는 정수여야 합니다.",
+            "is_active_in" => "활성화 상태는 0 또는 1이어야 합니다.",
+            "priority_required" => "우선순위는 필수 항목입니다.",
+            "priority_integer" => "우선순위는 정수여야 합니다.",
+            "priority_min" => "우선순위는 0 이상이어야 합니다.",
         ],
     ],
 ];

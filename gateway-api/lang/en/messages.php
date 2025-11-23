@@ -96,6 +96,19 @@ return [
     "refund_rejected" => "Refund rejected",
     "refund_completed" => "Refund completed successfully",
 
+    // PG Provider related
+    "pg_provider_not_found" => "PG provider not found",
+    "pg_provider_list_success" => "PG provider list retrieved successfully",
+    "pg_provider_detail_success" => "PG provider details retrieved successfully",
+    "pg_provider_created" => "PG provider created successfully",
+    "pg_provider_updated" => "PG provider updated successfully",
+    "pg_provider_deleted" => "PG provider deleted successfully",
+    "pg_provider_activated" => "PG provider activated successfully",
+    "pg_provider_deactivated" => "PG provider deactivated successfully",
+    "pg_provider_already_exists" => "PG provider code already exists",
+    "pg_provider_already_active" => "PG provider is already active",
+    "pg_provider_already_inactive" => "PG provider is already inactive",
+
     // Validation messages
     "validation" => [
         "user" => [
@@ -167,6 +180,18 @@ return [
             "per_page_integer" => "Per page must be an integer.",
             "per_page_min" => "Per page must be at least 1.",
             "per_page_max" => "Per page may not be greater than 100.",
+        ],
+        "pg_provider" => [
+            "pg_provider_code_required" => "PG provider code is required.",
+            "pg_provider_code_unique" => "PG provider code already exists.",
+            "pg_provider_code_max" => "PG provider code may not be greater than :max characters.",
+            "name_required" => "PG provider name is required.",
+            "name_max" => "PG provider name may not be greater than :max characters.",
+            "is_active_integer" => "Active status must be an integer.",
+            "is_active_in" => "Active status must be 0 or 1.",
+            "priority_required" => "Priority is required.",
+            "priority_integer" => "Priority must be an integer.",
+            "priority_min" => "Priority must be at least 0.",
         ],
     ],
 ];

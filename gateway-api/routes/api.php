@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PgProviderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,6 +135,41 @@ Route::prefix('payments')->group(function () {
     // 결제 환불
     // POST /api/payments/{paymentId}/refund
     Route::post('/{paymentId}/refund', [PaymentController::class, 'refund']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| PG Provider API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('pg-providers')->group(function () {
+    // PG 제공자 목록 조회 (필터링)
+    // GET /api/pg-providers?is_active=1
+    Route::get('/', [PgProviderController::class, 'index']);
+
+    // PG 제공자 생성
+    // POST /api/pg-providers
+    Route::post('/', [PgProviderController::class, 'store']);
+
+    // PG 제공자 상세 조회
+    // GET /api/pg-providers/{pgProviderCode}
+    Route::get('/{pgProviderCode}', [PgProviderController::class, 'show']);
+
+    // PG 제공자 정보 수정
+    // PUT /api/pg-providers/{pgProviderCode}
+    Route::put('/{pgProviderCode}', [PgProviderController::class, 'update']);
+
+    // PG 제공자 활성화
+    // PATCH /api/pg-providers/{pgProviderCode}/activate
+    Route::patch('/{pgProviderCode}/activate', [PgProviderController::class, 'activate']);
+
+    // PG 제공자 비활성화
+    // PATCH /api/pg-providers/{pgProviderCode}/deactivate
+    Route::patch('/{pgProviderCode}/deactivate', [PgProviderController::class, 'deactivate']);
+
+    // PG 제공자 삭제
+    // DELETE /api/pg-providers/{pgProviderCode}
+    Route::delete('/{pgProviderCode}', [PgProviderController::class, 'destroy']);
 });
 
 // Refund API

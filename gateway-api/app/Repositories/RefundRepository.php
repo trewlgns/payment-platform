@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\RefundEntity;
 use PDO;
 
 class RefundRepository extends BaseRepository
@@ -13,9 +14,9 @@ class RefundRepository extends BaseRepository
      * 환불 요청 ID로 조회
      *
      * @param int $refundRequestId
-     * @return array|null
+     * @return RefundEntity|null
      */
-    public function findById(int $refundRequestId): ?array
+    public function findById(int $refundRequestId): ?RefundEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,16 +24,18 @@ class RefundRepository extends BaseRepository
             WHERE   `refund_request_id` = :refund_request_id
         SQL;
 
-        return $this->db->selectOne($query, [
+        $result = $this->db->selectOne($query, [
             "refund_request_id" => ["value" => $refundRequestId, "type" => PDO::PARAM_INT]
         ]);
+
+        return $result ? new RefundEntity($result) : null;
     }
 
     /**
      * 주문 ID로 환불 요청 조회
      *
      * @param int $orderId
-     * @return array
+     * @return RefundEntity[]
      */
     public function findByOrderId(int $orderId): array
     {
@@ -43,16 +46,18 @@ class RefundRepository extends BaseRepository
             ORDER BY    `requested_at` DESC
         SQL;
 
-        return $this->db->select($query, [
+        $results = $this->db->select($query, [
             "order_id" => ["value" => $orderId, "type" => PDO::PARAM_INT]
         ]);
+
+        return array_map(fn($row) => new RefundEntity($row), $results);
     }
 
     /**
      * 결제 ID로 환불 요청 조회
      *
      * @param int $paymentId
-     * @return array
+     * @return RefundEntity[]
      */
     public function findByPaymentId(int $paymentId): array
     {
@@ -63,34 +68,65 @@ class RefundRepository extends BaseRepository
             ORDER BY    `requested_at` DESC
         SQL;
 
-        return $this->db->select($query, [
+        $results = $this->db->select($query, [
             "payment_id" => ["value" => $paymentId, "type" => PDO::PARAM_INT]
         ]);
+
+        return array_map(fn($row) => new RefundEntity($row), $results);
     }
 
     /**
-     * 상태별 환불 요청 조회 (날짜 범위)
+     * 필터 조건으로 환불 요청 조회 (페이지네이션)
      *
-     * @param string $status
-     * @param string $startDate
-     * @param string $endDate
-     * @return array
+     * @param array $filters
+     * @return RefundEntity[]
      */
-    public function findByStatusAndDateRange(string $status, string $startDate, string $endDate): array
+    public function findAll(array $filters = []): array
     {
         $query = <<<SQL
             SELECT      *
             FROM        `{$this->table}`
-            WHERE       `status` = :status
-              AND       `requested_at` BETWEEN :start_date AND :end_date
+            WHERE       (:status IS NULL OR `status` = :status)
+              AND       (:order_id IS NULL OR `order_id` = :order_id)
+              AND       (:payment_id IS NULL OR `payment_id` = :payment_id)
             ORDER BY    `requested_at` DESC
+            LIMIT       :limit OFFSET :offset
         SQL;
 
-        return $this->db->select($query, [
-            "status"        => ["value" => $status, "type" => PDO::PARAM_STR],
-            "start_date"    => ["value" => $startDate, "type" => PDO::PARAM_STR],
-            "end_date"      => ["value" => $endDate, "type" => PDO::PARAM_STR]
+        $results = $this->db->select($query, [
+            "status"     => ["value" => $filters["status"] ?? null, "type" => isset($filters["status"]) ? PDO::PARAM_STR : PDO::PARAM_NULL],
+            "order_id"   => ["value" => $filters["order_id"] ?? null, "type" => isset($filters["order_id"]) ? PDO::PARAM_INT : PDO::PARAM_NULL],
+            "payment_id" => ["value" => $filters["payment_id"] ?? null, "type" => isset($filters["payment_id"]) ? PDO::PARAM_INT : PDO::PARAM_NULL],
+            "limit"      => ["value" => $filters["per_page"] ?? 20, "type" => PDO::PARAM_INT],
+            "offset"     => ["value" => (($filters["page"] ?? 1) - 1) * ($filters["per_page"] ?? 20), "type" => PDO::PARAM_INT]
         ]);
+
+        return array_map(fn($row) => new RefundEntity($row), $results);
+    }
+
+    /**
+     * 환불 요청 개수 조회 (필터 적용)
+     *
+     * @param array $filters
+     * @return int
+     */
+    public function count(array $filters = []): int
+    {
+        $query = <<<SQL
+            SELECT      COUNT(*) as count
+            FROM        `{$this->table}`
+            WHERE       (:status IS NULL OR `status` = :status)
+              AND       (:order_id IS NULL OR `order_id` = :order_id)
+              AND       (:payment_id IS NULL OR `payment_id` = :payment_id)
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "status"     => ["value" => $filters["status"] ?? null, "type" => isset($filters["status"]) ? PDO::PARAM_STR : PDO::PARAM_NULL],
+            "order_id"   => ["value" => $filters["order_id"] ?? null, "type" => isset($filters["order_id"]) ? PDO::PARAM_INT : PDO::PARAM_NULL],
+            "payment_id" => ["value" => $filters["payment_id"] ?? null, "type" => isset($filters["payment_id"]) ? PDO::PARAM_INT : PDO::PARAM_NULL]
+        ]);
+
+        return (int) $result["count"];
     }
 
     /**

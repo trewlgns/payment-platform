@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PgProviderController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\RefundController;
 
 /*
 |--------------------------------------------------------------------------
@@ -236,8 +237,29 @@ Route::prefix('coupons')->group(function () {
     Route::patch('/{couponCode}/expire', [CouponController::class, 'expire']);
 });
 
-// Refund API
-// Route::prefix('refunds')->group(function () {
-//     Route::post('/', [RefundController::class, 'request']);
-//     Route::get('/{id}', [RefundController::class, 'show']);
-// });
+/*
+|--------------------------------------------------------------------------
+| Refund API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('refunds')->group(function () {
+    // 환불 요청 목록 조회 (페이지네이션, 필터링)
+    // GET /api/refunds?status=requested&order_id=1&payment_id=1&page=1&per_page=20
+    Route::get('/', [RefundController::class, 'index']);
+
+    // 환불 요청 생성
+    // POST /api/refunds
+    Route::post('/', [RefundController::class, 'store']);
+
+    // 환불 요청 상세 조회
+    // GET /api/refunds/{refundRequestId}
+    Route::get('/{refundRequestId}', [RefundController::class, 'show']);
+
+    // 환불 요청 승인
+    // PATCH /api/refunds/{refundRequestId}/approve
+    Route::patch('/{refundRequestId}/approve', [RefundController::class, 'approve']);
+
+    // 환불 요청 거부
+    // PATCH /api/refunds/{refundRequestId}/reject
+    Route::patch('/{refundRequestId}/reject', [RefundController::class, 'reject']);
+});

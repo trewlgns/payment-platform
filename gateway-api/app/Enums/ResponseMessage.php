@@ -81,7 +81,10 @@ enum ResponseMessage: string
     case PROMOTION_APPLIED = "promotion_applied";
 
     // 환불 관련
-    case REFUND_REQUESTED = "refund_requested";
+    case REFUND_NOT_FOUND = "refund_not_found";
+    case REFUND_LIST_SUCCESS = "refund_list_success";
+    case REFUND_DETAIL_SUCCESS = "refund_detail_success";
+    case REFUND_CREATED = "refund_created";
     case REFUND_APPROVED = "refund_approved";
     case REFUND_REJECTED = "refund_rejected";
     case REFUND_COMPLETED = "refund_completed";
@@ -130,9 +133,24 @@ enum ResponseMessage: string
             self::USER_UPDATED => 200,
             self::USER_DELETED => 200,
             self::COUPON_APPLIED => 200,
+            self::COUPON_LIST_SUCCESS => 200,
+            self::COUPON_DETAIL_SUCCESS => 200,
+            self::COUPON_ISSUED => 201,
+            self::COUPON_USED => 200,
+            self::COUPON_EXPIRED => 200,
             self::PROMOTION_APPLIED => 200,
-            self::REFUND_REQUESTED => 200,
+            self::PROMOTION_LIST_SUCCESS => 200,
+            self::PROMOTION_DETAIL_SUCCESS => 200,
+            self::PROMOTION_CREATED => 201,
+            self::PROMOTION_UPDATED => 200,
+            self::PROMOTION_DELETED => 200,
+            self::PROMOTION_ACTIVATED => 200,
+            self::PROMOTION_DEACTIVATED => 200,
+            self::REFUND_LIST_SUCCESS => 200,
+            self::REFUND_DETAIL_SUCCESS => 200,
+            self::REFUND_CREATED => 201,
             self::REFUND_APPROVED => 200,
+            self::REFUND_REJECTED => 200,
             self::REFUND_COMPLETED => 200,
             self::PG_PROVIDER_LIST_SUCCESS => 200,
             self::PG_PROVIDER_DETAIL_SUCCESS => 200,
@@ -159,9 +177,10 @@ enum ResponseMessage: string
             self::COUPON_NOT_FOUND => 404,
             self::COUPON_EXPIRED => 400,
             self::COUPON_ALREADY_USED => 400,
+            self::COUPON_NOT_USABLE => 400,
             self::PROMOTION_NOT_FOUND => 404,
             self::PROMOTION_NOT_ACTIVE => 400,
-            self::REFUND_REJECTED => 400,
+            self::REFUND_NOT_FOUND => 404,
             self::PG_PROVIDER_NOT_FOUND => 404,
             self::PG_PROVIDER_ALREADY_EXISTS => 409,
             self::PG_PROVIDER_ALREADY_ACTIVE => 400,

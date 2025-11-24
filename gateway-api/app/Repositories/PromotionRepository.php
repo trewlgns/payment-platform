@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\PromotionEntity;
 use PDO;
 
 class PromotionRepository extends BaseRepository
@@ -10,12 +11,33 @@ class PromotionRepository extends BaseRepository
     protected string $primaryKey = "promotion_code";
 
     /**
+     * 프로모션 코드 존재 여부 확인
+     *
+     * @param string $promotionCode
+     * @return bool
+     */
+    public function exists(string $promotionCode): bool
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as count
+            FROM    `{$this->table}`
+            WHERE   `promotion_code` = :promotion_code
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "promotion_code" => ["value" => $promotionCode, "type" => PDO::PARAM_STR]
+        ]);
+
+        return $result["count"] > 0;
+    }
+
+    /**
      * 프로모션 코드로 조회
      *
      * @param string $promotionCode
-     * @return array|null
+     * @return PromotionEntity|null
      */
-    public function findByCode(string $promotionCode): ?array
+    public function findByCode(string $promotionCode): ?PromotionEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,16 +45,90 @@ class PromotionRepository extends BaseRepository
             WHERE   `promotion_code` = :promotion_code
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "promotion_code" => ["value" => $promotionCode, "type" => PDO::PARAM_STR]
         ]);
+
+        return $row ? new PromotionEntity($row) : null;
+    }
+
+    /**
+     * 전체 프로모션 목록 조회 (필터링 지원)
+     *
+     * @param array $filters
+     * @return array<PromotionEntity>
+     */
+    public function findAll(array $filters = []): array
+    {
+        $query = <<<SQL
+            SELECT      *
+            FROM        `{$this->table}`
+            WHERE       (:is_active IS NULL OR `is_active` = :is_active)
+              AND       (:promotion_type IS NULL OR `promotion_type` = :promotion_type)
+              AND       (:discount_type IS NULL OR `discount_type` = :discount_type)
+            ORDER BY    `start_at` DESC
+            LIMIT       :limit OFFSET :offset
+        SQL;
+
+        $rows = $this->db->select($query, [
+            "is_active" => [
+                "value" => $filters["is_active"] ?? null,
+                "type" => isset($filters["is_active"]) ? PDO::PARAM_INT : PDO::PARAM_NULL
+            ],
+            "promotion_type" => [
+                "value" => $filters["promotion_type"] ?? null,
+                "type" => isset($filters["promotion_type"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
+            "discount_type" => [
+                "value" => $filters["discount_type"] ?? null,
+                "type" => isset($filters["discount_type"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
+            "limit" => ["value" => $filters["per_page"] ?? 20, "type" => PDO::PARAM_INT],
+            "offset" => ["value" => (($filters["page"] ?? 1) - 1) * ($filters["per_page"] ?? 20), "type" => PDO::PARAM_INT]
+        ]);
+
+        return array_map(fn($row) => new PromotionEntity($row), $rows);
+    }
+
+    /**
+     * 전체 프로모션 개수 (필터링 지원)
+     *
+     * @param array $filters
+     * @return int
+     */
+    public function count(array $filters = []): int
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as count
+            FROM    `{$this->table}`
+            WHERE   (:is_active IS NULL OR `is_active` = :is_active)
+              AND   (:promotion_type IS NULL OR `promotion_type` = :promotion_type)
+              AND   (:discount_type IS NULL OR `discount_type` = :discount_type)
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "is_active" => [
+                "value" => $filters["is_active"] ?? null,
+                "type" => isset($filters["is_active"]) ? PDO::PARAM_INT : PDO::PARAM_NULL
+            ],
+            "promotion_type" => [
+                "value" => $filters["promotion_type"] ?? null,
+                "type" => isset($filters["promotion_type"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
+            "discount_type" => [
+                "value" => $filters["discount_type"] ?? null,
+                "type" => isset($filters["discount_type"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ]
+        ]);
+
+        return (int) $result["count"];
     }
 
     /**
      * 현재 활성 중인 프로모션 목록 조회
      *
      * @param string|null $promotionType
-     * @return array
+     * @return array<PromotionEntity>
      */
     public function findActivePromotions(?string $promotionType = null): array
     {
@@ -48,20 +144,22 @@ class PromotionRepository extends BaseRepository
             ORDER BY    `start_at` DESC
         SQL;
 
-        return $this->db->select($query, [
+        $rows = $this->db->select($query, [
             "is_active"         => ["value" => 1, "type" => PDO::PARAM_INT],
             "now"               => ["value" => $now, "type" => PDO::PARAM_STR],
             "promotion_type"    => ["value" => $promotionType, "type" => $promotionType === null ? PDO::PARAM_NULL : PDO::PARAM_STR]
         ]);
+
+        return array_map(fn($row) => new PromotionEntity($row), $rows);
     }
 
     /**
      * 프로모션 생성
      *
      * @param array $data
-     * @return int Affected rows
+     * @return string Promotion Code
      */
-    public function create(array $data): int
+    public function create(array $data): string
     {
         $now = date("Y-m-d H:i:s");
 
@@ -91,7 +189,7 @@ class PromotionRepository extends BaseRepository
             )
         SQL;
 
-        return $this->db->insert($query, [
+        $this->db->insert($query, [
             "promotion_code"    => ["value" => $data["promotion_code"], "type" => PDO::PARAM_STR],
             "name"              => ["value" => $data["name"], "type" => PDO::PARAM_STR],
             "promotion_type"    => ["value" => $data["promotion_type"], "type" => PDO::PARAM_STR],
@@ -102,6 +200,61 @@ class PromotionRepository extends BaseRepository
             "is_active"         => ["value" => $data["is_active"] ?? 1, "type" => PDO::PARAM_INT],
             "created_at"        => ["value" => $now, "type" => PDO::PARAM_STR],
             "updated_at"        => ["value" => $now, "type" => PDO::PARAM_STR]
+        ]);
+
+        return $data["promotion_code"];
+    }
+
+    /**
+     * 프로모션 정보 수정
+     *
+     * @param string $promotionCode
+     * @param array $data
+     * @return int Affected rows
+     */
+    public function update(string $promotionCode, array $data): int
+    {
+        $now = date("Y-m-d H:i:s");
+
+        $query = <<<SQL
+            UPDATE  `{$this->table}`
+            SET     `name` = :name,
+                    `promotion_type` = :promotion_type,
+                    `discount_type` = :discount_type,
+                    `discount_value` = :discount_value,
+                    `start_at` = :start_at,
+                    `end_at` = :end_at,
+                    `updated_at` = :updated_at
+            WHERE   `promotion_code` = :promotion_code
+        SQL;
+
+        return $this->db->update($query, [
+            "name"              => ["value" => $data["name"], "type" => PDO::PARAM_STR],
+            "promotion_type"    => ["value" => $data["promotion_type"], "type" => PDO::PARAM_STR],
+            "discount_type"     => ["value" => $data["discount_type"], "type" => PDO::PARAM_STR],
+            "discount_value"    => ["value" => $data["discount_value"], "type" => PDO::PARAM_STR],
+            "start_at"          => ["value" => $data["start_at"], "type" => PDO::PARAM_STR],
+            "end_at"            => ["value" => $data["end_at"], "type" => PDO::PARAM_STR],
+            "updated_at"        => ["value" => $now, "type" => PDO::PARAM_STR],
+            "promotion_code"    => ["value" => $promotionCode, "type" => PDO::PARAM_STR]
+        ]);
+    }
+
+    /**
+     * 프로모션 삭제
+     *
+     * @param string $promotionCode
+     * @return int Affected rows
+     */
+    public function delete(string $promotionCode): int
+    {
+        $query = <<<SQL
+            DELETE FROM `{$this->table}`
+            WHERE       `promotion_code` = :promotion_code
+        SQL;
+
+        return $this->db->delete($query, [
+            "promotion_code" => ["value" => $promotionCode, "type" => PDO::PARAM_STR]
         ]);
     }
 

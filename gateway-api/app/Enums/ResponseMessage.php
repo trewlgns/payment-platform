@@ -65,6 +65,13 @@ enum ResponseMessage: string
 
     // 프로모션 관련
     case PROMOTION_NOT_FOUND = "promotion_not_found";
+    case PROMOTION_LIST_SUCCESS = "promotion_list_success";
+    case PROMOTION_DETAIL_SUCCESS = "promotion_detail_success";
+    case PROMOTION_CREATED = "promotion_created";
+    case PROMOTION_UPDATED = "promotion_updated";
+    case PROMOTION_DELETED = "promotion_deleted";
+    case PROMOTION_ACTIVATED = "promotion_activated";
+    case PROMOTION_DEACTIVATED = "promotion_deactivated";
     case PROMOTION_NOT_ACTIVE = "promotion_not_active";
     case PROMOTION_APPLIED = "promotion_applied";
 

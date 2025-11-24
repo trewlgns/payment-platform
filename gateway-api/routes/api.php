@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PgProviderController;
+use App\Http\Controllers\PromotionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,6 +171,41 @@ Route::prefix('pg-providers')->group(function () {
     // PG 제공자 삭제
     // DELETE /api/pg-providers/{pgProviderCode}
     Route::delete('/{pgProviderCode}', [PgProviderController::class, 'destroy']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Promotion API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('promotions')->group(function () {
+    // 프로모션 목록 조회 (페이지네이션, 필터링)
+    // GET /api/promotions?is_active=1&promotion_type=cart_discount&page=1&per_page=20
+    Route::get('/', [PromotionController::class, 'index']);
+
+    // 프로모션 생성
+    // POST /api/promotions
+    Route::post('/', [PromotionController::class, 'store']);
+
+    // 프로모션 상세 조회
+    // GET /api/promotions/{promotionCode}
+    Route::get('/{promotionCode}', [PromotionController::class, 'show']);
+
+    // 프로모션 정보 수정
+    // PUT /api/promotions/{promotionCode}
+    Route::put('/{promotionCode}', [PromotionController::class, 'update']);
+
+    // 프로모션 활성화
+    // PATCH /api/promotions/{promotionCode}/activate
+    Route::patch('/{promotionCode}/activate', [PromotionController::class, 'activate']);
+
+    // 프로모션 비활성화
+    // PATCH /api/promotions/{promotionCode}/deactivate
+    Route::patch('/{promotionCode}/deactivate', [PromotionController::class, 'deactivate']);
+
+    // 프로모션 삭제
+    // DELETE /api/promotions/{promotionCode}
+    Route::delete('/{promotionCode}', [PromotionController::class, 'destroy']);
 });
 
 // Refund API

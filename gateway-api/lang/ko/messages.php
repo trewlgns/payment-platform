@@ -82,9 +82,18 @@ return [
 
     // 쿠폰 관련
     "coupon_not_found" => "쿠폰을 찾을 수 없습니다",
+    "coupon_list_success" => "쿠폰 목록을 조회했습니다",
+    "coupon_detail_success" => "쿠폰 정보를 조회했습니다",
+    "coupon_issued" => "쿠폰이 발급되었습니다",
+    "coupon_used" => "쿠폰이 사용되었습니다",
     "coupon_expired" => "쿠폰이 만료되었습니다",
     "coupon_already_used" => "이미 사용된 쿠폰입니다",
+    "coupon_not_usable" => "사용할 수 없는 쿠폰입니다",
     "coupon_applied" => "쿠폰이 적용되었습니다",
+    "coupon_code_exists" => "이미 존재하는 쿠폰 코드입니다",
+    "coupon_not_issued" => "발급되지 않은 쿠폰입니다",
+    "coupon_expired_by_time" => "유효기간이 만료된 쿠폰입니다",
+    "coupon_max_usage_reached" => "최대 사용 횟수에 도달한 쿠폰입니다",
 
     // 프로모션 관련
     "promotion_not_found" => "프로모션을 찾을 수 없습니다",
@@ -225,6 +234,23 @@ return [
             "end_at_after" => "종료일시는 시작일시보다 이후여야 합니다.",
             "is_active_integer" => "활성화 상태는 정수여야 합니다.",
             "is_active_in" => "활성화 상태는 0 또는 1이어야 합니다.",
+        ],
+        "coupon" => [
+            "coupon_code_required" => "쿠폰 코드는 필수 항목입니다.",
+            "coupon_code_max" => "쿠폰 코드는 최대 :max자까지 가능합니다.",
+            "promotion_code_required" => "프로모션 코드는 필수 항목입니다.",
+            "promotion_code_max" => "프로모션 코드는 최대 :max자까지 가능합니다.",
+            "max_usage_integer" => "최대 사용 횟수는 정수여야 합니다.",
+            "max_usage_min" => "최대 사용 횟수는 1 이상이어야 합니다.",
+            "expires_at_required" => "만료일시는 필수 항목입니다.",
+            "expires_at_date_format" => "만료일시 형식이 올바르지 않습니다. (Y-m-d H:i:s)",
+            "status_in" => "상태는 issued, used, expired, cancelled 중 하나여야 합니다.",
+            "customer_email_required" => "고객 이메일은 필수 항목입니다.",
+            "customer_email_email" => "유효한 이메일 형식이 아닙니다.",
+            "customer_email_max" => "이메일은 최대 :max자까지 가능합니다.",
+            "order_id_required" => "주문 ID는 필수 항목입니다.",
+            "order_id_integer" => "주문 ID는 정수여야 합니다.",
+            "order_id_min" => "주문 ID는 1 이상이어야 합니다.",
         ],
     ],
 ];

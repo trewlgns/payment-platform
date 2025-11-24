@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PgProviderController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -206,6 +207,33 @@ Route::prefix('promotions')->group(function () {
     // 프로모션 삭제
     // DELETE /api/promotions/{promotionCode}
     Route::delete('/{promotionCode}', [PromotionController::class, 'destroy']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Coupon API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('coupons')->group(function () {
+    // 쿠폰 목록 조회 (페이지네이션, 필터링)
+    // GET /api/coupons?status=issued&promotion_code=PROMO2024&page=1&per_page=20
+    Route::get('/', [CouponController::class, 'index']);
+
+    // 쿠폰 발급
+    // POST /api/coupons
+    Route::post('/', [CouponController::class, 'store']);
+
+    // 쿠폰 상세 조회
+    // GET /api/coupons/{couponCode}
+    Route::get('/{couponCode}', [CouponController::class, 'show']);
+
+    // 쿠폰 사용
+    // POST /api/coupons/{couponCode}/use
+    Route::post('/{couponCode}/use', [CouponController::class, 'use']);
+
+    // 쿠폰 만료
+    // PATCH /api/coupons/{couponCode}/expire
+    Route::patch('/{couponCode}/expire', [CouponController::class, 'expire']);
 });
 
 // Refund API

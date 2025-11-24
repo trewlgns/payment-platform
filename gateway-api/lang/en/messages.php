@@ -81,9 +81,18 @@ return [
 
     // Coupon related
     "coupon_not_found" => "Coupon not found",
+    "coupon_list_success" => "Coupon list retrieved successfully",
+    "coupon_detail_success" => "Coupon details retrieved successfully",
+    "coupon_issued" => "Coupon issued successfully",
+    "coupon_used" => "Coupon used successfully",
     "coupon_expired" => "Coupon has expired",
     "coupon_already_used" => "Coupon already used",
+    "coupon_not_usable" => "Coupon cannot be used",
     "coupon_applied" => "Coupon applied successfully",
+    "coupon_code_exists" => "Coupon code already exists",
+    "coupon_not_issued" => "Coupon has not been issued",
+    "coupon_expired_by_time" => "Coupon validity period has expired",
+    "coupon_max_usage_reached" => "Coupon has reached maximum usage limit",
 
     // Promotion related
     "promotion_not_found" => "Promotion not found",
@@ -225,6 +234,23 @@ return [
             "end_at_after" => "End date must be after start date.",
             "is_active_integer" => "Active status must be an integer.",
             "is_active_in" => "Active status must be 0 or 1.",
+        ],
+        "coupon" => [
+            "coupon_code_required" => "Coupon code is required.",
+            "coupon_code_max" => "Coupon code may not be greater than :max characters.",
+            "promotion_code_required" => "Promotion code is required.",
+            "promotion_code_max" => "Promotion code may not be greater than :max characters.",
+            "max_usage_integer" => "Max usage must be an integer.",
+            "max_usage_min" => "Max usage must be at least 1.",
+            "expires_at_required" => "Expiration date is required.",
+            "expires_at_date_format" => "Expiration date format is invalid. (Y-m-d H:i:s)",
+            "status_in" => "Status must be one of issued, used, expired, or cancelled.",
+            "customer_email_required" => "Customer email is required.",
+            "customer_email_email" => "Please provide a valid email address.",
+            "customer_email_max" => "Email may not be greater than :max characters.",
+            "order_id_required" => "Order ID is required.",
+            "order_id_integer" => "Order ID must be an integer.",
+            "order_id_min" => "Order ID must be at least 1.",
         ],
     ],
 ];

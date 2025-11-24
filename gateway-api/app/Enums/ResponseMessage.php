@@ -59,8 +59,13 @@ enum ResponseMessage: string
 
     // 쿠폰 관련
     case COUPON_NOT_FOUND = "coupon_not_found";
+    case COUPON_LIST_SUCCESS = "coupon_list_success";
+    case COUPON_DETAIL_SUCCESS = "coupon_detail_success";
+    case COUPON_ISSUED = "coupon_issued";
+    case COUPON_USED = "coupon_used";
     case COUPON_EXPIRED = "coupon_expired";
     case COUPON_ALREADY_USED = "coupon_already_used";
+    case COUPON_NOT_USABLE = "coupon_not_usable";
     case COUPON_APPLIED = "coupon_applied";
 
     // 프로모션 관련

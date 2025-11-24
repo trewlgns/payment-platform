@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\CouponEntity;
 use PDO;
 
 class CouponRepository extends BaseRepository
@@ -10,12 +11,33 @@ class CouponRepository extends BaseRepository
     protected string $primaryKey = "coupon_code";
 
     /**
+     * 쿠폰 코드 존재 여부 확인
+     *
+     * @param string $couponCode
+     * @return bool
+     */
+    public function exists(string $couponCode): bool
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as count
+            FROM    `{$this->table}`
+            WHERE   `coupon_code` = :coupon_code
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "coupon_code" => ["value" => $couponCode, "type" => PDO::PARAM_STR]
+        ]);
+
+        return $result["count"] > 0;
+    }
+
+    /**
      * 쿠폰 코드로 조회
      *
      * @param string $couponCode
-     * @return array|null
+     * @return CouponEntity|null
      */
-    public function findByCode(string $couponCode): ?array
+    public function findByCode(string $couponCode): ?CouponEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,9 +45,73 @@ class CouponRepository extends BaseRepository
             WHERE   `coupon_code` = :coupon_code
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "coupon_code" => ["value" => $couponCode, "type" => PDO::PARAM_STR]
         ]);
+
+        return $row ? new CouponEntity($row) : null;
+    }
+
+    /**
+     * 전체 쿠폰 목록 조회 (필터링 지원)
+     *
+     * @param array $filters
+     * @return array<CouponEntity>
+     */
+    public function findAll(array $filters = []): array
+    {
+        $query = <<<SQL
+            SELECT      *
+            FROM        `{$this->table}`
+            WHERE       (:status IS NULL OR `status` = :status)
+              AND       (:promotion_code IS NULL OR `promotion_code` = :promotion_code)
+            ORDER BY    `created_at` DESC
+            LIMIT       :limit OFFSET :offset
+        SQL;
+
+        $rows = $this->db->select($query, [
+            "status" => [
+                "value" => $filters["status"] ?? null,
+                "type" => isset($filters["status"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
+            "promotion_code" => [
+                "value" => $filters["promotion_code"] ?? null,
+                "type" => isset($filters["promotion_code"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
+            "limit" => ["value" => $filters["per_page"] ?? 20, "type" => PDO::PARAM_INT],
+            "offset" => ["value" => (($filters["page"] ?? 1) - 1) * ($filters["per_page"] ?? 20), "type" => PDO::PARAM_INT]
+        ]);
+
+        return array_map(fn($row) => new CouponEntity($row), $rows);
+    }
+
+    /**
+     * 전체 쿠폰 개수 (필터링 지원)
+     *
+     * @param array $filters
+     * @return int
+     */
+    public function count(array $filters = []): int
+    {
+        $query = <<<SQL
+            SELECT  COUNT(*) as count
+            FROM    `{$this->table}`
+            WHERE   (:status IS NULL OR `status` = :status)
+              AND   (:promotion_code IS NULL OR `promotion_code` = :promotion_code)
+        SQL;
+
+        $result = $this->db->selectOne($query, [
+            "status" => [
+                "value" => $filters["status"] ?? null,
+                "type" => isset($filters["status"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ],
+            "promotion_code" => [
+                "value" => $filters["promotion_code"] ?? null,
+                "type" => isset($filters["promotion_code"]) ? PDO::PARAM_STR : PDO::PARAM_NULL
+            ]
+        ]);
+
+        return (int) $result["count"];
     }
 
     /**
@@ -33,7 +119,7 @@ class CouponRepository extends BaseRepository
      *
      * @param string $promotionCode
      * @param string|null $status
-     * @return array
+     * @return array<CouponEntity>
      */
     public function findByPromotion(string $promotionCode, ?string $status = null): array
     {
@@ -45,10 +131,12 @@ class CouponRepository extends BaseRepository
             ORDER BY    `created_at` DESC
         SQL;
 
-        return $this->db->select($query, [
+        $rows = $this->db->select($query, [
             "promotion_code"    => ["value" => $promotionCode, "type" => PDO::PARAM_STR],
             "status"            => ["value" => $status, "type" => $status === null ? PDO::PARAM_NULL : PDO::PARAM_STR]
         ]);
+
+        return array_map(fn($row) => new CouponEntity($row), $rows);
     }
 
     /**
@@ -83,9 +171,9 @@ class CouponRepository extends BaseRepository
      * 쿠폰 생성
      *
      * @param array $data
-     * @return int Affected rows
+     * @return string Coupon Code
      */
-    public function create(array $data): int
+    public function create(array $data): string
     {
         $now = date("Y-m-d H:i:s");
 
@@ -111,7 +199,7 @@ class CouponRepository extends BaseRepository
             )
         SQL;
 
-        return $this->db->insert($query, [
+        $this->db->insert($query, [
             "coupon_code"       => ["value" => $data["coupon_code"], "type" => PDO::PARAM_STR],
             "promotion_code"    => ["value" => $data["promotion_code"], "type" => PDO::PARAM_STR],
             "issued_count"      => ["value" => $data["issued_count"] ?? 0, "type" => PDO::PARAM_INT],
@@ -121,6 +209,8 @@ class CouponRepository extends BaseRepository
             "created_at"        => ["value" => $now, "type" => PDO::PARAM_STR],
             "updated_at"        => ["value" => $now, "type" => PDO::PARAM_STR]
         ]);
+
+        return $data["coupon_code"];
     }
 
     /**

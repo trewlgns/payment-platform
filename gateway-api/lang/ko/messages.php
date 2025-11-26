@@ -59,6 +59,19 @@ return [
     "payment_pg_approval_failed" => "PG 승인 요청에 실패했습니다",
     "payment_unsupported_pg_provider" => "지원하지 않는 PG사입니다",
 
+    // 웹훅 관련
+    "webhook_event_not_found" => "웹훅 이벤트를 찾을 수 없습니다",
+    "webhook_processed" => "웹훅 이벤트가 처리되었습니다",
+    "webhook_processing_failed" => "웹훅 이벤트 처리에 실패했습니다",
+    "webhook_event_not_received" => "수신 대기 상태가 아닙니다",
+    "webhook_event_not_processable" => "처리할 수 없는 웹훅 이벤트 상태입니다",
+    "webhook_event_not_retryable" => "재처리할 수 없는 웹훅 이벤트 상태입니다",
+    "webhook_event_already_processed" => "이미 처리된 웹훅 이벤트입니다",
+    "webhook_unknown_event_type" => "알 수 없는 이벤트 타입입니다",
+    "webhook_missing_pg_transaction_id" => "PG 거래 ID가 누락되었습니다",
+    "webhook_invalid_signature" => "웹훅 서명이 유효하지 않습니다",
+    "webhook_invalid_source_ip" => "유효하지 않은 웹훅 발신 IP입니다",
+
     // 사용자 관련
     "user_not_found" => "사용자를 찾을 수 없습니다",
     "user_created" => "사용자가 생성되었습니다",

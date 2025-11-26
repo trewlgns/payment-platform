@@ -58,6 +58,19 @@ return [
     "payment_pg_approval_failed" => "PG approval request failed",
     "payment_unsupported_pg_provider" => "Unsupported payment gateway provider",
 
+    // Webhook related
+    "webhook_event_not_found" => "Webhook event not found",
+    "webhook_processed" => "Webhook event processed successfully",
+    "webhook_processing_failed" => "Failed to process webhook event",
+    "webhook_event_not_received" => "Webhook event is not in received status",
+    "webhook_event_not_processable" => "Webhook event cannot be processed in current status",
+    "webhook_event_not_retryable" => "Webhook event cannot be retried in current status",
+    "webhook_event_already_processed" => "Webhook event already processed",
+    "webhook_unknown_event_type" => "Unknown event type",
+    "webhook_missing_pg_transaction_id" => "Missing PG transaction ID in webhook payload",
+    "webhook_invalid_signature" => "Invalid webhook signature",
+    "webhook_invalid_source_ip" => "Invalid webhook source IP address",
+
     // User related
     "user_not_found" => "User not found",
     "user_created" => "User created successfully",

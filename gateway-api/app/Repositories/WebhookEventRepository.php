@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\WebhookEventEntity;
 use PDO;
 
 class WebhookEventRepository extends BaseRepository
@@ -13,9 +14,9 @@ class WebhookEventRepository extends BaseRepository
      * Webhook 이벤트 ID로 조회
      *
      * @param int $webhookEventId
-     * @return array|null
+     * @return WebhookEventEntity|null
      */
-    public function findById(int $webhookEventId): ?array
+    public function findById(int $webhookEventId): ?WebhookEventEntity
     {
         $query = <<<SQL
             SELECT  *
@@ -23,9 +24,11 @@ class WebhookEventRepository extends BaseRepository
             WHERE   `webhook_event_id` = :webhook_event_id
         SQL;
 
-        return $this->db->selectOne($query, [
+        $row = $this->db->selectOne($query, [
             "webhook_event_id" => ["value" => $webhookEventId, "type" => PDO::PARAM_INT]
         ]);
+
+        return $row ? new WebhookEventEntity($row) : null;
     }
 
     /**
@@ -166,6 +169,28 @@ class WebhookEventRepository extends BaseRepository
             "processed_at"      => ["value" => $processedAt, "type" => $processedAt === null ? PDO::PARAM_NULL : PDO::PARAM_STR],
             "webhook_event_id"  => ["value" => $webhookEventId, "type" => PDO::PARAM_INT]
         ]);
+    }
+
+    /**
+     * Webhook 이벤트를 처리 완료 상태로 변경
+     *
+     * @param int $webhookEventId
+     * @return int Affected rows
+     */
+    public function markAsProcessed(int $webhookEventId): int
+    {
+        return $this->updateStatus($webhookEventId, "processed", date("Y-m-d H:i:s"));
+    }
+
+    /**
+     * Webhook 이벤트를 처리 실패 상태로 변경
+     *
+     * @param int $webhookEventId
+     * @return int Affected rows
+     */
+    public function markAsFailed(int $webhookEventId): int
+    {
+        return $this->updateStatus($webhookEventId, "failed", date("Y-m-d H:i:s"));
     }
 
     /**

@@ -76,6 +76,27 @@ class PaymentRepository extends BaseRepository
     }
 
     /**
+     * PG 거래 ID로 결제 정보 조회
+     *
+     * @param string $pgTransactionId
+     * @return PaymentEntity|null
+     */
+    public function findByPgTransactionId(string $pgTransactionId): ?PaymentEntity
+    {
+        $query = <<<SQL
+            SELECT  *
+            FROM    `{$this->table}`
+            WHERE   `pg_transaction_id` = :pg_transaction_id
+        SQL;
+
+        $row = $this->db->selectOne($query, [
+            "pg_transaction_id" => ["value" => $pgTransactionId, "type" => PDO::PARAM_STR]
+        ]);
+
+        return $row ? new PaymentEntity($row) : null;
+    }
+
+    /**
      * 멱등성 키 존재 여부 확인
      *
      * @param string $idempotencyKey

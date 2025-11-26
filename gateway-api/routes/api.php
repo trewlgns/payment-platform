@@ -9,6 +9,7 @@ use App\Http\Controllers\PgProviderController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\RefundController;
+use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -262,4 +263,23 @@ Route::prefix('refunds')->group(function () {
     // 환불 요청 거부
     // PATCH /api/refunds/{refundRequestId}/reject
     Route::patch('/{refundRequestId}/reject', [RefundController::class, 'reject']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Webhook API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('webhooks')->group(function () {
+    // Toss Payments 웹훅 수신
+    // POST /api/webhooks/toss
+    Route::post('/toss', [WebhookController::class, 'handleToss']);
+
+    // Kakao Pay 웹훅 수신
+    // POST /api/webhooks/kakao
+    Route::post('/kakao', [WebhookController::class, 'handleKakao']);
+
+    // Mock PG 웹훅 수신 (테스트용)
+    // POST /api/webhooks/mock
+    Route::post('/mock', [WebhookController::class, 'handleMock']);
 });

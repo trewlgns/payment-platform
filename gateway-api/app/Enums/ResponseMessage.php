@@ -98,6 +98,11 @@ enum ResponseMessage: string
     case PG_PROVIDER_DELETED = "pg_provider_deleted";
     case PG_PROVIDER_ACTIVATED = "pg_provider_activated";
     case PG_PROVIDER_DEACTIVATED = "pg_provider_deactivated";
+
+    // 웹훅 관련
+    case WEBHOOK_PROCESSED = "webhook_processed";
+    case WEBHOOK_EVENT_NOT_FOUND = "webhook_event_not_found";
+    case WEBHOOK_PROCESSING_FAILED = "webhook_processing_failed";
     case PG_PROVIDER_ALREADY_EXISTS = "pg_provider_already_exists";
     case PG_PROVIDER_ALREADY_ACTIVE = "pg_provider_already_active";
     case PG_PROVIDER_ALREADY_INACTIVE = "pg_provider_already_inactive";

@@ -10,6 +10,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\RefundController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\StatisticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -282,4 +283,27 @@ Route::prefix('webhooks')->group(function () {
     // Mock PG 웹훅 수신 (테스트용)
     // POST /api/webhooks/mock
     Route::post('/mock', [WebhookController::class, 'handleMock']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Statistics API Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('statistics')->group(function () {
+    // 일별 매출 통계 조회
+    // GET /api/statistics/daily-sales?start_date=2025-01-01&end_date=2025-01-31
+    Route::get('/daily-sales', [StatisticsController::class, 'getDailySales']);
+
+    // 일별 PG 통계 조회
+    // GET /api/statistics/daily-pg?start_date=2025-01-01&end_date=2025-01-31&pg_provider_code=TOSS
+    Route::get('/daily-pg', [StatisticsController::class, 'getDailyPg']);
+
+    // 고객 세그먼트 통계 조회
+    // GET /api/statistics/customer-segment?stats_date=2025-01-01
+    Route::get('/customer-segment', [StatisticsController::class, 'getCustomerSegment']);
+
+    // 프로모션 성과 통계 조회
+    // GET /api/statistics/promotion-performance?start_date=2025-01-01&end_date=2025-01-31&promotion_code=PROMO2024
+    Route::get('/promotion-performance', [StatisticsController::class, 'getPromotionPerformance']);
 });

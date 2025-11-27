@@ -107,6 +107,12 @@ enum ResponseMessage: string
     case PG_PROVIDER_ALREADY_ACTIVE = "pg_provider_already_active";
     case PG_PROVIDER_ALREADY_INACTIVE = "pg_provider_already_inactive";
 
+    // 통계 관련
+    case NO_STATISTICS_DATA = "no_statistics_data";
+    case NO_PG_STATISTICS_DATA = "no_pg_statistics_data";
+    case NO_CUSTOMER_SEGMENT_STATISTICS_DATA = "no_customer_segment_statistics_data";
+    case NO_PROMOTION_PERFORMANCE_STATISTICS_DATA = "no_promotion_performance_statistics_data";
+
     /**
      * HTTP 상태 코드 반환
      */
@@ -190,6 +196,10 @@ enum ResponseMessage: string
             self::PG_PROVIDER_ALREADY_EXISTS => 409,
             self::PG_PROVIDER_ALREADY_ACTIVE => 400,
             self::PG_PROVIDER_ALREADY_INACTIVE => 400,
+            self::NO_STATISTICS_DATA => 404,
+            self::NO_PG_STATISTICS_DATA => 404,
+            self::NO_CUSTOMER_SEGMENT_STATISTICS_DATA => 404,
+            self::NO_PROMOTION_PERFORMANCE_STATISTICS_DATA => 404,
 
             // 5xx - 서버 에러
             self::SERVER_ERROR => 500,

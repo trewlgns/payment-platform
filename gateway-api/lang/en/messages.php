@@ -265,5 +265,27 @@ return [
             "order_id_integer" => "Order ID must be an integer.",
             "order_id_min" => "Order ID must be at least 1.",
         ],
+        "statistics" => [
+            "start_date_required" => "Start date is required.",
+            "start_date_date" => "Start date must be a valid date.",
+            "start_date_date_format" => "Start date format is invalid. (Y-m-d)",
+            "end_date_required" => "End date is required.",
+            "end_date_date" => "End date must be a valid date.",
+            "end_date_date_format" => "End date format is invalid. (Y-m-d)",
+            "end_date_after_or_equal" => "End date must be equal to or after start date.",
+            "stats_date_required" => "Statistics date is required.",
+            "stats_date_date" => "Statistics date must be a valid date.",
+            "stats_date_date_format" => "Statistics date format is invalid. (Y-m-d)",
+            "pg_provider_code_string" => "PG provider code must be a string.",
+            "pg_provider_code_max" => "PG provider code may not be greater than :max characters.",
+            "promotion_code_string" => "Promotion code must be a string.",
+            "promotion_code_max" => "Promotion code may not be greater than :max characters.",
+        ],
     ],
+
+    // Statistics
+    "no_statistics_data" => "No statistics data found for the specified date range",
+    "no_pg_statistics_data" => "No PG statistics data found for the specified date range",
+    "no_customer_segment_statistics_data" => "No customer segment statistics data found for the specified date",
+    "no_promotion_performance_statistics_data" => "No promotion performance statistics data found for the specified date range",
 ];

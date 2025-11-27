@@ -265,5 +265,27 @@ return [
             "order_id_integer" => "주문 ID는 정수여야 합니다.",
             "order_id_min" => "주문 ID는 1 이상이어야 합니다.",
         ],
+        "statistics" => [
+            "start_date_required" => "시작 날짜는 필수 항목입니다.",
+            "start_date_date" => "시작 날짜는 유효한 날짜여야 합니다.",
+            "start_date_date_format" => "시작 날짜 형식이 올바르지 않습니다. (Y-m-d)",
+            "end_date_required" => "종료 날짜는 필수 항목입니다.",
+            "end_date_date" => "종료 날짜는 유효한 날짜여야 합니다.",
+            "end_date_date_format" => "종료 날짜 형식이 올바르지 않습니다. (Y-m-d)",
+            "end_date_after_or_equal" => "종료 날짜는 시작 날짜와 같거나 이후여야 합니다.",
+            "stats_date_required" => "통계 날짜는 필수 항목입니다.",
+            "stats_date_date" => "통계 날짜는 유효한 날짜여야 합니다.",
+            "stats_date_date_format" => "통계 날짜 형식이 올바르지 않습니다. (Y-m-d)",
+            "pg_provider_code_string" => "PG 제공자 코드는 문자열이어야 합니다.",
+            "pg_provider_code_max" => "PG 제공자 코드는 최대 :max자까지 가능합니다.",
+            "promotion_code_string" => "프로모션 코드는 문자열이어야 합니다.",
+            "promotion_code_max" => "프로모션 코드는 최대 :max자까지 가능합니다.",
+        ],
     ],
+
+    // 통계 관련
+    "no_statistics_data" => "해당 날짜 범위에 통계 데이터가 없습니다",
+    "no_pg_statistics_data" => "해당 날짜 범위에 PG 통계 데이터가 없습니다",
+    "no_customer_segment_statistics_data" => "해당 날짜에 고객 세그먼트 통계 데이터가 없습니다",
+    "no_promotion_performance_statistics_data" => "해당 날짜 범위에 프로모션 성과 통계 데이터가 없습니다",
 ];

@@ -1,0 +1,11 @@
+// 1. 커스텀 변수 (Bootstrap 변수보다 먼저 import)
+@import 'variables';
+
+// 2. Bootstrap 전체 import
+@import 'bootstrap/scss/bootstrap';
+
+// 3. 커스텀 믹스인 (필요시)
+@import 'mixins';
+
+// 4. 커스텀 스타일
+@import 'custom';

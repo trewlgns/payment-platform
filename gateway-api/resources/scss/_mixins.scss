@@ -1,0 +1,121 @@
+// Flexbox Mixins
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+// Responsive Breakpoints
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == "sm" {
+        @media (min-width: $breakpoint-sm) {
+            @content;
+        }
+    } @else if $breakpoint == "md" {
+        @media (min-width: $breakpoint-md) {
+            @content;
+        }
+    } @else if $breakpoint == "lg" {
+        @media (min-width: $breakpoint-lg) {
+            @content;
+        }
+    } @else if $breakpoint == "xl" {
+        @media (min-width: $breakpoint-xl) {
+            @content;
+        }
+    } @else if $breakpoint == "xxl" {
+        @media (min-width: $breakpoint-xxl) {
+            @content;
+        }
+    }
+}
+
+// Button Mixin
+@mixin button-style($bg-color, $text-color: $text-white) {
+    background-color: $bg-color;
+    color: $text-color;
+    border: none;
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $border-radius;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: $transition-base;
+
+    &:hover {
+        background-color: darken($bg-color, 10%);
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+// Card Mixin
+@mixin card {
+    background-color: $bg-primary;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    padding: $spacing-lg;
+    box-shadow: $shadow-sm;
+}
+
+// Text Truncate
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Clearfix
+@mixin clearfix {
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+// Transition Mixin
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+    transition: $property $duration $timing;
+}
+
+// Box Shadow Mixin
+@mixin box-shadow($shadow: $shadow-md) {
+    box-shadow: $shadow;
+}
+
+// Absolute Center
+@mixin absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// Aspect Ratio
+@mixin aspect-ratio($width, $height) {
+    position: relative;
+
+    &::before {
+        content: "";
+        display: block;
+        padding-top: ($height / $width) * 100%;
+    }
+}

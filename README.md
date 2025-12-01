@@ -4,8 +4,7 @@
 
 ```
 payment-platform/
-├── gateway-api/          # Laravel API 백엔드
-├── frontend/             # React + TypeScript SPA
+├── gateway-api/          # Laravel MVC (Backend + Frontend)
 ├── analytics-service/    # Python 데이터 처리
 └── mock-pg-server/       # Python FastAPI Mock PG
 ```

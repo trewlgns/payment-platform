@@ -1,0 +1,209 @@
+// Custom Styles
+// Bootstrap 이후에 적용될 커스텀 스타일
+
+// Utility Classes
+.shadow-hover {
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+// Card Enhancements
+.card {
+    &-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+        }
+    }
+}
+
+// Button Enhancements
+.btn {
+    transition: all 0.3s ease;
+
+    &:active {
+        transform: translateY(1px);
+    }
+}
+
+// Navbar Enhancements
+.navbar {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+// Footer Styles
+.footer {
+    background-color: $dark;
+    color: $light;
+    padding: 2rem 0;
+    margin-top: auto;
+
+    a {
+        color: $light;
+        text-decoration: none;
+
+        &:hover {
+            color: $primary;
+        }
+    }
+}
+
+// Product Card (쇼핑몰용)
+.product-card {
+    &__image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: $border-radius $border-radius 0 0;
+    }
+
+    &__title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    &__price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: $primary;
+    }
+
+    &__badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+}
+
+// Dashboard Stats Card
+.stats-card {
+    padding: 1.5rem;
+    border-radius: $border-radius-lg;
+    background: linear-gradient(135deg, $primary 0%, darken($primary, 15%) 100%);
+    color: white;
+    box-shadow: $box-shadow;
+
+    &__icon {
+        font-size: 2.5rem;
+        opacity: 0.8;
+    }
+
+    &__value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0.5rem 0;
+    }
+
+    &__label {
+        font-size: 0.875rem;
+        opacity: 0.9;
+    }
+
+    &--success {
+        background: linear-gradient(135deg, $success 0%, darken($success, 15%) 100%);
+    }
+
+    &--warning {
+        background: linear-gradient(135deg, $warning 0%, darken($warning, 15%) 100%);
+    }
+
+    &--danger {
+        background: linear-gradient(135deg, $danger 0%, darken($danger, 15%) 100%);
+    }
+}
+
+// Table Enhancements
+.table {
+    &-responsive {
+        border-radius: $border-radius;
+        box-shadow: $box-shadow-sm;
+    }
+}
+
+// Loading Spinner
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+// Hero Section
+.hero {
+    background: linear-gradient(135deg, $primary 0%, darken($primary, 15%) 100%);
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+
+    &__title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    &__subtitle {
+        font-size: 1.25rem;
+        opacity: 0.9;
+    }
+}
+
+// Cart Badge
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: $danger;
+    color: white;
+    border-radius: 50%;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+// Price Display
+.price {
+    &--original {
+        text-decoration: line-through;
+        color: $secondary;
+        margin-right: 0.5rem;
+    }
+
+    &--discount {
+        color: $danger;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+}
+
+// Status Badges
+.status-badge {
+    &--pending {
+        background-color: $warning;
+        color: $dark;
+    }
+
+    &--paid {
+        background-color: $success;
+        color: white;
+    }
+
+    &--cancelled {
+        background-color: $secondary;
+        color: white;
+    }
+
+    &--refunded {
+        background-color: $info;
+        color: white;
+    }
+}

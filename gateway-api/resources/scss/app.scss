@@ -9,3 +9,15 @@
 
 // 4. 커스텀 스타일
 @import 'custom';
+
+// 5. Layout Styles
+@import 'layouts/shop';
+@import 'layouts/admin';
+
+// 6. Component Styles - Shop
+@import 'components/shop/header';
+@import 'components/shop/footer';
+
+// 7. Component Styles - Admin
+@import 'components/admin/sidebar';
+@import 'components/admin/topbar';

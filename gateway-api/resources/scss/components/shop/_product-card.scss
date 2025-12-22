@@ -1,0 +1,134 @@
+// ============================================
+// Product Card Component Styles
+// ============================================
+
+.product-card {
+    .card {
+        transition: all 0.3s ease;
+        overflow: hidden;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+
+            .product-image {
+                transform: scale(1.05);
+            }
+
+            .product-actions {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+
+    // Product Image
+    .product-image-wrapper {
+        overflow: hidden;
+        background-color: $light;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        // Badge
+        .product-badge {
+            top: 1rem;
+            right: 1rem;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        // Quick Actions
+        .product-actions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+
+            .btn {
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+                &:hover {
+                    background-color: $primary;
+                    color: white;
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    // Product Name
+    .product-name {
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+        min-height: 2.8rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        a {
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: $primary !important;
+            }
+        }
+    }
+
+    // Product Rating
+    .product-rating {
+        font-size: 0.875rem;
+
+        i {
+            font-size: 0.875rem;
+        }
+    }
+
+    // Product Price
+    .product-price {
+        .price {
+            color: $primary;
+        }
+
+        .original-price {
+            font-size: 0.875rem;
+        }
+    }
+
+    // Add to Cart Button
+    .add-to-cart-btn {
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba($primary, 0.3);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}

@@ -17,7 +17,11 @@
 // 6. Component Styles - Shop
 @import 'components/shop/header';
 @import 'components/shop/footer';
+@import 'components/shop/product-card';
 
 // 7. Component Styles - Admin
 @import 'components/admin/sidebar';
 @import 'components/admin/topbar';
+
+// 8. Page Styles
+@import 'pages/products';

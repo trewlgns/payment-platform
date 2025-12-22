@@ -1,0 +1,120 @@
+// ============================================
+// Products Page Styles
+// ============================================
+
+.products-page {
+    // Page Header
+    .page-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+        .breadcrumb {
+            background: transparent;
+            margin-bottom: 0;
+
+            .breadcrumb-item {
+                a {
+                    color: $primary;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                &.active {
+                    color: $secondary;
+                }
+            }
+        }
+    }
+
+    // Filters Sidebar
+    .filters-sidebar {
+        .filter-section {
+            h5 {
+                color: $dark;
+                font-size: 1.1rem;
+            }
+
+            .list-group-item {
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+
+                &:hover {
+                    background-color: rgba($primary, 0.05);
+                    border-color: $primary;
+                }
+
+                &.active {
+                    background-color: $primary;
+                    border-color: $primary;
+                }
+
+                .badge {
+                    font-size: 0.75rem;
+                }
+            }
+
+            .form-check {
+                .form-check-input {
+                    cursor: pointer;
+
+                    &:checked {
+                        background-color: $primary;
+                        border-color: $primary;
+                    }
+                }
+
+                .form-check-label {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    // Products Toolbar
+    .products-toolbar {
+        padding: 1rem;
+        background-color: $light;
+        border-radius: 0.5rem;
+
+        .form-select {
+            cursor: pointer;
+            border-color: rgba(0, 0, 0, 0.2);
+
+            &:focus {
+                border-color: $primary;
+                box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+            }
+        }
+    }
+
+    // Pagination
+    .pagination {
+        .page-link {
+            color: $primary;
+            border-color: rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: rgba($primary, 0.1);
+                border-color: $primary;
+            }
+        }
+
+        .page-item {
+            &.active {
+                .page-link {
+                    background-color: $primary;
+                    border-color: $primary;
+                }
+            }
+
+            &.disabled {
+                .page-link {
+                    color: $secondary;
+                }
+            }
+        }
+    }
+}

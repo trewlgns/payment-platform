@@ -3,5 +3,68 @@
 // ============================================
 
 .shop-footer {
-    // TODO: Add footer styles
+    margin-top: auto;
+    background-color: $dark;
+    color: $light;
+
+    h5, h6 {
+        color: $light;
+    }
+
+    // Social Links
+    .social-links {
+        a {
+            display: inline-block;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+                color: $primary !important;
+            }
+        }
+    }
+
+    // Footer Links
+    .hover-primary {
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $primary !important;
+        }
+    }
+
+    // Contact Icons
+    .bi {
+        &.bi-envelope,
+        &.bi-telephone,
+        &.bi-geo-alt {
+            color: $primary;
+        }
+    }
+
+    // Divider
+    .border-secondary {
+        opacity: 0.2;
+    }
+
+    // Bottom Footer
+    small {
+        font-size: 0.875rem;
+    }
+
+    // Responsive
+    @media (max-width: 767px) {
+        text-align: center !important;
+
+        .social-links {
+            justify-content: center;
+            display: flex;
+        }
+
+        .col-lg-2,
+        .col-lg-3,
+        .col-lg-4 {
+            text-align: center;
+        }
+    }
 }

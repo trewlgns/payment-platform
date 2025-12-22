@@ -377,3 +377,88 @@
         }
     }
 }
+
+// Shopping Cart
+.cart-items-card {
+    box-shadow: $box-shadow-sm;
+    border-radius: $border-radius-lg;
+
+    .cart-item {
+        &:last-child {
+            border-bottom: none !important;
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        img {
+            border-radius: $border-radius;
+            object-fit: cover;
+        }
+
+        h6 {
+            font-weight: 600;
+            color: $dark;
+        }
+    }
+}
+
+.cart-quantity-control {
+    max-width: 140px;
+
+    input[type="number"] {
+        font-weight: 600;
+        border-left: none;
+        border-right: none;
+
+        &:focus {
+            box-shadow: none;
+        }
+
+        // Hide number input arrows
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        -moz-appearance: textfield;
+    }
+
+    .btn {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+.cart-summary-card {
+    box-shadow: $box-shadow;
+    border-radius: $border-radius-lg;
+
+    .card-header {
+        border-bottom: 2px solid $gray-200;
+        padding: 1.25rem;
+
+        h5 {
+            font-weight: 700;
+        }
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    hr {
+        margin: 1rem 0;
+        border-color: $gray-200;
+    }
+
+    #totalAmount {
+        font-size: 1.5rem;
+    }
+}
+
+// Empty Cart Message
+#emptyCartMessage {
+    i {
+        opacity: 0.3;
+    }
+}

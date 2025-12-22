@@ -36,3 +36,8 @@ Route::get('/products/{productCode}', function (string $productCode) {
 
     return view('shop.products.show', compact('product'));
 })->name('products.show');
+
+// Cart route
+Route::get('/cart', function () {
+    return view('shop.cart');
+})->name('cart');

@@ -462,3 +462,111 @@
         opacity: 0.3;
     }
 }
+
+// Checkout Page
+.checkout-section {
+    box-shadow: $box-shadow-sm;
+    border-radius: $border-radius-lg;
+    margin-bottom: 1.5rem;
+
+    .card-header {
+        border-bottom: 2px solid $gray-200;
+        padding: 1.25rem;
+
+        h5 {
+            font-weight: 700;
+            color: $dark;
+
+            i {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+}
+
+.payment-method-option {
+    border: 2px solid $gray-300;
+    border-radius: $border-radius;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        border-color: $primary;
+        background-color: rgba($primary, 0.05);
+    }
+
+    .form-check-input:checked ~ .form-check-label {
+        color: $primary;
+        font-weight: 600;
+    }
+
+    .form-check-input:checked {
+        & ~ .form-check-label {
+            border-color: $primary;
+        }
+    }
+
+    .form-check-label {
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    i {
+        font-size: 1.1rem;
+    }
+}
+
+.checkout-summary {
+    box-shadow: $box-shadow;
+    border-radius: $border-radius-lg;
+
+    .card-header {
+        border-bottom: 2px solid $gray-200;
+        padding: 1.25rem;
+
+        h5 {
+            font-weight: 700;
+        }
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    #orderItemsList {
+        max-height: 300px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: $gray-100;
+            border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: $gray-400;
+            border-radius: 3px;
+
+            &:hover {
+                background: $gray-500;
+            }
+        }
+    }
+
+    hr {
+        margin: 1rem 0;
+        border-color: $gray-200;
+    }
+
+    #summaryTotal {
+        font-size: 1.75rem;
+    }
+}

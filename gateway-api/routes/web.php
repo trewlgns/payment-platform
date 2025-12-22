@@ -41,3 +41,8 @@ Route::get('/products/{productCode}', function (string $productCode) {
 Route::get('/cart', function () {
     return view('shop.cart');
 })->name('cart');
+
+// Checkout route
+Route::get('/checkout', function () {
+    return view('shop.checkout');
+})->name('checkout');

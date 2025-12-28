@@ -1,0 +1,209 @@
+// ============================================
+// Admin Orders Page Styles
+// ============================================
+
+.orders-table {
+    font-size: 0.9rem;
+
+    thead {
+        th {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: $secondary;
+            white-space: nowrap;
+            padding: 1rem 0.75rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+    }
+
+    tbody {
+        tr {
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: rgba(0, 123, 255, 0.03);
+            }
+
+            td {
+                padding: 1rem 0.75rem;
+                vertical-align: middle;
+
+                .order-link {
+                    font-weight: 600;
+                    text-decoration: none;
+                    cursor: pointer;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                .badge {
+                    font-size: 0.75rem;
+                    padding: 0.35em 0.65em;
+                    font-weight: 600;
+                }
+
+                small {
+                    display: block;
+                    font-size: 0.8125rem;
+                    margin-top: 0.125rem;
+                }
+            }
+        }
+    }
+
+    // Column specific styles
+    .fw-bold {
+        font-weight: 600;
+        color: $dark;
+    }
+}
+
+// Modal Styles
+#orderDetailModal {
+    .modal-dialog {
+        max-width: 800px;
+    }
+
+    .modal-header {
+        background-color: $light;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .modal-body {
+        padding: 2rem;
+
+        h6 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: $dark;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
+
+            strong {
+                display: inline-block;
+                min-width: 100px;
+                color: $secondary;
+            }
+        }
+
+        .table {
+            font-size: 0.875rem;
+
+            thead {
+                background-color: $light;
+
+                th {
+                    font-weight: 600;
+                    padding: 0.5rem;
+                }
+            }
+
+            tbody {
+                td {
+                    padding: 0.5rem;
+                }
+            }
+        }
+
+        .badge {
+            font-size: 0.8125rem;
+            padding: 0.35em 0.65em;
+        }
+    }
+
+    .modal-footer {
+        background-color: $light;
+        border-top: 2px solid #dee2e6;
+    }
+}
+
+// Status Badges Color Scheme
+.badge {
+    &.bg-pending,
+    &.bg-warning {
+        background-color: #ffc107 !important;
+        color: #000;
+    }
+
+    &.bg-paid,
+    &.bg-processing {
+        background-color: #0dcaf0 !important;
+    }
+
+    &.bg-shipped,
+    &.bg-info {
+        background-color: #17a2b8 !important;
+    }
+
+    &.bg-delivered,
+    &.bg-success {
+        background-color: #28a745 !important;
+    }
+
+    &.bg-cancelled,
+    &.bg-refunded,
+    &.bg-danger {
+        background-color: #dc3545 !important;
+    }
+}
+
+// Filters Card
+.card-body form {
+    .form-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $secondary;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-select,
+    .form-control {
+        font-size: 0.9375rem;
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .orders-table {
+        font-size: 0.8125rem;
+
+        thead th,
+        tbody td {
+            padding: 0.5rem 0.375rem;
+        }
+
+        small {
+            font-size: 0.75rem;
+        }
+    }
+
+    #orderDetailModal {
+        .modal-body {
+            padding: 1rem;
+
+            p strong {
+                min-width: 80px;
+                font-size: 0.875rem;
+            }
+        }
+    }
+}
+
+// Print Styles
+@media print {
+    .btn,
+    .modal-header button,
+    .modal-footer {
+        display: none !important;
+    }
+
+    .modal-body {
+        padding: 0;
+    }
+}

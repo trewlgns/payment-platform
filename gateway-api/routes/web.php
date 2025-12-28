@@ -56,4 +56,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/orders', function () {
         return view('admin.orders.index');
     })->name('admin.orders');
+
+    Route::get('/payments', function () {
+        return view('admin.payments.index');
+    })->name('admin.payments');
 });

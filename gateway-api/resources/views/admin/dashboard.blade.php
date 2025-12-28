@@ -231,73 +231,80 @@
         </div>
     </div>
 
-    {{-- Quick Stats --}}
+    {{-- Charts Section --}}
     <div class="row g-4 mt-2">
+        {{-- Daily Sales Chart --}}
+        <div class="col-lg-6">
+            <div class="card chart-card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">일별 매출 추이</h5>
+                        <div class="chart-period-selector">
+                            <button class="btn btn-sm btn-primary active">7일</button>
+                            <button class="btn btn-sm btn-outline-secondary">30일</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container chart-container-md">
+                        <canvas id="dailySalesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Monthly Sales Chart --}}
+        <div class="col-lg-6">
+            <div class="card chart-card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">월별 매출 현황</h5>
+                        <div class="chart-period-selector">
+                            <button class="btn btn-sm btn-primary active">12개월</button>
+                            <button class="btn btn-sm btn-outline-secondary">6개월</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container chart-container-md">
+                        <canvas id="monthlySalesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Quick Stats with Charts --}}
+    <div class="row g-4 mt-2">
+        {{-- PG Stats Chart --}}
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card chart-card border-0 shadow-sm">
                 <div class="card-header bg-white border-0">
                     <h5 class="mb-0">PG별 거래 현황</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">토스페이먼츠</span>
-                            <span class="fw-bold">65%</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">Mock PG</span>
-                            <span class="fw-bold">35%</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 35%"></div>
-                        </div>
+                    <div class="chart-container chart-container-sm">
+                        <canvas id="pgStatsChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
+        {{-- Payment Status Chart --}}
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card chart-card border-0 shadow-sm">
                 <div class="card-header bg-white border-0">
-                    <h5 class="mb-0">주문 상태</h5>
+                    <h5 class="mb-0">결제 상태 분포</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">완료</span>
-                            <span class="fw-bold">820건</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 66%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">처리중</span>
-                            <span class="fw-bold">314건</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">취소</span>
-                            <span class="fw-bold">100건</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 9%"></div>
-                        </div>
+                    <div class="chart-container chart-container-sm">
+                        <canvas id="paymentStatusChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
+        {{-- Quick Links --}}
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-0">
@@ -316,6 +323,9 @@
                         </a>
                         <a href="{{ url('/admin/products') }}" class="list-group-item list-group-item-action border-0 px-0">
                             <i class="bi bi-box-seam text-warning me-2"></i> 상품 관리
+                        </a>
+                        <a href="{{ url('/admin/refunds') }}" class="list-group-item list-group-item-action border-0 px-0">
+                            <i class="bi bi-arrow-counterclockwise text-danger me-2"></i> 환불 관리
                         </a>
                     </div>
                 </div>

@@ -1,0 +1,179 @@
+// ============================================
+// Admin Dashboard Page Styles
+// ============================================
+
+.dashboard-content {
+    background-color: $light;
+    min-height: 100vh;
+
+    // Dashboard Header
+    .dashboard-header {
+        margin-bottom: 2rem;
+
+        h1 {
+            color: $dark;
+            font-weight: 600;
+        }
+
+        .text-muted {
+            font-size: 0.9rem;
+        }
+    }
+
+    // Statistics Cards
+    .stats-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border: none;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: $dark;
+        }
+
+        .small {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        i.fs-2 {
+            font-size: 2.5rem;
+        }
+    }
+
+    // Recent Tables
+    .table {
+        margin-bottom: 0;
+
+        thead {
+            th {
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: $secondary;
+                border-bottom: 2px solid #dee2e6;
+                padding: 0.75rem;
+            }
+        }
+
+        tbody {
+            tr {
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: rgba(0, 123, 255, 0.05);
+                }
+
+                td {
+                    padding: 0.875rem 0.75rem;
+                    font-size: 0.9rem;
+                    vertical-align: middle;
+
+                    .text-primary {
+                        font-weight: 600;
+                        cursor: pointer;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+
+                    .badge {
+                        font-size: 0.75rem;
+                        padding: 0.35em 0.65em;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+
+    // Cards
+    .card {
+        margin-bottom: 0;
+        border-radius: 0.5rem;
+
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+            h5 {
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: $dark;
+            }
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+    }
+
+    // Progress Bars
+    .progress {
+        border-radius: 1rem;
+        background-color: rgba(0, 0, 0, 0.05);
+
+        .progress-bar {
+            border-radius: 1rem;
+        }
+    }
+
+    // List Group
+    .list-group-item {
+        transition: background-color 0.2s ease;
+        padding: 0.75rem 0;
+        font-size: 0.9375rem;
+
+        &:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        i {
+            font-size: 1.125rem;
+        }
+    }
+
+    // Responsive
+    @media (max-width: 768px) {
+        .dashboard-header {
+            margin-bottom: 1.5rem;
+
+            .d-flex {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 0.5rem;
+            }
+        }
+
+        .stats-card {
+            margin-bottom: 1rem;
+
+            h3 {
+                font-size: 1.75rem;
+            }
+
+            i.fs-2 {
+                font-size: 2rem;
+            }
+        }
+
+        .table {
+            font-size: 0.85rem;
+
+            thead th,
+            tbody td {
+                padding: 0.5rem;
+            }
+        }
+    }
+}

@@ -46,3 +46,10 @@ Route::get('/cart', function () {
 Route::get('/checkout', function () {
     return view('shop.checkout');
 })->name('checkout');
+
+// Admin routes
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});

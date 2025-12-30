@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Console\Scheduling\Schedule;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -11,6 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+    ->withSchedule(function (Schedule $schedule): void {
+        // 통계 배치 명령어 스케줄링 (매일 새벽 1시 실행)
+        $schedule->command('stats:daily-sales')->dailyAt('01:00');
+        $schedule->command('stats:daily-pg')->dailyAt('01:10');
+        $schedule->command('stats:customer-segment')->dailyAt('01:20');
+        $schedule->command('stats:promotion-performance')->dailyAt('01:30');
+    })
     ->withMiddleware(function (Middleware $middleware): void {
         // 전역 미들웨어로 SetLocale 추가
         $middleware->append(\App\Http\Middleware\SetLocale::class);

@@ -6,7 +6,51 @@ Route::get('/', function () {
     return view('home');
 });
 
-// Product routes
+// 상품 라우트
+Route::get('/products', function () {
+    // 데모용 상품 목록 데이터
+    $products = [
+        [
+            'product_code' => 'PROD001',
+            'name' => 'Premium Wireless Headphones',
+            'description' => 'High-quality wireless headphones with active noise cancellation',
+            'base_price' => 199.99,
+            'discount_price' => 149.99,
+            'category' => 'Electronics',
+            'status' => 'active',
+            'badge' => 'New Arrival',
+            'badge_color' => 'success',
+            'image_url' => 'https://via.placeholder.com/300x300?text=Headphones'
+        ],
+        [
+            'product_code' => 'PROD002',
+            'name' => 'Smart Watch Pro',
+            'description' => 'Advanced fitness tracking and notifications',
+            'base_price' => 299.99,
+            'discount_price' => 249.99,
+            'category' => 'Wearables',
+            'status' => 'active',
+            'badge' => 'Best Seller',
+            'badge_color' => 'warning',
+            'image_url' => 'https://via.placeholder.com/300x300?text=Watch'
+        ],
+        [
+            'product_code' => 'PROD003',
+            'name' => 'Laptop Backpack',
+            'description' => 'Durable and stylish laptop backpack',
+            'base_price' => 79.99,
+            'discount_price' => null,
+            'category' => 'Accessories',
+            'status' => 'active',
+            'badge' => null,
+            'badge_color' => null,
+            'image_url' => 'https://via.placeholder.com/300x300?text=Backpack'
+        ]
+    ];
+
+    return view('shop.products.index', compact('products'));
+})->name('products.index');
+
 Route::get('/products/{productCode}', function (string $productCode) {
     // Mock product data for demo
     $product = [

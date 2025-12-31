@@ -19,28 +19,22 @@
                 {{-- Left Menu --}}
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">
+                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">
                             <i class="bi bi-house-door"></i>
                             Home
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/products">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ request()->is('products*') ? 'active' : '' }}" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-grid"></i>
                             Products
                         </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-tags"></i>
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                            <li><a class="dropdown-item" href="/products?category=electronics">Electronics</a></li>
-                            <li><a class="dropdown-item" href="/products?category=fashion">Fashion</a></li>
-                            <li><a class="dropdown-item" href="/products?category=home">Home & Living</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                            <li><a class="dropdown-item {{ !request()->has('category') && request()->is('products') ? 'active' : '' }}" href="/products">All Products</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/products">All Products</a></li>
+                            <li><a class="dropdown-item {{ request()->get('category') === 'electronics' ? 'active' : '' }}" href="/products?category=electronics">Electronics</a></li>
+                            <li><a class="dropdown-item {{ request()->get('category') === 'fashion' ? 'active' : '' }}" href="/products?category=fashion">Fashion</a></li>
+                            <li><a class="dropdown-item {{ request()->get('category') === 'home' ? 'active' : '' }}" href="/products?category=home">Home & Living</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -59,7 +53,7 @@
 
                     {{-- Cart --}}
                     <li class="nav-item">
-                        <a class="nav-link position-relative" href="/cart">
+                        <a class="nav-link position-relative {{ request()->is('cart') ? 'active' : '' }}" href="/cart">
                             <i class="bi bi-cart3 fs-5"></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
                                 0

@@ -1,19 +1,19 @@
 @extends('layouts.shop')
 
-@section('title', 'Checkout')
+@section('title', '결제')
 
 @section('content')
 <div class="container py-5">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/cart">Shopping Cart</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            <li class="breadcrumb-item"><a href="/">홈</a></li>
+            <li class="breadcrumb-item"><a href="/cart">장바구니</a></li>
+            <li class="breadcrumb-item active" aria-current="page">결제</li>
         </ol>
     </nav>
 
-    <h2 class="mb-4">Checkout</h2>
+    <h2 class="mb-4">결제</h2>
 
     <div class="row">
         <!-- Checkout Form -->
@@ -23,25 +23,25 @@
                 <div class="card-header bg-white">
                     <h5 class="mb-0">
                         <i class="bi bi-person-circle me-2"></i>
-                        Customer Information
+                        고객 정보
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                            <label for="firstName" class="form-label">이름 <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="firstName" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                            <label for="lastName" class="form-label">성 <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="lastName" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                            <label for="email" class="form-label">이메일 <span class="text-danger">*</span></label>
                             <input type="email" class="form-control" id="email" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                            <label for="phone" class="form-label">전화번호 <span class="text-danger">*</span></label>
                             <input type="tel" class="form-control" id="phone" required>
                         </div>
                     </div>
@@ -53,36 +53,36 @@
                 <div class="card-header bg-white">
                     <h5 class="mb-0">
                         <i class="bi bi-geo-alt-fill me-2"></i>
-                        Shipping Address
+                        배송지 정보
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="address" class="form-label">Street Address <span class="text-danger">*</span></label>
+                            <label for="address" class="form-label">주소 <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="address" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                            <label for="city" class="form-label">시/군/구 <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="city" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="state" class="form-label">State/Province <span class="text-danger">*</span></label>
+                            <label for="state" class="form-label">시/도 <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="state" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="zipCode" class="form-label">ZIP/Postal Code <span class="text-danger">*</span></label>
+                            <label for="zipCode" class="form-label">우편번호 <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="zipCode" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+                            <label for="country" class="form-label">국가 <span class="text-danger">*</span></label>
                             <select class="form-select" id="country" required>
-                                <option value="">Select Country</option>
-                                <option value="US" selected>United States</option>
-                                <option value="KR">South Korea</option>
-                                <option value="CA">Canada</option>
-                                <option value="UK">United Kingdom</option>
-                                <option value="JP">Japan</option>
+                                <option value="">국가 선택</option>
+                                <option value="US" selected>미국</option>
+                                <option value="KR">대한민국</option>
+                                <option value="CA">캐나다</option>
+                                <option value="UK">영국</option>
+                                <option value="JP">일본</option>
                             </select>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                 <div class="card-header bg-white">
                     <h5 class="mb-0">
                         <i class="bi bi-credit-card-2-front me-2"></i>
-                        Payment Method
+                        결제 수단
                     </h5>
                 </div>
                 <div class="card-body">
@@ -106,7 +106,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <i class="bi bi-credit-card me-2"></i>
-                                        Credit/Debit Card
+                                        신용/체크 카드
                                     </div>
                                     <div class="payment-logos">
                                         <i class="bi bi-credit-card-fill text-primary"></i>
@@ -121,7 +121,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <i class="bi bi-bank me-2"></i>
-                                        Bank Transfer
+                                        계좌이체
                                     </div>
                                 </div>
                             </label>
@@ -133,7 +133,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <i class="bi bi-wallet2 me-2"></i>
-                                        Virtual Account
+                                        가상계좌
                                     </div>
                                 </div>
                             </label>
@@ -144,11 +144,11 @@
                     <div id="cardPaymentForm">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label for="cardNumber" class="form-label">Card Number <span class="text-danger">*</span></label>
+                                <label for="cardNumber" class="form-label">카드 번호 <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
                             </div>
                             <div class="col-md-6">
-                                <label for="cardExpiry" class="form-label">Expiry Date <span class="text-danger">*</span></label>
+                                <label for="cardExpiry" class="form-label">유효기간 <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5">
                             </div>
                             <div class="col-md-6">
@@ -156,8 +156,8 @@
                                 <input type="text" class="form-control" id="cardCvv" placeholder="123" maxlength="4">
                             </div>
                             <div class="col-12">
-                                <label for="cardName" class="form-label">Cardholder Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="cardName" placeholder="JOHN DOE">
+                                <label for="cardName" class="form-label">카드 소유자명 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="cardName" placeholder="홍길동">
                             </div>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                     <div id="bankPaymentInfo" class="d-none">
                         <div class="alert alert-info">
                             <i class="bi bi-info-circle me-2"></i>
-                            Bank transfer details will be provided after order confirmation.
+                            주문 확인 후 계좌이체 정보가 제공됩니다.
                         </div>
                     </div>
 
@@ -174,7 +174,7 @@
                     <div id="virtualPaymentInfo" class="d-none">
                         <div class="alert alert-info">
                             <i class="bi bi-info-circle me-2"></i>
-                            Virtual account number will be issued after order confirmation.
+                            주문 확인 후 가상계좌 번호가 발급됩니다.
                         </div>
                     </div>
                 </div>
@@ -185,11 +185,11 @@
                 <div class="card-header bg-white">
                     <h5 class="mb-0">
                         <i class="bi bi-chat-left-text me-2"></i>
-                        Order Notes (Optional)
+                        주문 메모 (선택사항)
                     </h5>
                 </div>
                 <div class="card-body">
-                    <textarea class="form-control" id="orderNotes" rows="3" placeholder="Special instructions for delivery..."></textarea>
+                    <textarea class="form-control" id="orderNotes" rows="3" placeholder="배송 시 요청사항을 입력해주세요..."></textarea>
                 </div>
             </div>
         </div>
@@ -198,7 +198,7 @@
         <div class="col-lg-4">
             <div class="card checkout-summary sticky-top" style="top: 20px;">
                 <div class="card-header bg-white">
-                    <h5 class="mb-0">Order Summary</h5>
+                    <h5 class="mb-0">주문 요약</h5>
                 </div>
                 <div class="card-body">
                     <!-- Order Items -->
@@ -210,22 +210,22 @@
 
                     <!-- Price Breakdown -->
                     <div class="d-flex justify-content-between mb-2">
-                        <span class="text-muted">Subtotal (<span id="summaryTotalItems">0</span> items)</span>
+                        <span class="text-muted">소계 (<span id="summaryTotalItems">0</span>개)</span>
                         <span id="summarySubtotal">$0.00</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span class="text-muted">Shipping</span>
+                        <span class="text-muted">배송비</span>
                         <span id="summaryShipping">$0.00</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span class="text-muted">Tax (10%)</span>
+                        <span class="text-muted">세금 (10%)</span>
                         <span id="summaryTax">$0.00</span>
                     </div>
 
                     <hr>
 
                     <div class="d-flex justify-content-between mb-4">
-                        <strong class="h5 mb-0">Total</strong>
+                        <strong class="h5 mb-0">합계</strong>
                         <strong class="h4 mb-0 text-primary" id="summaryTotal">$0.00</strong>
                     </div>
 
@@ -233,20 +233,20 @@
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" id="agreeTerms" required>
                         <label class="form-check-label small" for="agreeTerms">
-                            I agree to the <a href="#" class="text-primary">Terms & Conditions</a>
+                            <a href="#" class="text-primary">이용약관</a>에 동의합니다
                         </label>
                     </div>
 
                     <!-- Place Order Button -->
                     <button class="btn btn-primary btn-lg w-100 mb-2" id="placeOrderBtn">
                         <i class="bi bi-lock-fill me-2"></i>
-                        Place Order
+                        주문하기
                     </button>
 
                     <div class="text-center">
                         <small class="text-muted">
                             <i class="bi bi-shield-check me-1"></i>
-                            Secure SSL Encrypted Payment
+                            SSL 암호화 보안 결제
                         </small>
                     </div>
                 </div>
@@ -327,7 +327,7 @@ function renderOrderSummary() {
             <img src="${item.image}" alt="${item.name}" class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
             <div class="flex-grow-1">
                 <h6 class="mb-0 small">${item.name}</h6>
-                <small class="text-muted">Qty: ${item.quantity}</small>
+                <small class="text-muted">수량: ${item.quantity}</small>
             </div>
             <div class="text-end">
                 <div class="fw-bold">$${(item.price * item.quantity).toFixed(2)}</div>
@@ -338,7 +338,7 @@ function renderOrderSummary() {
     // Update summary
     document.getElementById('summaryTotalItems').textContent = checkoutData.cart.items.reduce((sum, item) => sum + item.quantity, 0);
     document.getElementById('summarySubtotal').textContent = `$${checkoutData.cart.subtotal.toFixed(2)}`;
-    document.getElementById('summaryShipping').textContent = checkoutData.cart.shipping === 0 ? 'FREE' : `$${checkoutData.cart.shipping.toFixed(2)}`;
+    document.getElementById('summaryShipping').textContent = checkoutData.cart.shipping === 0 ? '무료' : `$${checkoutData.cart.shipping.toFixed(2)}`;
     document.getElementById('summaryTax').textContent = `$${checkoutData.cart.tax.toFixed(2)}`;
     document.getElementById('summaryTotal').textContent = `$${checkoutData.cart.total.toFixed(2)}`;
 }
@@ -401,12 +401,12 @@ function setupPlaceOrderButton() {
 
         // Show loading
         this.disabled = true;
-        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>처리중...';
 
         // Simulate payment processing
         setTimeout(() => {
-            // TODO: Implement actual payment API call
-            alert('Order placed successfully! (Demo mode)');
+            // TODO: 실제 결제 API 호출 구현
+            alert('주문이 성공적으로 완료되었습니다! (데모 모드)');
 
             // Clear cart
             localStorage.removeItem('cart');
@@ -416,7 +416,7 @@ function setupPlaceOrderButton() {
 
             // Reset button
             this.disabled = false;
-            this.innerHTML = '<i class="bi bi-lock-fill me-2"></i>Place Order';
+            this.innerHTML = '<i class="bi bi-lock-fill me-2"></i>주문하기';
         }, 2000);
     });
 }
@@ -426,7 +426,7 @@ function validateCheckoutForm() {
     const agreeTerms = document.getElementById('agreeTerms');
 
     if (!agreeTerms.checked) {
-        alert('Please agree to the Terms & Conditions');
+        alert('이용약관에 동의해주세요');
         return false;
     }
 
@@ -439,7 +439,7 @@ function validateCheckoutForm() {
     for (const fieldId of requiredFields) {
         const field = document.getElementById(fieldId);
         if (!field.value.trim()) {
-            alert(`Please fill in ${field.previousElementSibling.textContent.replace('*', '').trim()}`);
+            alert(`${field.previousElementSibling.textContent.replace('*', '').trim()}을(를) 입력해주세요`);
             field.focus();
             return false;
         }
@@ -452,7 +452,7 @@ function validateCheckoutForm() {
         for (const fieldId of cardFields) {
             const field = document.getElementById(fieldId);
             if (!field.value.trim()) {
-                alert(`Please fill in ${field.previousElementSibling.textContent.replace('*', '').trim()}`);
+                alert(`${field.previousElementSibling.textContent.replace('*', '').trim()}을(를) 입력해주세요`);
                 field.focus();
                 return false;
             }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard')
+@section('title', '대시보드')
 
 @push('styles')
 <style>
@@ -24,7 +24,7 @@
     <div class="dashboard-header">
         <div class="d-flex justify-content-between align-items-center">
             <div>
-                <h1 class="h3 mb-1">Dashboard</h1>
+                <h1 class="h3 mb-1">대시보드</h1>
                 <p class="text-muted mb-0">결제 플랫폼 관리자 대시보드</p>
             </div>
             <div>
@@ -43,7 +43,7 @@
                             <p class="text-muted mb-1 small">총 주문</p>
                             <h3 class="mb-0">1,234</h3>
                             <small class="text-success">
-                                <i class="bi bi-arrow-up"></i> 12.5% from last month
+                                <i class="bi bi-arrow-up"></i> 지난 달 대비 12.5%
                             </small>
                         </div>
                         <div class="bg-primary bg-opacity-10 rounded-3 p-3">
@@ -62,7 +62,7 @@
                             <p class="text-muted mb-1 small">총 결제</p>
                             <h3 class="mb-0">987</h3>
                             <small class="text-success">
-                                <i class="bi bi-arrow-up"></i> 8.2% from last month
+                                <i class="bi bi-arrow-up"></i> 지난 달 대비 8.2%
                             </small>
                         </div>
                         <div class="bg-success bg-opacity-10 rounded-3 p-3">
@@ -81,7 +81,7 @@
                             <p class="text-muted mb-1 small">총 매출</p>
                             <h3 class="mb-0">₩5.2M</h3>
                             <small class="text-success">
-                                <i class="bi bi-arrow-up"></i> 15.3% from last month
+                                <i class="bi bi-arrow-up"></i> 지난 달 대비 15.3%
                             </small>
                         </div>
                         <div class="bg-info bg-opacity-10 rounded-3 p-3">
@@ -100,7 +100,7 @@
                             <p class="text-muted mb-1 small">환불 건수</p>
                             <h3 class="mb-0">42</h3>
                             <small class="text-danger">
-                                <i class="bi bi-arrow-down"></i> 3.1% from last month
+                                <i class="bi bi-arrow-down"></i> 지난 달 대비 3.1%
                             </small>
                         </div>
                         <div class="bg-warning bg-opacity-10 rounded-3 p-3">

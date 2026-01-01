@@ -79,7 +79,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i> 조회
                     </button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="location.href='{{ url('/admin/payments') }}'">
+                    <button type="button" class="btn btn-outline-secondary" onclick="window.location.reload()">
                         <i class="bi bi-arrow-clockwise"></i> 초기화
                     </button>
                 </div>

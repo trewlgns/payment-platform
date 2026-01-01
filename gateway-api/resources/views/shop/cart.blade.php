@@ -1,18 +1,18 @@
 @extends('layouts.shop')
 
-@section('title', 'Shopping Cart')
+@section('title', '장바구니')
 
 @section('content')
 <div class="container py-5">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            <li class="breadcrumb-item"><a href="/">홈</a></li>
+            <li class="breadcrumb-item active" aria-current="page">장바구니</li>
         </ol>
     </nav>
 
-    <h2 class="mb-4">Shopping Cart</h2>
+    <h2 class="mb-4">장바구니</h2>
 
     <div class="row">
         <!-- Cart Items -->
@@ -27,11 +27,11 @@
                     <!-- Empty Cart Message -->
                     <div id="emptyCartMessage" class="text-center py-5 d-none">
                         <i class="bi bi-cart-x display-1 text-muted mb-3"></i>
-                        <h4 class="text-muted">Your cart is empty</h4>
-                        <p class="text-muted">Add some products to get started!</p>
+                        <h4 class="text-muted">장바구니가 비어있습니다</h4>
+                        <p class="text-muted">상품을 담아보세요!</p>
                         <a href="/products" class="btn btn-primary">
                             <i class="bi bi-shop me-2"></i>
-                            Continue Shopping
+                            쇼핑 계속하기
                         </a>
                     </div>
                 </div>
@@ -42,24 +42,24 @@
         <div class="col-lg-4">
             <div class="card cart-summary-card sticky-top" style="top: 20px;">
                 <div class="card-header bg-white">
-                    <h5 class="mb-0">Order Summary</h5>
+                    <h5 class="mb-0">주문 요약</h5>
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
-                        <span class="text-muted">Subtotal (<span id="totalItems">0</span> items)</span>
+                        <span class="text-muted">소계 (<span id="totalItems">0</span>개)</span>
                         <span id="subtotalAmount">$0.00</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span class="text-muted">Shipping</span>
+                        <span class="text-muted">배송비</span>
                         <span id="shippingAmount">$0.00</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span class="text-muted">Tax (10%)</span>
+                        <span class="text-muted">세금 (10%)</span>
                         <span id="taxAmount">$0.00</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between mb-3">
-                        <strong>Total</strong>
+                        <strong>합계</strong>
                         <strong class="text-primary h5 mb-0" id="totalAmount">$0.00</strong>
                     </div>
 
@@ -70,29 +70,29 @@
                                 type="text"
                                 class="form-control"
                                 id="couponCode"
-                                placeholder="Coupon code"
+                                placeholder="쿠폰 코드"
                             >
                             <button class="btn btn-outline-secondary" type="button" id="applyCouponBtn">
-                                Apply
+                                적용
                             </button>
                         </div>
                         <small class="text-success d-none" id="couponSuccess">
                             <i class="bi bi-check-circle me-1"></i>
-                            Coupon applied successfully!
+                            쿠폰이 적용되었습니다!
                         </small>
                         <small class="text-danger d-none" id="couponError">
                             <i class="bi bi-x-circle me-1"></i>
-                            Invalid coupon code
+                            유효하지 않은 쿠폰 코드입니다
                         </small>
                     </div>
 
                     <button class="btn btn-primary w-100 mb-2" id="checkoutBtn">
                         <i class="bi bi-credit-card me-2"></i>
-                        Proceed to Checkout
+                        결제하기
                     </button>
                     <a href="/products" class="btn btn-outline-secondary w-100">
                         <i class="bi bi-arrow-left me-2"></i>
-                        Continue Shopping
+                        쇼핑 계속하기
                     </a>
                 </div>
             </div>
@@ -103,22 +103,22 @@
                     <div class="d-flex align-items-center mb-3">
                         <i class="bi bi-shield-check fs-4 text-success me-3"></i>
                         <div>
-                            <div class="fw-semibold">Secure Checkout</div>
-                            <small class="text-muted">SSL encrypted</small>
+                            <div class="fw-semibold">안전한 결제</div>
+                            <small class="text-muted">SSL 암호화</small>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <i class="bi bi-arrow-clockwise fs-4 text-success me-3"></i>
                         <div>
-                            <div class="fw-semibold">30-Day Returns</div>
-                            <small class="text-muted">Money back guarantee</small>
+                            <div class="fw-semibold">30일 반품</div>
+                            <small class="text-muted">환불 보장</small>
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="bi bi-truck fs-4 text-success me-3"></i>
                         <div>
-                            <div class="fw-semibold">Free Shipping</div>
-                            <small class="text-muted">On orders over $50</small>
+                            <div class="fw-semibold">무료 배송</div>
+                            <small class="text-muted">5만원 이상 주문시</small>
                         </div>
                     </div>
                 </div>
@@ -243,7 +243,7 @@ function renderCart() {
                     <div class="fw-bold">$${(item.price * item.quantity).toFixed(2)}</div>
                 </div>
                 <div class="col-md-1 col-2 mt-3 mt-md-0 text-end">
-                    <button class="btn btn-sm btn-outline-danger" onclick="removeItem(${index})" title="Remove">
+                    <button class="btn btn-sm btn-outline-danger" onclick="removeItem(${index})" title="삭제">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
@@ -258,7 +258,7 @@ function renderCart() {
 function updateSummary() {
     document.getElementById('totalItems').textContent = cart.items.reduce((sum, item) => sum + item.quantity, 0);
     document.getElementById('subtotalAmount').textContent = `$${cart.subtotal.toFixed(2)}`;
-    document.getElementById('shippingAmount').textContent = cart.shipping === 0 ? 'FREE' : `$${cart.shipping.toFixed(2)}`;
+    document.getElementById('shippingAmount').textContent = cart.shipping === 0 ? '무료' : `$${cart.shipping.toFixed(2)}`;
     document.getElementById('taxAmount').textContent = `$${cart.tax.toFixed(2)}`;
     document.getElementById('totalAmount').textContent = `$${cart.total.toFixed(2)}`;
 }
@@ -296,14 +296,14 @@ function updateQuantity(index, value) {
 
 // Remove item
 function removeItem(index) {
-    if (confirm('Are you sure you want to remove this item from your cart?')) {
+    if (confirm('장바구니에서 이 상품을 삭제하시겠습니까?')) {
         cart.items.splice(index, 1);
         calculateTotals();
         saveCart();
         renderCart();
 
         // Show toast notification
-        showToast('Item removed from cart', 'success');
+        showToast('상품이 장바구니에서 삭제되었습니다', 'success');
     }
 }
 
@@ -349,11 +349,11 @@ document.getElementById('applyCouponBtn').addEventListener('click', function() {
 // Checkout button
 document.getElementById('checkoutBtn').addEventListener('click', function() {
     if (cart.items.length === 0) {
-        alert('Your cart is empty!');
+        alert('장바구니가 비어있습니다!');
         return;
     }
 
-    // TODO: Implement checkout redirect
+    // TODO: 결제 페이지 리다이렉트 구현
     window.location.href = '/checkout';
 });
 

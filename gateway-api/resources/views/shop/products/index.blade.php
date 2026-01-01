@@ -104,7 +104,7 @@
                             @endif
                         </div>
 
-                        <button class="btn btn-outline-primary btn-sm" onclick="addToCart('{{ $product['product_code'] }}')">
+                        <button class="btn btn-outline-primary btn-sm add-to-cart-btn" data-product-code="{{ $product['product_code'] }}">
                             <i class="bi bi-cart-plus"></i>
                         </button>
                     </div>
@@ -144,10 +144,15 @@
 
 @push('scripts')
 <script>
-function addToCart(productCode) {
-    alert(`상품 ${productCode}이(가) 장바구니에 추가되었습니다!`);
-    // TODO: 실제 장바구니 기능 구현
-}
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productCode = this.dataset.productCode;
+            alert(`상품 ${productCode}이(가) 장바구니에 추가되었습니다!`);
+            // TODO: 실제 장바구니 기능 구현
+        });
+    });
+});
 </script>
 @endpush
 

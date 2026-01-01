@@ -14,7 +14,7 @@
             <li class="sidebar-menu-item">
                 <a href="{{ url('/admin/dashboard') }}" class="sidebar-menu-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                     <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
+                    <span>대시보드</span>
                 </a>
             </li>
 
@@ -120,7 +120,7 @@
     <div class="sidebar-footer">
         <div class="sidebar-user">
             <i class="bi bi-person-circle"></i>
-            <span>Admin</span>
+            <span>관리자</span>
         </div>
     </div>
 </aside>

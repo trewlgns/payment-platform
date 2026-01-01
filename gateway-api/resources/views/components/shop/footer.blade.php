@@ -7,10 +7,10 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <h5 class="fw-bold mb-3">
                     <i class="bi bi-shop"></i>
-                    Payment Shop
+                    결제 플랫폼 쇼핑몰
                 </h5>
                 <p class="text-muted">
-                    A modern multi-PG payment integration platform built with Laravel, demonstrating enterprise-level architecture and payment gateway patterns.
+                    Laravel 기반의 현대적인 멀티 PG 통합 결제 플랫폼으로, 엔터프라이즈급 아키텍처와 결제 게이트웨이 패턴을 구현한 프로젝트입니다.
                 </p>
                 <div class="social-links mt-3">
                     <a href="#" class="text-light me-3" aria-label="GitHub">
@@ -27,30 +27,30 @@
 
             {{-- Quick Links --}}
             <div class="col-lg-2 col-md-6 mb-4">
-                <h6 class="fw-bold mb-3">Quick Links</h6>
+                <h6 class="fw-bold mb-3">빠른 링크</h6>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="/" class="text-muted text-decoration-none hover-primary">Home</a></li>
-                    <li class="mb-2"><a href="/products" class="text-muted text-decoration-none hover-primary">Products</a></li>
-                    <li class="mb-2"><a href="/cart" class="text-muted text-decoration-none hover-primary">Cart</a></li>
-                    <li class="mb-2"><a href="/orders" class="text-muted text-decoration-none hover-primary">My Orders</a></li>
+                    <li class="mb-2"><a href="/" class="text-muted text-decoration-none hover-primary">홈</a></li>
+                    <li class="mb-2"><a href="/products" class="text-muted text-decoration-none hover-primary">상품</a></li>
+                    <li class="mb-2"><a href="/cart" class="text-muted text-decoration-none hover-primary">장바구니</a></li>
+                    <li class="mb-2"><a href="/orders" class="text-muted text-decoration-none hover-primary">주문 내역</a></li>
                 </ul>
             </div>
 
             {{-- Customer Support --}}
             <div class="col-lg-3 col-md-6 mb-4">
-                <h6 class="fw-bold mb-3">Customer Support</h6>
+                <h6 class="fw-bold mb-3">고객 지원</h6>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="/help" class="text-muted text-decoration-none hover-primary">Help Center</a></li>
-                    <li class="mb-2"><a href="/faq" class="text-muted text-decoration-none hover-primary">FAQ</a></li>
-                    <li class="mb-2"><a href="/shipping" class="text-muted text-decoration-none hover-primary">Shipping Info</a></li>
-                    <li class="mb-2"><a href="/returns" class="text-muted text-decoration-none hover-primary">Returns</a></li>
-                    <li class="mb-2"><a href="/contact" class="text-muted text-decoration-none hover-primary">Contact Us</a></li>
+                    <li class="mb-2"><a href="/help" class="text-muted text-decoration-none hover-primary">고객센터</a></li>
+                    <li class="mb-2"><a href="/faq" class="text-muted text-decoration-none hover-primary">자주 묻는 질문</a></li>
+                    <li class="mb-2"><a href="/shipping" class="text-muted text-decoration-none hover-primary">배송 정보</a></li>
+                    <li class="mb-2"><a href="/returns" class="text-muted text-decoration-none hover-primary">반품/교환</a></li>
+                    <li class="mb-2"><a href="/contact" class="text-muted text-decoration-none hover-primary">문의하기</a></li>
                 </ul>
             </div>
 
             {{-- Contact Info --}}
             <div class="col-lg-3 col-md-6 mb-4">
-                <h6 class="fw-bold mb-3">Contact Info</h6>
+                <h6 class="fw-bold mb-3">연락처</h6>
                 <ul class="list-unstyled">
                     <li class="mb-2 text-muted">
                         <i class="bi bi-envelope me-2"></i>
@@ -62,12 +62,12 @@
                     </li>
                     <li class="mb-2 text-muted">
                         <i class="bi bi-geo-alt me-2"></i>
-                        Seoul, South Korea
+                        서울, 대한민국
                     </li>
                 </ul>
                 <div class="mt-3">
-                    <small class="text-muted">Business Hours:</small><br>
-                    <small class="text-muted">Mon - Fri: 9:00 AM - 6:00 PM</small>
+                    <small class="text-muted">운영 시간:</small><br>
+                    <small class="text-muted">월 - 금: 오전 9:00 - 오후 6:00</small>
                 </div>
             </div>
         </div>
@@ -79,13 +79,13 @@
         <div class="row">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                 <small class="text-muted">
-                    &copy; {{ date('Y') }} Payment Shop. All rights reserved.
+                    &copy; {{ date('Y') }} 결제 플랫폼 쇼핑몰. All rights reserved.
                 </small>
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <small class="text-muted">
-                    <a href="/terms" class="text-muted text-decoration-none hover-primary me-3">Terms of Service</a>
-                    <a href="/privacy" class="text-muted text-decoration-none hover-primary">Privacy Policy</a>
+                    <a href="/terms" class="text-muted text-decoration-none hover-primary me-3">이용약관</a>
+                    <a href="/privacy" class="text-muted text-decoration-none hover-primary">개인정보처리방침</a>
                 </small>
             </div>
         </div>

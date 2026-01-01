@@ -6,11 +6,11 @@
             {{-- Logo/Brand --}}
             <a class="navbar-brand fw-bold" href="/">
                 <i class="bi bi-shop"></i>
-                Payment Shop
+                결제 플랫폼 쇼핑몰
             </a>
 
             {{-- Mobile Toggle Button --}}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="메뉴 토글">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -21,20 +21,20 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">
                             <i class="bi bi-house-door"></i>
-                            Home
+                            홈
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ request()->is('products*') ? 'active' : '' }}" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-grid"></i>
-                            Products
+                            상품
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="productsDropdown">
-                            <li><a class="dropdown-item {{ !request()->has('category') && request()->is('products') ? 'active' : '' }}" href="/products">All Products</a></li>
+                            <li><a class="dropdown-item {{ !request()->has('category') && request()->is('products') ? 'active' : '' }}" href="/products">전체 상품</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item {{ request()->get('category') === 'electronics' ? 'active' : '' }}" href="/products?category=electronics">Electronics</a></li>
-                            <li><a class="dropdown-item {{ request()->get('category') === 'fashion' ? 'active' : '' }}" href="/products?category=fashion">Fashion</a></li>
-                            <li><a class="dropdown-item {{ request()->get('category') === 'home' ? 'active' : '' }}" href="/products?category=home">Home & Living</a></li>
+                            <li><a class="dropdown-item {{ request()->get('category') === 'electronics' ? 'active' : '' }}" href="/products?category=electronics">전자기기</a></li>
+                            <li><a class="dropdown-item {{ request()->get('category') === 'fashion' ? 'active' : '' }}" href="/products?category=fashion">패션</a></li>
+                            <li><a class="dropdown-item {{ request()->get('category') === 'home' ? 'active' : '' }}" href="/products?category=home">홈&리빙</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -44,7 +44,7 @@
                     {{-- Search --}}
                     <li class="nav-item">
                         <form class="d-flex me-2" role="search">
-                            <input class="form-control form-control-sm" type="search" placeholder="Search products..." aria-label="Search">
+                            <input class="form-control form-control-sm" type="search" placeholder="상품 검색..." aria-label="검색">
                             <button class="btn btn-outline-primary btn-sm ms-1" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -57,7 +57,7 @@
                             <i class="bi bi-cart3 fs-5"></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
                                 0
-                                <span class="visually-hidden">items in cart</span>
+                                <span class="visually-hidden">장바구니 상품</span>
                             </span>
                         </a>
                     </li>
@@ -68,10 +68,10 @@
                             <i class="bi bi-person-circle fs-5"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/account"><i class="bi bi-person"></i> My Account</a></li>
-                            <li><a class="dropdown-item" href="/orders"><i class="bi bi-bag"></i> My Orders</a></li>
+                            <li><a class="dropdown-item" href="/account"><i class="bi bi-person"></i> 내 계정</a></li>
+                            <li><a class="dropdown-item" href="/orders"><i class="bi bi-bag"></i> 주문 내역</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+                            <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right"></i> 로그인</a></li>
                         </ul>
                     </li>
                 </ul>

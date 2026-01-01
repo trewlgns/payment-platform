@@ -1,17 +1,17 @@
 @extends('layouts.shop')
 
-@section('title', 'Products')
+@section('title', '상품 목록')
 
 @section('content')
 <div class="container py-5">
     <!-- 페이지 헤더 -->
     <div class="row mb-4">
         <div class="col-12">
-            <h1 class="h2 mb-3">All Products</h1>
+            <h1 class="h2 mb-3">전체 상품</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Products</li>
+                    <li class="breadcrumb-item"><a href="/">홈</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">상품</li>
                 </ol>
             </nav>
         </div>
@@ -21,18 +21,18 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-secondary active">All</button>
-                <button type="button" class="btn btn-outline-secondary">Electronics</button>
-                <button type="button" class="btn btn-outline-secondary">Wearables</button>
-                <button type="button" class="btn btn-outline-secondary">Accessories</button>
+                <button type="button" class="btn btn-outline-secondary active">전체</button>
+                <button type="button" class="btn btn-outline-secondary">전자기기</button>
+                <button type="button" class="btn btn-outline-secondary">웨어러블</button>
+                <button type="button" class="btn btn-outline-secondary">액세서리</button>
             </div>
         </div>
         <div class="col-md-6 text-end">
             <select class="form-select d-inline-block w-auto">
-                <option selected>Sort by: Latest</option>
-                <option value="1">Price: Low to High</option>
-                <option value="2">Price: High to Low</option>
-                <option value="3">Name: A to Z</option>
+                <option selected>정렬: 최신순</option>
+                <option value="1">가격: 낮은순</option>
+                <option value="2">가격: 높은순</option>
+                <option value="3">이름: 가나다순</option>
             </select>
         </div>
     </div>
@@ -61,7 +61,7 @@
                     <!-- 빠른 보기 버튼 -->
                     <div class="product-card__overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
                         <a href="/products/{{ $product['product_code'] }}" class="btn btn-light btn-sm">
-                            <i class="bi bi-eye me-1"></i> View Details
+                            <i class="bi bi-eye me-1"></i> 상세보기
                         </a>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                 <div class="card-body">
                     <!-- 카테고리 -->
                     <div class="mb-2">
-                        <span class="badge bg-secondary small">{{ $product['category'] ?? 'Category' }}</span>
+                        <span class="badge bg-secondary small">{{ $product['category'] ?? '카테고리' }}</span>
                     </div>
 
                     <!-- 상품명 -->
@@ -115,7 +115,7 @@
         <div class="col-12">
             <div class="alert alert-info text-center">
                 <i class="bi bi-info-circle me-2"></i>
-                No products found.
+                상품을 찾을 수 없습니다.
             </div>
         </div>
         @endforelse
@@ -124,16 +124,16 @@
     <!-- 페이지네이션 (데모용) -->
     <div class="row mt-5">
         <div class="col-12">
-            <nav aria-label="Product pagination">
+            <nav aria-label="상품 페이지네이션">
                 <ul class="pagination justify-content-center">
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        <a class="page-link" href="#" tabindex="-1">이전</a>
                     </li>
                     <li class="page-item active"><a class="page-link" href="#">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
+                        <a class="page-link" href="#">다음</a>
                     </li>
                 </ul>
             </nav>
@@ -145,7 +145,7 @@
 @push('scripts')
 <script>
 function addToCart(productCode) {
-    alert(`Added product ${productCode} to cart!`);
+    alert(`상품 ${productCode}이(가) 장바구니에 추가되었습니다!`);
     // TODO: 실제 장바구니 기능 구현
 }
 </script>

@@ -1,70 +1,159 @@
 // ============================================
-// Shop Footer Component Styles
+// Shop Footer Component Styles (Phase 7-1)
 // ============================================
 
 .shop-footer {
     margin-top: auto;
-    background-color: $dark;
-    color: $light;
+    background-color: $footer-bg;
+    color: $footer-text;
+    border-top: 1px solid $footer-border;
 
+    // Headings
     h5, h6 {
-        color: $light;
+        color: $footer-heading;
     }
 
-    // Social Links
-    .social-links {
-        a {
-            display: inline-block;
-            transition: all 0.3s ease;
+    .footer-heading {
+        color: $footer-heading;
+        font-size: 1rem;
+        letter-spacing: -0.02em;
+    }
 
-            &:hover {
-                transform: translateY(-3px);
-                color: $primary !important;
-            }
+    .footer-description {
+        color: $footer-text;
+        line-height: 1.7;
+        font-size: 0.95rem;
+    }
+
+    // Tech Stack Badges
+    .tech-stack {
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.35em 0.65em;
+        }
+    }
+
+    // Key Features
+    .key-features {
+        small {
+            font-size: 0.875rem;
+            line-height: 1.8;
+        }
+
+        .bi-check-circle-fill {
+            font-size: 0.875rem;
         }
     }
 
     // Footer Links
-    .hover-primary {
-        transition: color 0.3s ease;
+    .footer-link {
+        color: $footer-text;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
 
         &:hover {
-            color: $primary !important;
+            color: $primary;
+            transform: translateX(3px);
         }
-    }
 
-    // Contact Icons
-    .bi {
-        &.bi-envelope,
-        &.bi-telephone,
-        &.bi-geo-alt {
+        i {
+            transition: color 0.2s ease;
+        }
+
+        &:hover i {
             color: $primary;
         }
     }
 
+    // Footer disabled link (portfolio site)
+    .footer-disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+
+        &:hover {
+            color: $footer-text !important;
+            transform: none !important;
+        }
+
+        i {
+            color: $footer-text-muted;
+        }
+    }
+
+    // Footer copyright text
+    .footer-copyright {
+        color: $footer-text-muted;
+    }
+
     // Divider
-    .border-secondary {
-        opacity: 0.2;
+    .footer-divider {
+        border-color: $footer-border;
+        opacity: 1;
     }
 
     // Bottom Footer
     small {
         font-size: 0.875rem;
+        color: $footer-text-muted;
+    }
+
+    // Icons
+    .bi {
+        font-size: 1rem;
     }
 
     // Responsive
-    @media (max-width: 767px) {
-        text-align: center !important;
-
-        .social-links {
-            justify-content: center;
-            display: flex;
+    @media (max-width: 991px) {
+        .col-lg-6 {
+            margin-bottom: 2rem;
         }
 
-        .col-lg-2,
-        .col-lg-3,
-        .col-lg-4 {
+        .col-lg-3 {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media (max-width: 767px) {
+        text-align: center;
+
+        .footer-link {
+            justify-content: center;
+        }
+
+        .tech-stack {
+            justify-content: center;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .key-features {
             text-align: center;
+        }
+
+        .row {
+            .col-md-6 {
+                text-align: center !important;
+            }
+        }
+    }
+
+    // Print styles
+    @media print {
+        border-top: 1px solid #000;
+        background-color: #fff !important;
+        color: #000 !important;
+
+        .footer-link {
+            color: #000 !important;
+            text-decoration: underline !important;
+        }
+
+        .badge {
+            border: 1px solid #000;
+            background-color: #fff !important;
+            color: #000 !important;
         }
     }
 }

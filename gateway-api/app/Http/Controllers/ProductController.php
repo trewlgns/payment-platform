@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Enums\ResponseMessage;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\ListProductsRequest;
+use App\Http\Requests\Product\SearchProductsRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Requests\Product\UpdateProductStatusRequest;
 use App\Services\Product\CreateProductService;
 use App\Services\Product\DeleteProductService;
 use App\Services\Product\GetProductService;
 use App\Services\Product\ListProductsService;
+use App\Services\Product\SearchProductsService;
 use App\Services\Product\UpdateProductService;
 use App\Services\Product\UpdateProductStatusService;
 use Illuminate\Http\JsonResponse;
@@ -94,5 +96,18 @@ class ProductController extends BaseController
         $service->handle($productCode);
 
         return $this->success(null, ResponseMessage::PRODUCT_DELETED);
+    }
+
+    /**
+     * 상품 검색 (자동완성)
+     *
+     * GET /api/products/search?q={keyword}&limit={limit}
+     */
+    public function search(SearchProductsRequest $request, SearchProductsService $service): JsonResponse
+    {
+        $params = $request->getSearchParams();
+        $products = $service->handle($params);
+
+        return $this->success($products, ResponseMessage::SUCCESS);
     }
 }

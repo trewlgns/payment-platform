@@ -76,6 +76,10 @@ Route::prefix('users')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('products')->group(function () {
+    // 상품 검색 (자동완성) - 반드시 다른 라우트보다 먼저 선언
+    // GET /api/products/search?q={keyword}&limit={limit}
+    Route::get('/search', [ProductController::class, 'search']);
+
     Route::get('/', [ProductController::class, 'index']);
     Route::post('/', [ProductController::class, 'store']);
     Route::get('/{productCode}', [ProductController::class, 'show']);

@@ -1,34 +1,23 @@
 {{-- Shop Header Component --}}
 
 <header class="shop-header">
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-light">
         <div class="container">
-            {{-- Logo/Brand with Gradient --}}
-            <a class="navbar-brand" href="/">
-                <span class="brand-icon">
-                    <i class="bi bi-shop"></i>
-                </span>
-                <span class="brand-text">
-                    <span class="brand-title">Payment</span>
-                    <span class="brand-subtitle">Platform</span>
-                </span>
-            </a>
+            {{-- Left Side: Logo + Nav --}}
+            <div class="header-left">
+                {{-- Logo/Brand with Gradient --}}
+                <a class="navbar-brand" href="/">
+                    <span class="brand-icon">
+                        <i class="bi bi-shop"></i>
+                    </span>
+                    <span class="brand-text">
+                        <span class="brand-title">Payment</span>
+                        <span class="brand-subtitle">Platform</span>
+                    </span>
+                </a>
 
-            {{-- Mobile Toggle Button --}}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="메뉴 토글">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            {{-- Navigation Menu --}}
-            <div class="collapse navbar-collapse" id="navbarNav">
-                {{-- Left Menu --}}
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">
-                            <i class="bi bi-house-door"></i>
-                            <span>홈</span>
-                        </a>
-                    </li>
+                {{-- Navigation Menu --}}
+                <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ request()->is('products*') ? 'active' : '' }}" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-grid"></i>
@@ -43,46 +32,54 @@
                         </ul>
                     </li>
                 </ul>
+            </div>
 
-                {{-- Right Menu --}}
-                <ul class="navbar-nav ms-auto align-items-center">
-                    {{-- Search --}}
-                    <li class="nav-item search-wrapper">
-                        <form class="search-form" role="search">
-                            <div class="input-group">
-                                <input class="form-control search-input" type="search" placeholder="상품 검색..." aria-label="검색">
-                                <button class="btn btn-search" type="submit">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </li>
+            {{-- Right Side: Search + Cart + User --}}
+            <div class="header-right">
+                {{-- Search Button --}}
+                <button class="search-trigger" type="button" aria-label="검색">
+                    <i class="bi bi-search"></i>
+                </button>
 
-                    {{-- Cart --}}
-                    <li class="nav-item cart-wrapper">
-                        <a class="nav-link cart-link {{ request()->is('cart') ? 'active' : '' }}" href="/cart">
-                            <i class="bi bi-cart3"></i>
-                            <span class="cart-badge">0</span>
-                            <span class="cart-label">장바구니</span>
-                        </a>
-                    </li>
+                {{-- Cart --}}
+                <a class="cart-link {{ request()->is('cart') ? 'active' : '' }}" href="/cart">
+                    <i class="bi bi-cart3"></i>
+                    <span class="cart-badge">0</span>
+                </a>
 
-                    {{-- User Menu --}}
-                    <li class="nav-item dropdown user-dropdown">
-                        <a class="nav-link user-link" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                            <span class="user-label">마이페이지</span>
-                            <i class="bi bi-chevron-down dropdown-arrow"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end user-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/account"><i class="bi bi-person"></i> 내 계정</a></li>
-                            <li><a class="dropdown-item" href="/orders"><i class="bi bi-bag"></i> 주문 내역</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right"></i> 로그인</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                {{-- User Menu --}}
+                <div class="dropdown user-dropdown">
+                    <a class="user-link" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        <i class="bi bi-chevron-down dropdown-arrow"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end user-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="/account"><i class="bi bi-person"></i> 내 계정</a></li>
+                        <li><a class="dropdown-item" href="/orders"><i class="bi bi-bag"></i> 주문 내역</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right"></i> 로그인</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
+
+    {{-- Search Modal --}}
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <form class="search-modal-form" role="search">
+                <div class="search-modal-input-wrapper">
+                    <i class="bi bi-search search-icon"></i>
+                    <input class="search-modal-input" type="search" placeholder="상품을 검색하세요..." aria-label="검색" autofocus>
+                    <button class="search-modal-submit" type="submit" aria-label="검색">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                    <button class="search-modal-close" type="button" aria-label="닫기">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </form>
+            <div class="search-autocomplete"></div>
+        </div>
+    </div>
 </header>

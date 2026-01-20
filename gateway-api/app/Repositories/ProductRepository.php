@@ -276,4 +276,43 @@ class ProductRepository extends BaseRepository
 
         return $result !== null;
     }
+
+    /**
+     * 상품명 기반 유사도 검색 (LIKE 패턴 매칭)
+     *
+     * @param string $keyword 검색어
+     * @param int $limit 결과 개수 제한
+     * @return array Raw array (Entity 변환 안함 - API 응답용)
+     */
+    public function searchByName(string $keyword, int $limit = 5): array
+    {
+        // LIKE 패턴 생성 (양쪽 와일드카드)
+        $likePattern = "%{$keyword}%";
+
+        $query = <<<SQL
+            SELECT      `product_code`,
+                        `name`,
+                        `base_price`,
+                        `category`,
+                        `status`
+            FROM        `{$this->table}`
+            WHERE       `status` = :status
+              AND       `name` LIKE :keyword
+            ORDER BY    CASE
+                            WHEN `name` = :exact_match THEN 1
+                            WHEN `name` LIKE :starts_with THEN 2
+                            ELSE 3
+                        END,
+                        `created_at` DESC
+            LIMIT       :limit
+        SQL;
+
+        return $this->db->select($query, [
+            "status"        => ["value" => "active", "type" => PDO::PARAM_STR],
+            "keyword"       => ["value" => $likePattern, "type" => PDO::PARAM_STR],
+            "exact_match"   => ["value" => $keyword, "type" => PDO::PARAM_STR],
+            "starts_with"   => ["value" => "{$keyword}%", "type" => PDO::PARAM_STR],
+            "limit"         => ["value" => $limit, "type" => PDO::PARAM_INT]
+        ]);
+    }
 }

@@ -1,0 +1,275 @@
+// ============================================
+// About Page Styles
+// ============================================
+
+.about {
+    margin-top: -2rem;
+}
+
+// ============================================
+// Hero Section
+// ============================================
+
+.about-hero {
+    background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+
+    &__badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+    }
+
+    &__title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+
+        @media (max-width: 767px) {
+            font-size: 2.5rem;
+        }
+    }
+
+    &__desc {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+        margin-bottom: 2rem;
+
+        @media (max-width: 767px) {
+            font-size: 1rem;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+}
+
+// ============================================
+// Section Common
+// ============================================
+
+.about-section {
+    padding: 4rem 0;
+
+    &--gray {
+        background-color: $light;
+    }
+
+    &--dark {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        padding: 4rem 0;
+    }
+
+    &__header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    &__title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+    }
+
+    &__subtitle {
+        font-size: 1rem;
+        color: $secondary;
+    }
+}
+
+// ============================================
+// Tech Cards
+// ============================================
+
+.tech-card {
+    background: white;
+    border-radius: $border-radius-lg;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: $box-shadow-sm;
+    height: 100%;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $box-shadow-lg;
+    }
+
+    &__icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2rem;
+
+        &--red {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        &--blue {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        &--yellow {
+            background-color: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+        }
+
+        &--purple {
+            background-color: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+    }
+
+    &__title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    &__desc {
+        font-size: 0.875rem;
+        color: $secondary;
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+}
+
+// ============================================
+// Architecture Diagram
+// ============================================
+
+.architecture-box {
+    background: white;
+    border-radius: $border-radius-lg;
+    padding: 2rem;
+    box-shadow: $box-shadow;
+}
+
+.architecture-layer {
+    background: $light;
+    border-radius: $border-radius;
+    padding: 1.5rem;
+    text-align: center;
+
+    &--primary {
+        background: linear-gradient(135deg, rgba($primary, 0.1) 0%, rgba($primary, 0.05) 100%);
+        border: 1px solid rgba($primary, 0.2);
+    }
+
+    &--success {
+        background: linear-gradient(135deg, rgba($success, 0.1) 0%, rgba($success, 0.05) 100%);
+        border: 1px solid rgba($success, 0.2);
+    }
+
+    &--warning {
+        background: linear-gradient(135deg, rgba($warning, 0.1) 0%, rgba($warning, 0.05) 100%);
+        border: 1px solid rgba($warning, 0.2);
+    }
+
+    &--info {
+        background: linear-gradient(135deg, rgba($info, 0.1) 0%, rgba($info, 0.05) 100%);
+        border: 1px solid rgba($info, 0.2);
+    }
+
+    &__title {
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+    }
+
+    &__items {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+}
+
+.architecture-item {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    background: white;
+    border-radius: $border-radius;
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: $box-shadow-sm;
+}
+
+.architecture-arrow {
+    text-align: center;
+    padding: 0.75rem 0;
+    color: $secondary;
+    font-size: 1.25rem;
+}
+
+// ============================================
+// Feature Cards
+// ============================================
+
+.feature-card {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow-sm;
+    height: 100%;
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: $box-shadow;
+        transform: translateX(5px);
+    }
+
+    &__icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, $primary 0%, darken($primary, 10%) 100%);
+        border-radius: $border-radius;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    &__content {
+        h5 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 0.875rem;
+            color: $secondary;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+    }
+}

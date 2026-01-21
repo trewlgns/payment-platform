@@ -31,6 +31,12 @@
                             <li><a class="dropdown-item {{ request()->get('category') === 'home' ? 'active' : '' }}" href="/products?category=home">홈&리빙</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="/about">
+                            <i class="bi bi-info-circle"></i>
+                            <span>프로젝트 소개</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 

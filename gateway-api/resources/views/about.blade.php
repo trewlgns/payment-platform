@@ -13,7 +13,7 @@
                     <h1 class="about-hero__title">Payment Platform</h1>
                     <p class="about-hero__desc">
                         Laravel 기반 멀티 PG 통합 결제 플랫폼<br>
-                        Service-Repository 패턴과 SQLP 고급 쿼리 활용
+                        Service-Repository 패턴과 고급 쿼리 활용
                     </p>
                     <div class="about-hero__buttons">
                         <a href="{{ url('/') }}" class="btn btn-light btn-lg">
@@ -51,7 +51,7 @@
                             <i class="bi bi-database"></i>
                         </div>
                         <h5 class="tech-card__title">MySQL 8.0</h5>
-                        <p class="tech-card__desc">파티셔닝, 인덱스 최적화<br>SQLP 고급 쿼리</p>
+                        <p class="tech-card__desc">파티셔닝, 인덱스 최적화<br>고급 쿼리</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
@@ -183,7 +183,7 @@
                             <i class="bi bi-graph-up-arrow"></i>
                         </div>
                         <div class="feature-card__content">
-                            <h5>SQLP 고급 쿼리</h5>
+                            <h5>고급 쿼리</h5>
                             <p>Window Function, CTE 활용한 통계 배치. 테이블 파티셔닝으로 대용량 데이터 최적화.</p>
                         </div>
                     </div>
